@@ -107,7 +107,8 @@ The latter two are used for verifying the performance of the AE.
 
         self._report(test_both,**opts)
 
-        
+        print("PEEEEERRRRRRRRRRFFFFOOOOOOOOORRRRRRRRRRMMMMMMMMMMMMMAAAAAAAAAAAANNNNNNNNNNCCCCCCCEEEEEEEE")
+        print(performance)
         with open(self.local("variance.txt"), "w") as f:
             f.write(str(performance["sae"]["variance"]["gaussian"]["test"]["mean"]))
 

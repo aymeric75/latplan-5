@@ -10,9 +10,9 @@
 #SBATCH --mem=32G
 
 
-#### REF 05-06T11:21:55.052
+#### REF 05-06T16:13:22.480
 
-export repertoire="SomeTime052"
+export repertoire="SomeTime480"
 pwdd=$(pwd)
 export path_to_repertoire=samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/$repertoire
 export domain=samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/$repertoire/domain.pddl
@@ -85,8 +85,9 @@ remove_current_invariant() {
 
 return_state_var() {
     ## store it in # $pwdd/$path_to_repertoire/$repertoire/variance.txt
+    cd $pwdd
     ./train_kltune.py report puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
-    local state_var=$(cat $pwdd/$path_to_repertoire/$repertoire/variance.txt)
+    local state_var=$(cat $pwdd/$path_to_repertoire/variance.txt)
     echo "$state_var"
 }
 echo "in Meta 1"
@@ -94,7 +95,7 @@ echo "in Meta 1"
 ######################
 ## Initial training ##
 ######################
-./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+# ./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
 
 
 #########################################
@@ -102,13 +103,17 @@ echo "in Meta 1"
 #########################################
 generate_invariants
 
-##################################################################
-## Compute State Variance  and store it in state_var             #
-##################################################################
+
+# ##################################################################
+# ## Compute State Variance  and store it in state_var             #
+# ##################################################################
 best_state_var="$(return_state_var)"
 
-
-export nb_inv_left=$(grep -o '#' extracted_mutexes.txt | wc -l)
+# when variance is 0.0 smth's wrong, we set it high instead
+if (( $(echo "$best_state_var == 0.0" |bc -l) ))
+then
+    $best_state_var=99
+fi
 
 # copy the found mutexes to total_invariants
 cp extracted_mutexes.txt total_invariants.txt
@@ -123,13 +128,13 @@ do
     remove_current_invariant
 
     # Each training is COMPLETLY NEW (even the loss function)
-    ./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+    #./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
 
     # Once trained, update the State Variance (state_var)
     local current_state_var="$(return_state_var)"
 
     # If state variance < best_so_far
-    if [ current_state_var -lt best_state_var ];
+    if (( $(echo "$current_state_var < $best_state_var" |bc -l) ))
     then
         # we add the invariant to omega.txt
         cat current_invariant.txt >> omega.txt

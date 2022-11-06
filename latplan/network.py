@@ -227,12 +227,14 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             self.build(tuple(data["input_shape"]))
             self.build_aux(tuple(data["input_shape"]))
 
-        if not self.parameters["noweights"]:
-            print("LOADING WEIGHTS")
-            for i, net in enumerate(self.nets):
-                net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
-        else:
-            print("NOT LOQDING WEIGHTS")
+        # if this param is 
+        if "noweights" in self.parameters:
+            if self.parameters["noweights"] == False:
+                print("LOADING WEIGHTS")
+                for i, net in enumerate(self.nets):
+                    net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
+            else:
+                print("NOT LOADING WEIGHTS")
 
             
     def reload_with_shape(self,input_shape,path=""):
