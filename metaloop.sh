@@ -126,10 +126,9 @@ do
         cat extracted_mutexes.txt >> total_invariants.txt
 
         # Remove duplicates
-        diff extracted_mutexes.txt total_invariants.txt
+        remove_duplicate_invariants.py total_invariants.txt
 
+        # update best score
         best_state_var=current_state_var
     fi
-    
-
 done

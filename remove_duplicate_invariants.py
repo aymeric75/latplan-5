@@ -20,7 +20,6 @@ def return_invariant_list(file):
 def remove_duplicates(new_liste):
     # remove obvious duplicates
     # new_liste = list(dict.fromkeys(liste))
-
     last_list = []
     for i in range(len(new_liste)):
         has_duplicate = False
@@ -32,12 +31,22 @@ def remove_duplicates(new_liste):
     
     return last_list
 
+def construct_inv_file(liste, file):
+
+    with open(file, "w") as f:
+
+        for ele in liste:
+            f.write("#\n")
+            f.write(ele[0]+"\n")
+            f.write(ele[1]+"\n")
+
+    
 def main():
-    dup_list = return_invariant_list(sys.argv[1])
-    print(dup_list)
-    print(" ")
-    print(" ")
-    print(remove_duplicates(dup_list))
+    # 
+    base_liste = return_invariant_list(sys.argv[1])
+    clean_list = remove_duplicates(base_liste)
+
+    construct_inv_file(clean_list, sys.argv[1])
 
 # DUPLICATE between two lists if l1 and l2
 # if l1[0] in l2 && l1[1] in l2
