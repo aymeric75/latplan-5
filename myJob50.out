@@ -1,70 +1,8 @@
 Default float: float32
-{'mode': 'metalearn', 'type': 'mnist', 'width': 3, 'height': 3, 'num_examples': 5000, 'aeclass': 'CubeSpaceAE_AMA4Conv', 'comment': 'kltune2', 'hash': 'SomeTime50'}
+{'mode': 'learn', 'type': 'mnist', 'width': 3, 'height': 3, 'num_examples': 5000, 'aeclass': 'CubeSpaceAE_AMA4Conv', 'comment': 'kltune2', 'hash': 'SomeTime50'}
 loaded. picsize: [48, 48]
 (5000, 2, 48, 48, 1)
 normalized shape: (48, 48, 1) (48, 48, 1)
-Simple GA: Generating an initial population
-....................................................................................................Simple GA: failed to generate a valid configuration after 100 trials.
-VAL OF RESUME 
-class precedence list:
-  <class 'latplan.model.ConvolutionalConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus'>
-  <class 'latplan.mixins.encoder_decoder.StridedConvolutionalMixin'>
-  <class 'latplan.mixins.encoder_decoder.ConvolutionalMixin'>
-  <class 'latplan.model.ConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus'>
-  <class 'latplan.model.DetActionMixin'>
-  <class 'latplan.model.NormalizedLogitAddBidirectionalMixin'>
-  <class 'latplan.model.NormalizedLogitAddPreconditionMixin'>
-  <class 'latplan.model.NormalizedLogitAddEffectMixin'>
-  <class 'latplan.model.LogitEffectMixin'>
-  <class 'latplan.model.BaseActionMixinAMA4Plus'>
-  <class 'latplan.model.BidirectionalMixin'>
-  <class 'latplan.model.PreconditionMixin'>
-  <class 'latplan.model.EffectMixin'>
-  <class 'latplan.model.BaseActionMixin'>
-  <class 'latplan.model.TransitionWrapper'>
-  <class 'latplan.model.StateAE'>
-  <class 'latplan.mixins.latent.ConcreteLatentMixin'>
-  <class 'latplan.model.EarlyStopMixin'>
-  <class 'latplan.mixins.encoder_decoder.FullConnectedMixin'>
-  <class 'latplan.mixins.encoder_decoder.EncoderDecoderMixin'>
-  <class 'latplan.model.AE'>
-  <class 'latplan.network.Network'>
-  <class 'object'>
-clearning tf session
-cleared tf session
-Building networks
-building a convolutional encoder
-pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
-<keras.layers.convolutional.Conv2D object at 0x14cd26921ca0>
-[0, 48, 48, 1] -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x14cd26921ca0>
-<keras.layers.normalization.BatchNormalization object at 0x14cd25886dc0>
-(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x14cd25886dc0>
-<keras.layers.core.Dropout object at 0x14cd25886e80>
-(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x14cd25886e80>
-<keras.layers.convolutional.Conv2D object at 0x14cd25886ee0>
-(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2D object at 0x14cd25886ee0>
-<keras.layers.normalization.BatchNormalization object at 0x14cd25886df0>
-(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x14cd25886df0>
-<keras.layers.core.Dropout object at 0x14cd25886f40>
-(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x14cd25886f40>
-latent space shape is (48, 48, 32) : 50 propositions in total
-building a convolutional decoder
-pool per layer: 1 depth: 2 total pool: 1 H: 48 W: 48 dH: 0 dW: 0
-<keras.layers.core.Reshape object at 0x14cd258626d0>
-[0, 48, 48, 32] -> (0, 48, 48, 32) : <keras.layers.core.Reshape object at 0x14cd258626d0>
-<keras.layers.convolutional.Conv2DTranspose object at 0x14cd25862700>
-(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x14cd25862700>
-<keras.layers.normalization.BatchNormalization object at 0x14cd258628e0>
-(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.normalization.BatchNormalization object at 0x14cd258628e0>
-<keras.layers.core.Dropout object at 0x14cd25862e20>
-(0, 48, 48, 32) -> (0, 48, 48, 32) : <keras.layers.core.Dropout object at 0x14cd25862e20>
-<keras.layers.convolutional.Conv2DTranspose object at 0x14cd25862820>
-(0, 48, 48, 32) -> (0, 48, 48, 1) : <keras.layers.convolutional.Conv2DTranspose object at 0x14cd25862820>
-Network built
-Building auxiliary networks
-Auxiliary network built
-Compiling networks
-there are 1 networks.
-there are 1 optimizers.
-there are 1 losses.
-compiling <keras.engine.training.Model object at 0x14cd2500b8b0> with <keras_radam.optimizers.RAdam object at 0x14cd24b34f70>, <function BaseActionMixinAMA4Plus._build_primary.<locals>.loss at 0x14cd25077f70>.
+current directory
+/g100_work/uBS21_InfGer_0/latplan-5.0.0
+[['92', '0'], ['93', '0']]

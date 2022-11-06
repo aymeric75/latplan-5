@@ -16,11 +16,11 @@
 
 #./train_kltune.py dump puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 "SomeTime47"
 
-#./train_kltune.py report puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 "SomeTime50"
+# ./train_kltune.py report puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 "05-06T11:21:55.052"
 
 ###################
 ## TRAIN the stuff from begining with MetaLearning
 ################### 
 # > to load from a JSON file, put it in the hash path
 # > to specify specific parameters (size of N ?): put it before in the code
-./train_kltune.py metalearn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 "SomeTime50"
+./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 "SomeTime50"

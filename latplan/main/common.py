@@ -12,6 +12,11 @@ import json
 
 import subprocess
 
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import wait
+from concurrent.futures import FIRST_COMPLETED
+ 
+
 ################################################################
 # globals
 
@@ -246,6 +251,7 @@ def run(path,transitions,extra=None):
     #########################################################
     # MAJ des params (si hash specifié + à partir du json)  #
     #########################################################
+    parameters["noweights"] = False
     if 'dump' in args.mode or 'report' in args.mode or 'metalearn' in args.mode:
 
         if(args.hash != ""):
@@ -267,64 +273,50 @@ def run(path,transitions,extra=None):
         net = task(parameters)
         
         dump_actions(net, transitions, name = "actions.csv", repeat=1)
+
+        print("IN DUMP 1")
     
     if 'report' in args.mode:
         task = curry(nn_load, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters)       
         net = task(parameters)
         net.report(train, test_data = test, train_data_to=train, test_data_to=test)
 
+    # if 'learn' in args.mode and not 'metalearn' in args.mode:
+    #     simple_genetic_search(
+    #         curry(nn_task, latplan.model.get(parameters["aeclass"]),
+    #               path,
+    #               train, train, val, val), # noise data is used for tuning metric
+    #         parameters,
+    #         path,
+    #         limit              = 100,
+    #         initial_population = 100,
+    #         population         = 100,
+    #         report             = report,
+    #     )
+
+
     if 'learn' in args.mode:
-        simple_genetic_search(
-            curry(nn_task, latplan.model.get(parameters["aeclass"]),
-                  path,
-                  train, train, val, val), # noise data is used for tuning metric
-            parameters,
-            path,
-            limit              = 100,
-            initial_population = 100,
-            population         = 100,
-            report             = report,
-        )
 
+        parameters["noweights"] = True
 
-    if 'metalearn' in args.mode:
+        print("current directory")
+        print(os.getcwd())
+        invariant = []
+        with open("current_invariant.txt") as myfile:
+            for i, line in enumerate(myfile):
+                if(i < 2):
+                    tmp = []
+                    for ele in line.split(" "):
+                        tmp.append(ele.strip())
+                    invariant.append(tmp)
 
+        parameters["invariant"] = invariant
 
-        # 1) One training of Latplan
+        
 
         task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters) 
         task(parameters)
 
-        # retrieve the invariants
-
-        rc = subprocess.call("./generate_invariants.sh")
-        
-        
-        parameters["newparam"] = {
-            'type' : 'letype',
-            'invars' : [
-                
-            ]
-        }
-
-        exit()
-        # if file and if not empty
-        #    read it and put the 
-
-
-        # 2) Loop
-
-        Omega = []
-
-        
-
-
-        task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters) 
-        task(parameters)
-        exit()
-
-
-    #if ''
 
 
     if 'resume' in args.mode:

@@ -213,7 +213,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             print("Network loaded")
         return self
 
-    def _load(self,path=""):
+    def _load(self, path=""):
         """An interface for loading a network.
 Users may define a method for each subclass for adding a new load-time feature.
 Each method should call the _load() method of the superclass in turn.
@@ -226,9 +226,15 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             self.parameters.update(_params)
             self.build(tuple(data["input_shape"]))
             self.build_aux(tuple(data["input_shape"]))
-        for i, net in enumerate(self.nets):
-            net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
 
+        if not self.parameters["noweights"]:
+            print("LOADING WEIGHTS")
+            for i, net in enumerate(self.nets):
+                net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
+        else:
+            print("NOT LOQDING WEIGHTS")
+
+            
     def reload_with_shape(self,input_shape,path=""):
         """Rebuild the network for a shape that is different from the training time, then load the weights."""
         print(f"rebuilding the network with a new shape {input_shape}.")

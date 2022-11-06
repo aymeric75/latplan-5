@@ -107,6 +107,11 @@ The latter two are used for verifying the performance of the AE.
 
         self._report(test_both,**opts)
 
+        
+        with open(self.local("variance.txt"), "w") as f:
+            f.write(str(performance["sae"]["variance"]["gaussian"]["test"]["mean"]))
+
+
         with open(self.local("performance.json"), "w") as f:
             json.dump(performance, f, cls=NpEncoder, indent=2)
 
@@ -1512,7 +1517,6 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         # pos_precondition = self._regress(z_suc_zeros,action)
         # neg_precondition = 1 - self._regress(z_suc_zeros,action)
 
-
         # PRODUCT T-NORM as in LTN
         ## p <=> q IFF (p ∧ q) ∨ ( ¬p ∧ ¬q)
         ##
@@ -1525,26 +1529,21 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         total_add_loss = 0.
 
         ############################
-        ### ADDING THE EQUIVALENCES
-
-        # tables that say "1 <=> 2" and "2 <=> 3"
-        iffs = [
-            [1, 2],
-            [2, 3]
-        ]
-        
-        for equi in iffs:
-
-            loss_tmp = 0.
-            # pre_state additional loss
-            loss_tmp = 1. / tf.math.reduce_mean(tf.math.multiply(tf.math.maximum(z_pre[:, equi[0]]/z_pre[:, equi[1]], 1.), tf.math.maximum(z_pre[:, equi[1]]/z_pre[:, equi[0]], 1.)))
-            # pre_state additional loss
-            loss_tmp += 1. / tf.math.reduce_mean(tf.math.multiply(tf.math.maximum(z_suc[:, equi[0]]/z_suc[:, equi[1]], 1.), tf.math.maximum(z_suc[:, equi[1]]/z_suc[:, equi[0]], 1.)))
-            # append it (its inverse to the rest of the additional loss)
-            total_add_loss += loss_tmp
+        ### ADDING THE MUTEX 
 
 
+        def invariant_loss(invariant):
 
+            expr = []
+            for var in invariant:
+                if(var[1] == 0):
+                    expr.append(1. - z_pre[:, var[0]])
+                else:
+                    expr.append(z_pre[:, var[0]])
+            return 1. -  tf.math.reduce_mean( tf.math.multiply(expr[0], expr[1]) )
+
+        if(self.parameters["invariant"]):
+            total_add_loss += invariant_loss(self.parameters["invariant"])
 
         kl_z0 = z_pre.loss(l_pre, p=self.parameters["zerosuppress"])
         kl_z1 = z_suc.loss(l_suc, p=self.parameters["zerosuppress"])
@@ -1561,8 +1560,8 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         ama3_forward_loss2  = self.parameters["beta_z"] * kl_z0 + x0y0 + kl_a_z0 + x1y2
         ama3_backward_loss1 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + self.parameters["beta_d"] * kl_z0z3 + x0y0
         ama3_backward_loss2 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + x0y3
-        total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
-        #total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2 + total_add_loss)/5
+        #total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
+        total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2 + total_add_loss)/5
         ama3_forward_elbo1  = kl_z0 + x0y0 + kl_a_z0 + kl_z1z2 + x1y1
         ama3_forward_elbo2  = kl_z0 + x0y0 + kl_a_z0 + x1y2
         ama3_backward_elbo1 = kl_z1 + x1y1 + kl_a_z1 + kl_z0z3 + x0y0
