@@ -329,11 +329,13 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
               **kwargs):
         """Main method for training.
  This method may be overloaded by the subclass into a specific training method, e.g. GAN training."""
-        resume = False
+        
         if resume:
             print("resuming the training")
-            self.load(allow_failure=False, path="logs/"+self.parameters["resume_from"])
+            #self.load(allow_failure=False, path="logs/"+self.parameters["resume_from"])
+            self.load(allow_failure=False, path="")
         else:
+            print("RESUME IS FALSE")
             input_shape = train_data.shape[1:]
             self.build(input_shape)
             self.build_aux(input_shape)
@@ -360,6 +362,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             )
 
         self.optimizers = list(map(make_optimizer, self.nets))
+        
         self.compile(self.optimizers)
 
         if val_data     is None:
@@ -383,6 +386,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
         val_data      = replicate(val_data)
         val_data_to   = replicate(val_data_to)
 
+
         plot_val_data = np.copy(val_data[0][:1])
         self.callbacks.append(
             keras.callbacks.LambdaCallback(
@@ -392,6 +396,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                         self.path+"/",
                         epoch=epoch),
                 on_train_end = lambda _: self.file_writer.close()))
+
 
         def assert_length(data):
             l = None
@@ -406,6 +411,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
         assert assert_length(val_data    )
         assert assert_length(val_data_to )
 
+
         def make_batch(subdata):
             # len: 15, batch: 5 -> 3
             # len: 14, batch: 5 -> 2
@@ -415,6 +421,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                 yield subdata[i*batch_size:(i+1)*batch_size]
 
         index_array = np.arange(len(train_data[0]))
+
 
         clist = CallbackList(callbacks=self.callbacks)
         clist.set_model(self.nets[0])
@@ -446,10 +453,12 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             logs["loss"] = np.sum(losses)
             return logs
 
+
         try:
             clist.on_train_begin()
             logs = {}
             for epoch in range(start_epoch,start_epoch+epoch):
+
                 np.random.shuffle(index_array)
                 indices_cache       = [ indices for indices in make_batch(index_array) ]
                 train_data_cache    = [[ train_subdata   [indices] for train_subdata    in train_data    ] for indices in indices_cache ]
@@ -457,6 +466,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                 clist.on_epoch_begin(epoch,logs)
                 for train_subdata_cache,train_subdata_to_cache in zip(train_data_cache,train_data_to_cache):
                     for net,train_subdata_batch_cache,train_subdata_to_batch_cache in zip(self.nets, train_subdata_cache,train_subdata_to_cache):
+                        
                         net.train_on_batch(train_subdata_batch_cache, train_subdata_to_batch_cache)
 
                 logs = {}

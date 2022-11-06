@@ -1,8 +1,0 @@
-Default float: float32
-{'mode': 'learn', 'type': 'mnist', 'width': 3, 'height': 3, 'num_examples': 5000, 'aeclass': 'CubeSpaceAE_AMA4Conv', 'comment': 'kltune2', 'hash': 'SomeTime50'}
-loaded. picsize: [48, 48]
-(5000, 2, 48, 48, 1)
-normalized shape: (48, 48, 1) (48, 48, 1)
-current directory
-/g100_work/uBS21_InfGer_0/latplan-5.0.0
-[['92', '0'], ['93', '0']]

@@ -251,12 +251,13 @@ def run(path,transitions,extra=None):
     #########################################################
     # MAJ des params (si hash specifié + à partir du json)  #
     #########################################################
-    parameters["noweights"] = False
-    if 'dump' in args.mode or 'report' in args.mode or 'metalearn' in args.mode:
+    
+    if 'dump' in args.mode or 'report' in args.mode or 'learn' in args.mode:
 
         if(args.hash != ""):
             with open(os.path.join(path+"/logs/"+args.hash,"aux.json"),"r") as f:
                 parameters = json.load(f)["parameters"]
+            parameters["noweights"] = False
             parameters["hash"] = args.hash
             parameters["resume_from"] = args.hash
             parameters["time_start"] = args.hash
@@ -281,42 +282,29 @@ def run(path,transitions,extra=None):
         net = task(parameters)
         net.report(train, test_data = test, train_data_to=train, test_data_to=test)
 
-    # if 'learn' in args.mode and not 'metalearn' in args.mode:
-    #     simple_genetic_search(
-    #         curry(nn_task, latplan.model.get(parameters["aeclass"]),
-    #               path,
-    #               train, train, val, val), # noise data is used for tuning metric
-    #         parameters,
-    #         path,
-    #         limit              = 100,
-    #         initial_population = 100,
-    #         population         = 100,
-    #         report             = report,
-    #     )
-
 
     if 'learn' in args.mode:
 
-        parameters["noweights"] = True
+        parameters["noweights"] = False
 
-        print("current directory")
-        print(os.getcwd())
+        parameters["epoch"] = 2
+
         invariant = []
-        with open("current_invariant.txt") as myfile:
-            for i, line in enumerate(myfile):
-                if(i < 2):
-                    tmp = []
-                    for ele in line.split(" "):
-                        tmp.append(ele.strip())
-                    invariant.append(tmp)
+
+        if(os.path.exists("current_invariant.txt")):
+            with open("current_invariant.txt") as myfile:
+                for i, line in enumerate(myfile):
+                    if(i < 2):
+                        tmp = []
+                        for ele in line.split(" "):
+                            tmp.append(ele.strip())
+                        invariant.append(tmp)
 
         parameters["invariant"] = invariant
 
-        
-
-        task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters) 
-        task(parameters)
-
+        task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters, True) 
+        task()
+        print("FINISHED TRAINING")
 
 
     if 'resume' in args.mode:

@@ -131,6 +131,11 @@ def print_dot():
 def nn_task(network, path, train_in, train_out, val_in, val_out, parameters, resume=False):
     print("VAL OF RESUME ")
     
+    if resume:
+        print("RESUME TRUE in nn_task")
+    else:
+        print("RESUME FALSE in nn_task")
+        
     print("class precedence list:")
     for c in network.mro():
         print(" ",c)

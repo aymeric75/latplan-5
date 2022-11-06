@@ -1,6 +1,18 @@
 #!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --error=myJob.err
+#SBATCH --output=myJob.out
+#SBATCH --gres=gpu:1
+#SBATCH --partition=g100_usr_interactive
+#SBATCH --account=uBS21_InfGer_0
+#SBATCH --time=00:30:00
+#SBATCH --mem=32G
 
-export repertoire="SomeTime50"
+
+#### REF 05-06T11:21:55.052
+
+export repertoire="SomeTime052"
 pwdd=$(pwd)
 export path_to_repertoire=samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/$repertoire
 export domain=samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/$repertoire/domain.pddl
@@ -10,6 +22,8 @@ export problem_file="ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_klt
 #problem_nopre_file = "ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_${repertoire}_domain-nopre_blind_problem.pddl"
 
 export best_state_var=999
+
+echo "in Meta 0"
 
 ######################
 ##     Functions    ##
@@ -75,12 +89,13 @@ return_state_var() {
     local state_var=$(cat $pwdd/$path_to_repertoire/$repertoire/variance.txt)
     echo "$state_var"
 }
-
+echo "in Meta 1"
 
 ######################
 ## Initial training ##
 ######################
 ./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+
 
 #########################################
 ## Generate the invariants              #

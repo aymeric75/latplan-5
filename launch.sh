@@ -10,6 +10,10 @@
 #SBATCH --mem=32G
 
 
+
+
+
+
 #./train_kltune.py resume puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 "05-06T16:13:22.480"
 
 #./train_kltune.py reproduce puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2

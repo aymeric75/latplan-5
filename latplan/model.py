@@ -1530,20 +1530,27 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
 
         ############################
         ### ADDING THE MUTEX 
+        ############################
 
+        print("in _build_primary_0")
 
         def invariant_loss(invariant):
 
             expr = []
             for var in invariant:
-                if(var[1] == 0):
-                    expr.append(1. - z_pre[:, var[0]])
+                if(int(var[1]) == 0):
+                    expr.append(1. - z_pre[:, int(var[0])])
                 else:
-                    expr.append(z_pre[:, var[0]])
+                    expr.append(z_pre[:, int(var[0])])
             return 1. -  tf.math.reduce_mean( tf.math.multiply(expr[0], expr[1]) )
 
-        if(self.parameters["invariant"]):
-            total_add_loss += invariant_loss(self.parameters["invariant"])
+        print("in _build_primary_1")
+
+        if("invariant" in self.parameters):
+            if(self.parameters["invariant"]):
+                total_add_loss += invariant_loss(self.parameters["invariant"])
+
+        print("in _build_primary_2")
 
         kl_z0 = z_pre.loss(l_pre, p=self.parameters["zerosuppress"])
         kl_z1 = z_suc.loss(l_suc, p=self.parameters["zerosuppress"])
@@ -1560,8 +1567,8 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         ama3_forward_loss2  = self.parameters["beta_z"] * kl_z0 + x0y0 + kl_a_z0 + x1y2
         ama3_backward_loss1 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + self.parameters["beta_d"] * kl_z0z3 + x0y0
         ama3_backward_loss2 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + x0y3
-        #total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
-        total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2 + total_add_loss)/5
+        total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
+        #total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2 + total_add_loss)/5
         ama3_forward_elbo1  = kl_z0 + x0y0 + kl_a_z0 + kl_z1z2 + x1y1
         ama3_forward_elbo2  = kl_z0 + x0y0 + kl_a_z0 + x1y2
         ama3_backward_elbo1 = kl_z1 + x1y1 + kl_a_z1 + kl_z0z3 + x0y0
@@ -1582,8 +1589,10 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         self.add_metric("x0y3",x0y3)
         self.add_metric("x1y2",x1y2)
         self.add_metric("elbo",elbo)
-        self.add_metric("total_add_loss",elbo)
+        #self.add_metric("total_add_loss",elbo)
         
+        print("in _build_primary_3")
+
         #self.add_metric("theparam", str(self.parameters["newparam"]))
         
 
