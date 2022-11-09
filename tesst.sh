@@ -1,10 +1,11 @@
 #!/bin/bash
 
-vari="$(cat essai.txt)"
 
-echo $vari
-
-if (( $(echo "$vari == 0.0" |bc -l) ))
+if grep -Fxq "adadededed" total_invariants.txt
 then
-    echo "equal zero"
+    echo "str found"
+    # code if found
+else
+    echo "not found"
+    # code if not found
 fi

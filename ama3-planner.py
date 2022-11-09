@@ -111,6 +111,7 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma):
         echodo(["helper/ama3-problem.sh",ig,problemfile])
         log(f"finished generating problem")
     
+
         ###### do planning #############################################
         log(f"start planning")
         echodo(["helper/fd-latest.sh", options[heuristics], problemfile, domainfile])
@@ -156,6 +157,7 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma):
         print(p.validate_states(plan_images))
         log(f"finished visually validating the plan image : states")
         return valid
+        return 1
 
     finally:
         with open(jsonfile,"w") as f:

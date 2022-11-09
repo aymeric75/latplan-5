@@ -110,8 +110,11 @@ The latter two are used for verifying the performance of the AE.
         print("PEEEEERRRRRRRRRRFFFFOOOOOOOOORRRRRRRRRRMMMMMMMMMMMMMAAAAAAAAAAAANNNNNNNNNNCCCCCCCEEEEEEEE")
         print(performance)
         with open(self.local("variance.txt"), "w") as f:
-            f.write(str(performance["sae"]["variance"]["gaussian"]["test"]["mean"]))
-
+            f.write("#")
+            f.write(str(performance["sae"]["variance"]["gaussian"]["test"]["mean"])) # State Variance
+            f.write(str(performance["metrics"]["test"]["elbo"])) # Elbo
+            f.write(str(performance["metrics"]["test"]["pdiff_z1z2"])) # Next State Prediction Acc
+            f.write(str(performance["action"]["true_num_actions"]["test"])) # Number of actions used
 
         with open(self.local("performance.json"), "w") as f:
             json.dump(performance, f, cls=NpEncoder, indent=2)

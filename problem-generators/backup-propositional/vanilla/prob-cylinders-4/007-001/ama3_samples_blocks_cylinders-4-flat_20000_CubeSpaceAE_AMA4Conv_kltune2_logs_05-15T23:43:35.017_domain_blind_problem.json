@@ -1,0 +1,148 @@
+{
+  "network": "samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T23:43:35.017",
+  "problem": "007-001",
+  "domain": "prob-cylinders-4",
+  "noise": null,
+  "times": [
+    {
+      "message": "init",
+      "wall": 0,
+      "elapsed": 0
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 0.3978455066680908,
+      "elapsed": 0.3978455066680908
+    },
+    {
+      "message": "loaded sae",
+      "wall": 4.888814687728882,
+      "elapsed": 4.490969181060791
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 4.890469312667847,
+      "elapsed": 0.0016546249389648438
+    },
+    {
+      "message": "loading init/goal",
+      "wall": 4.890477657318115,
+      "elapsed": 8.344650268554688e-06
+    },
+    {
+      "message": "loaded init/goal",
+      "wall": 8.704672574996948,
+      "elapsed": 3.814194917678833
+    },
+    {
+      "message": "start planning",
+      "wall": 8.704684495925903,
+      "elapsed": 1.1920928955078125e-05
+    },
+    {
+      "message": "start generating problem",
+      "wall": 8.704784631729126,
+      "elapsed": 0.00010013580322265625
+    },
+    {
+      "message": "finished generating problem",
+      "wall": 8.948087930679321,
+      "elapsed": 0.2433032989501953
+    },
+    {
+      "message": "start planning",
+      "wall": 8.94812297821045,
+      "elapsed": 3.504753112792969e-05
+    },
+    {
+      "message": "finished planning",
+      "wall": 15.178567886352539,
+      "elapsed": 6.23044490814209
+    }
+  ],
+  "heuristics": "blind",
+  "domainfile": "samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T23:43:35.017/domain.pddl",
+  "problemfile": "problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T23:43:35.017_domain_blind_problem.pddl",
+  "planfile": "problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T23:43:35.017_domain_blind_problem.plan",
+  "tracefile": "problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T23:43:35.017_domain_blind_problem.trace",
+  "csvfile": "problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T23:43:35.017_domain_blind_problem.csv",
+  "pngfile": "problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T23:43:35.017_domain_blind_problem.png",
+  "jsonfile": "problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T23:43:35.017_domain_blind_problem.json",
+  "statistics": {
+    "translator_variables": 1,
+    "translator_derived_variables": 0,
+    "translator_facts": 2,
+    "translator_goal_facts": 1,
+    "translator_mutex_groups": 0,
+    "translator_total_mutex_group_size": null,
+    "translator_operators": 0,
+    "translator_axioms": 0,
+    "translator_task": 4,
+    "translator_peak_memory": 200772,
+    "translate": 5.761,
+    "plan_length": null,
+    "plan_cost": null,
+    "expanded": 0,
+    "evaluated": 1,
+    "generated": 0,
+    "search": 0.000120772,
+    "initialization": 0.00178676,
+    "total": 5.76291
+  },
+  "parameters": {
+    "test_noise": false,
+    "test_hard": true,
+    "train_noise": true,
+    "train_hard": false,
+    "dropout_z": false,
+    "noise": 0.2,
+    "dropout": 0.2,
+    "optimizer": "radam",
+    "min_temperature": 0.5,
+    "epoch": 2000,
+    "gs_annealing_start": 0,
+    "gs_annealing_end": 1000,
+    "kl_cycle_start": 2000,
+    "clipnorm": 0.1,
+    "batch_size": 400,
+    "lr": 0.001,
+    "N": 100,
+    "zerosuppress": 0.1,
+    "densify": false,
+    "max_temperature": 5.0,
+    "conv_channel": 32,
+    "conv_channel_increment": 1,
+    "conv_kernel": 5,
+    "conv_pooling": 1,
+    "conv_per_pooling": 1,
+    "conv_depth": 3,
+    "fc_width": 100,
+    "fc_depth": 2,
+    "A": 6000,
+    "aae_activation": "relu",
+    "aae_width": 1000,
+    "aae_depth": 2,
+    "eff_regularizer": null,
+    "beta_d": 1,
+    "beta_z": 1,
+    "output": "GaussianOutput(sigma=0.1)",
+    "track": "cylinders-4-flat",
+    "num_examples": 20000,
+    "aeclass": "CubeSpaceAE_AMA4Conv",
+    "comment": "kltune2",
+    "generator": "latplan.puzzles.blocks",
+    "picsize": [
+      100,
+      150,
+      3
+    ],
+    "HOSTNAME": "cccxc537.pok.ibm.com",
+    "LSB_JOBID": "2275626",
+    "gpu": "A100-SXM4-40GB",
+    "time_start": "05-15T23:43:35.017"
+  },
+  "valid": false,
+  "found": false,
+  "exhausted": true,
+  "cycle": 1
+}
