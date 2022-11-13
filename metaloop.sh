@@ -1,43 +1,118 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --error=myJobMeta.err
-#SBATCH --output=myJobMeta.out
 #SBATCH --gres=gpu:1
 #SBATCH --partition=g100_usr_interactive
 #SBATCH --account=uBS21_InfGer_0
 #SBATCH --time=08:00:00
 #SBATCH --mem=32G
 
+## PUZZLE MNIST
+#SBATCH --error=myJobMeta_mnist052.err
+#SBATCH --output=myJobMeta_mnist052.out
+task="puzzle"
+type="mnist"
+width="3"
+height="3"
+nb_examples="5000"
+export label="mnist052"
+export repertoire="05-06T11:21:55.052"
+export after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
+export pb_subdir="puzzle-mnist-3-3/007-000"
 
-#
-# Files:
-#  extracted_mutexes_$label.txt (in h2 and in root)
-#  total_invariants_$label.txt (in root)
-#  variance.txt (in logs)
-#  omega_$label.txt (in root)
+## PUZZLE MANDRILL
+#SBATCH --error=myJobMeta_mandrill162.err
+#SBATCH --output=myJobMeta_mandrill162.out
+task="puzzle"
+type="mandrill"
+width="4"
+height="4"
+nb_examples="20000"
+export label="mandrill162"
+export repertoire="05-06T11:21:53.162"
+export after_sample="puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2"
+export pb_subdir="puzzle-mandrill-4-4/007-000"
 
-#### REF 05-06T16:13:22.480
+# BLOCKS
+#SBATCH --error=myJobMeta_blocks877.err
+#SBATCH --output=myJobMeta_blocks877.out
+task="blocks"
+type="cylinders-4-flat"
+width=""
+height=""
+nb_examples="20000"
+export label="blocks877"
+export repertoire="05-06T11:28:54.877"
+export after_sample="blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2"
+export pb_subdir="prob-cylinders-4/007-001"
 
-export label="puzzle480"
 
-export repertoire="SomeTime480"
+# LIGHTSOUT DIGITAL
+#SBATCH --error=myJobMeta_lightsdigital828.err
+#SBATCH --output=myJobMeta_lightsdigital828.out
+task="lightsout"
+type="digital"
+width="5"
+height=""
+nb_examples="5000"
+export label="lightsdigital828"
+export repertoire="05-06T11:21:56.828"
+export after_sample="lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
+export pb_subdir="lightsout-digital-5/007-000"
+
+
+# LIGHTSOUT DIGITAL
+#SBATCH --error=myJobMeta_lightstwisted828.err
+#SBATCH --output=myJobMeta_lightstwisted828.out
+task="lightsout"
+type="twisted"
+width="5"
+height=""
+nb_examples="5000"
+export label="lightstwisted828"
+export repertoire="05-06T11:21:56.828"
+export after_sample="lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
+export pb_subdir="lightsout-twisted-5/007-000"
+
+
+# SOKOBAN
+#SBATCH --error=myJobMeta_sokoban372.err
+#SBATCH --output=myJobMeta_sokoban372.out
+task="sokoban"
+type="sokoban_image-20000-global-global-2-train"
+width=""
+height=""
+nb_examples="20000"
+export label="sokoban372"
+export repertoire="05-09T16:42:26.372"
+export after_sample="sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2"
+export pb_subdir="sokoban-2-False/007-000"
+
+
 pwdd=$(pwd)
-export path_to_repertoire=samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/$repertoire
-export domain=samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/$repertoire/domain.pddl
-export domain_nopre=samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/$repertoire/domain-nopre.pddl
-export problem_dir=problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000
-export problem_file="ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_${repertoire}_domain_blind_problem.pddl"
-#problem_nopre_file = "ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_${repertoire}_domain-nopre_blind_problem.pddl"
 
-export best_state_var=999
+export path_to_repertoire=samples/$after_sample/logs/$repertoire
+export domain=samples/$after_sample/logs/$repertoire/domain.pddl
+export problem_dir=problem-generators/backup-propositional/vanilla/$pb_subdir
+export problem_file="ama3_samples_${after_sample}_logs_${repertoire}_domain_blind_problem.pddl"
 
-echo "in Meta 0"
+export best_state_var=99
+
+
+
+FILE=$path_to_repertoire/net_orig.h5
+if [ -f "$FILE" ]; then
+    cp $path_to_repertoire/net_orig.h5 $path_to_repertoire/net0.h5
+else
+    cp $path_to_repertoire/net0.h5 $path_to_repertoire/net_orig.h5
+fi
 
 ######################
 ##     Functions    ##
 ######################
 
+
+# generate extracted_mutexes_* and put it in root
 generate_invariants () {
 
     ### generate the actions
@@ -81,102 +156,127 @@ generate_invariants () {
     cd $pwdd/
 }
 
-
+# from extracted_mutexes_*.txt to current_invariant.txt (in root)
 extract_current_invariant() {
     sed -n '2p' extracted_mutexes_$label.txt > current_invariant.txt
     sed -n '3p' extracted_mutexes_$label.txt >> current_invariant.txt
 }
 
+# remove current invariant from total_invariants_*.txt (in root)
 remove_current_invariant() {
     sed -i '1,3d' $pwdd/total_invariants_$label.txt
 }
 
-current_state_var=999
+
+#  store metrics in bash variables
+produce_report() {
+    ./train_kltune.py report puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+    current_state_var=$(sed '1q;d' $pwdd/$path_to_repertoire/variance.txt)
+    current_elbo=$(sed '2q;d' $pwdd/$path_to_repertoire/variance.txt)
+    current_next_state_pred=$(sed '3q;d' $pwdd/$path_to_repertoire/variance.txt)
+    current_true_num_actions=$(sed '4q;d' $pwdd/$path_to_repertoire/variance.txt)
+}
+
+# write metrics in omega_*.txt
+write_to_omega() {
+    echo "state_var: $current_state_var" >> omega_$label.txt
+    echo "elbo: $current_elbo" >> omega_$label.txt
+    echo "next_state_pred: $current_next_state_pred" >> omega_$label.txt
+    echo "num_actions: $current_true_num_actions" >> omega_$label.txt
+}
 
 
 
-#################### !!!!!!!!!!!!!!!!!!!
-#########################################################################################
-## Generate the invariants    (domain.pddl problem.pddl extracted_mutexes_$label.txt)              OK   #
-#########################################################################################
-generate_invariants
-echo "in Meta 2"
-
-# ##################################################################
-# ## Compute State Variance  and store it in state_var             #
-# ##################################################################
-#cd $pwdd
-./train_kltune.py report puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
-current_state_var=$(cat $pwdd/$path_to_repertoire/variance.txt)
+# #############################################################################################
+## Compute metrics and store them in vars and files                                           #
+# #############################################################################################
+produce_report
 best_state_var=$current_state_var
 
-echo "in Meta 3"
 
-echo $best_state_var
+# generate the invariants
+generate_invariants
 
-echo "in Meta 4"
 
-# when variance is 0.0 smth's wrong, we set it high instead
-comparison=$(./a_inf_b.py $best_state_var 0.0) # a <= b ? 1 : 0
-if [ $comparison -eq 1 ]
+# count invariants
+nb_invariants=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
+
+# sentence if no invariants found directly
+sentence_if_invariants="invariants found without training"
+
+# if no invariants, retrain
+if [ $nb_invariants -eq 0 ]
 then
-    best_state_var=99
+    ./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+
+    # try to generate the invariants again
+    generate_invariants
+
+    # re count
+    nb_invariants=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
+
+
+    # if nb invariants is still 0
+    if [ $nb_invariants -eq 0 ]
+    then
+        sentence_no_invariants="no invariants found, even after training"
+        echo $sentence_no_invariants > omega_$label.txt
+        write_to_omega
+        exit 1
+    else
+        sentence_if_invariants="invariants found after a first training"
+    fi
+
+
 fi
 
-echo "in Meta 5"
-echo $best_state_var
 
-echo "Base state_var" > omega_$label.txt
-echo $best_state_var >> omega_$label.txt
+echo $sentence_if_invariants > omega_$label.txt
 
-# copy the found mutexes to total_invariants_$label                        OK
+# Copy the invariants to omega
+cat extracted_mutexes_$label.txt >> omega_$label.txt
+
+# writing the metrics
+write_to_omega
+
+# storing the invariants in total_invariants + updating the nb_invariant variable
 cp $pwdd/extracted_mutexes_$label.txt $pwdd/total_invariants_$label.txt
-
-echo "in Meta 6"
-
 nb_invariants=$(./count_invariants.py $pwdd/total_invariants_$label.txt)
 
-echo $nb_invariants
 
-# while there still invariants in total_invariants_$label.txt
+# while there are still invariants in total_invariants_$label.txt
 while [ $nb_invariants -gt 0 ]
 do
-    echo "IN WHILEE"
+    echo "IN WHILE !"
+
     # Update current_invariant.txt (there are only 2 lines in this file)
     extract_current_invariant
 
     # Remove from total_invariants_$label.txt
     remove_current_invariant
 
-    # Each training is COMPLETLY NEW (even the loss function)
+    # Each training is COMPLETLY NEW (even the loss function), we use the invariant from current_invariant.txt
     ./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
 
-    ## Once trained, update the State Variance (state_var)
+    ## Once trained, update the metrics variables
     cd $pwdd
-    ./train_kltune.py report puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
-    current_state_var=$(cat $pwdd/$path_to_repertoire/variance.txt)
+    produce_report
+    
 
-    echo "current_state_var (after training)"
-    echo $current_state_var
+    # Update Omega
+    echo "#" >> omega_$label.txt
+    echo "current invariant:" >> omega_$label.txt
+    cat current_invariant.txt >> omega_$label.txt
+    write_to_omega
 
-    comparison=$(./a_inf_b.py $current_state_var 0.0) # If retrieved state_var is 0.0 we update to 99
-    if [ $comparison -eq 1 ]                          # so we can test it against best_state_var
-    then
-        current_state_var=99
-    fi
 
-    # # If state variance <= best_so_far (we add the invariant to omega_$label, along with the corres)
+    # If current_state_var <= best_so_far, we try to generate new invariants from this training !
+
     comparison=$(./a_inf_b.py $current_state_var $best_state_var) # nb1 <= nb2
 
     if [ $comparison -eq 1 ]
     then
-        # we add the invariant to omega_$label.txt
-        echo "#" >> omega_$label.txt
-        cat current_invariant.txt >> omega_$label.txt
-        echo $current_state_var >> omega_$label.txt
-
-        # We update the total_invariants_$label list
-
+        echo "found better or equal variance"
         # Generate new invariants
         generate_invariants
 
