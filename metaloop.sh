@@ -7,72 +7,66 @@
 #SBATCH --time=08:00:00
 #SBATCH --mem=32G
 
-## PUZZLE MNIST
-#SBATCH --error=myJobMeta_mnist052.err
-#SBATCH --output=myJobMeta_mnist052.out
-task="puzzle"
-type="mnist"
-width="3"
-height="3"
-nb_examples="5000"
-export label="mnist052"
-export repertoire="05-06T11:21:55.052"
-export after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
-export pb_subdir="puzzle-mnist-3-3/007-000"
+# ## PUZZLE MNIST
+# #SBATCH --error=myJobMeta_mnist653.err
+# #SBATCH --output=myJobMeta_mnist653.out
+# task="puzzle"
+# type="mnist"
+# width_height="3 3"
+# nb_examples="5000"
+# export label="mnist653"
+# export repertoire="05-06T14:43:31.653"
+# export after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
+# export pb_subdir="puzzle-mnist-3-3/007-000"
 
-## PUZZLE MANDRILL
-#SBATCH --error=myJobMeta_mandrill162.err
-#SBATCH --output=myJobMeta_mandrill162.out
-task="puzzle"
-type="mandrill"
-width="4"
-height="4"
-nb_examples="20000"
-export label="mandrill162"
-export repertoire="05-06T11:21:53.162"
-export after_sample="puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2"
-export pb_subdir="puzzle-mandrill-4-4/007-000"
+# ## PUZZLE MANDRILL
+# #SBATCH --error=myJobMeta_mandrill807.err
+# #SBATCH --output=myJobMeta_mandrill807.out
+# task="puzzle"
+# type="mandrill"
+# width_height="4 4"
+# nb_examples="20000"
+# export label="mandrill807"
+# export repertoire="05-06T16:38:03.807"
+# export after_sample="puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2"
+# export pb_subdir="puzzle-mandrill-4-4/007-000"
 
-# BLOCKS
-#SBATCH --error=myJobMeta_blocks877.err
-#SBATCH --output=myJobMeta_blocks877.out
-task="blocks"
-type="cylinders-4-flat"
-width=""
-height=""
-nb_examples="20000"
-export label="blocks877"
-export repertoire="05-06T11:28:54.877"
-export after_sample="blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2"
-export pb_subdir="prob-cylinders-4/007-001"
+# # BLOCKS
+# #SBATCH --error=myJobMeta_blocks809.err
+# #SBATCH --output=myJobMeta_blocks809.out
+# task="blocks"
+# type="cylinders-4-flat"
+# width_height=""
+# nb_examples="20000"
+# export label="blocks809"
+# export repertoire="05-15T23:44:52.809"
+# export after_sample="blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2"
+# export pb_subdir="prob-cylinders-4/007-001"
 
 
-# LIGHTSOUT DIGITAL
-#SBATCH --error=myJobMeta_lightsdigital828.err
-#SBATCH --output=myJobMeta_lightsdigital828.out
-task="lightsout"
-type="digital"
-width="5"
-height=""
-nb_examples="5000"
-export label="lightsdigital828"
-export repertoire="05-06T11:21:56.828"
-export after_sample="lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
-export pb_subdir="lightsout-digital-5/007-000"
+# # LIGHTSOUT DIGITAL
+# #SBATCH --error=myJobMeta_lightsdigital335.err
+# #SBATCH --output=myJobMeta_lightsdigital335.out
+# task="lightsout"
+# type="digital"
+# width_height="5"
+# nb_examples="5000"
+# export label="lightsdigital335"
+# export repertoire="05-15T14:52:05.335"
+# export after_sample="lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
+# export pb_subdir="lightsout-digital-5/007-000"
 
-
-# LIGHTSOUT DIGITAL
-#SBATCH --error=myJobMeta_lightstwisted828.err
-#SBATCH --output=myJobMeta_lightstwisted828.out
-task="lightsout"
-type="twisted"
-width="5"
-height=""
-nb_examples="5000"
-export label="lightstwisted828"
-export repertoire="05-06T11:21:56.828"
-export after_sample="lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
-export pb_subdir="lightsout-twisted-5/007-000"
+# # LIGHTSOUT TWISTED
+# #SBATCH --error=myJobMeta_lightstwisted348.err
+# #SBATCH --output=myJobMeta_lightstwisted348.out
+# task="lightsout"
+# type="twisted"
+# width_height="5"
+# nb_examples="5000"
+# export label="lightstwisted348"
+# export repertoire="05-15T14:32:16.348"
+# export after_sample="lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
+# export pb_subdir="lightsout-twisted-5/007-000"
 
 
 # SOKOBAN
@@ -80,8 +74,7 @@ export pb_subdir="lightsout-twisted-5/007-000"
 #SBATCH --output=myJobMeta_sokoban372.out
 task="sokoban"
 type="sokoban_image-20000-global-global-2-train"
-width=""
-height=""
+width_height=""
 nb_examples="20000"
 export label="sokoban372"
 export repertoire="05-09T16:42:26.372"
@@ -115,8 +108,9 @@ fi
 # generate extracted_mutexes_* and put it in root
 generate_invariants () {
 
+
     ### generate the actions
-    ./train_kltune.py dump puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+    ./train_kltune.py dump $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $repertoire
 
     ### generate PDDL domain
     ./pddl-ama3.sh $path_to_repertoire
@@ -170,7 +164,7 @@ remove_current_invariant() {
 
 #  store metrics in bash variables
 produce_report() {
-    ./train_kltune.py report puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+    ./train_kltune.py report $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $repertoire
     current_state_var=$(sed '1q;d' $pwdd/$path_to_repertoire/variance.txt)
     current_elbo=$(sed '2q;d' $pwdd/$path_to_repertoire/variance.txt)
     current_next_state_pred=$(sed '3q;d' $pwdd/$path_to_repertoire/variance.txt)
@@ -207,7 +201,7 @@ sentence_if_invariants="invariants found without training"
 # if no invariants, retrain
 if [ $nb_invariants -eq 0 ]
 then
-    ./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+    ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $repertoire
 
     # try to generate the invariants again
     generate_invariants
@@ -256,7 +250,7 @@ do
     remove_current_invariant
 
     # Each training is COMPLETLY NEW (even the loss function), we use the invariant from current_invariant.txt
-    ./train_kltune.py learn puzzle mnist 3 3 5000 CubeSpaceAE_AMA4Conv kltune2 $repertoire
+    ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $repertoire
 
     ## Once trained, update the metrics variables
     cd $pwdd

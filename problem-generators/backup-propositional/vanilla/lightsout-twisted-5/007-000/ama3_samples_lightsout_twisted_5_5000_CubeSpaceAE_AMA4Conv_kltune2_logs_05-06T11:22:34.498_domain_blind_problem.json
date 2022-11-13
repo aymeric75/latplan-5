@@ -1,0 +1,142 @@
+{
+  "network": "samples/lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T11:22:34.498",
+  "problem": "007-000",
+  "domain": "lightsout-twisted-5",
+  "noise": null,
+  "times": [
+    {
+      "message": "init",
+      "wall": 0,
+      "elapsed": 0
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 0.3755803108215332,
+      "elapsed": 0.3755803108215332
+    },
+    {
+      "message": "loaded sae",
+      "wall": 4.941850662231445,
+      "elapsed": 4.566270351409912
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 4.941925525665283,
+      "elapsed": 7.486343383789062e-05
+    },
+    {
+      "message": "loading init/goal",
+      "wall": 4.941930055618286,
+      "elapsed": 4.5299530029296875e-06
+    },
+    {
+      "message": "loaded init/goal",
+      "wall": 9.689612865447998,
+      "elapsed": 4.747682809829712
+    },
+    {
+      "message": "start planning",
+      "wall": 9.689628839492798,
+      "elapsed": 1.5974044799804688e-05
+    },
+    {
+      "message": "start generating problem",
+      "wall": 9.689743280410767,
+      "elapsed": 0.00011444091796875
+    },
+    {
+      "message": "finished generating problem",
+      "wall": 9.929553985595703,
+      "elapsed": 0.23981070518493652
+    },
+    {
+      "message": "start planning",
+      "wall": 9.92958688735962,
+      "elapsed": 3.2901763916015625e-05
+    },
+    {
+      "message": "finished planning",
+      "wall": 32.53674101829529,
+      "elapsed": 22.60715413093567
+    }
+  ],
+  "heuristics": "blind",
+  "domainfile": "samples/lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T11:22:34.498/domain.pddl",
+  "problemfile": "problem-generators/backup-propositional/vanilla/lightsout-twisted-5/007-000/ama3_samples_lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:34.498_domain_blind_problem.pddl",
+  "planfile": "problem-generators/backup-propositional/vanilla/lightsout-twisted-5/007-000/ama3_samples_lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:34.498_domain_blind_problem.plan",
+  "tracefile": "problem-generators/backup-propositional/vanilla/lightsout-twisted-5/007-000/ama3_samples_lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:34.498_domain_blind_problem.trace",
+  "csvfile": "problem-generators/backup-propositional/vanilla/lightsout-twisted-5/007-000/ama3_samples_lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:34.498_domain_blind_problem.csv",
+  "pngfile": "problem-generators/backup-propositional/vanilla/lightsout-twisted-5/007-000/ama3_samples_lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:34.498_domain_blind_problem.png",
+  "jsonfile": "problem-generators/backup-propositional/vanilla/lightsout-twisted-5/007-000/ama3_samples_lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:34.498_domain_blind_problem.json",
+  "statistics": {
+    "translator_variables": 1,
+    "translator_derived_variables": 0,
+    "translator_facts": 2,
+    "translator_goal_facts": 1,
+    "translator_mutex_groups": 0,
+    "translator_total_mutex_group_size": null,
+    "translator_operators": 0,
+    "translator_axioms": 0,
+    "translator_task": 4,
+    "translator_peak_memory": 365380,
+    "translate": 21.968,
+    "plan_length": null,
+    "plan_cost": null,
+    "expanded": 0,
+    "evaluated": 1,
+    "generated": 0,
+    "search": 0.000120372,
+    "initialization": 0.00178066,
+    "total": 21.9699
+  },
+  "parameters": {
+    "test_noise": false,
+    "test_hard": true,
+    "train_noise": true,
+    "train_hard": false,
+    "dropout_z": false,
+    "noise": 0.2,
+    "dropout": 0.2,
+    "optimizer": "radam",
+    "min_temperature": 0.5,
+    "epoch": 2000,
+    "gs_annealing_start": 0,
+    "gs_annealing_end": 1000,
+    "kl_cycle_start": 2000,
+    "clipnorm": 0.1,
+    "batch_size": 400,
+    "lr": 0.001,
+    "N": 300,
+    "zerosuppress": 0.1,
+    "densify": false,
+    "max_temperature": 5.0,
+    "conv_channel": 32,
+    "conv_channel_increment": 1,
+    "conv_kernel": 5,
+    "conv_pooling": 1,
+    "conv_per_pooling": 1,
+    "conv_depth": 3,
+    "A": 6000,
+    "aae_activation": "relu",
+    "aae_width": 1000,
+    "aae_depth": 2,
+    "eff_regularizer": null,
+    "beta_d": 1000,
+    "beta_z": 10,
+    "output": "GaussianOutput(sigma=0.1)",
+    "type": "twisted",
+    "size": 5,
+    "num_examples": 5000,
+    "aeclass": "CubeSpaceAE_AMA4Conv",
+    "comment": "kltune2",
+    "generator": "latplan.puzzles.lightsout_twisted",
+    "HOSTNAME": "cccxc414.pok.ibm.com",
+    "LSB_JOBID": "2105081",
+    "gpu": "Tesla V100-SXM2-32GB",
+    "time_start": "05-06T11:22:34.498"
+  },
+  "valid": false,
+  "found": false,
+  "exhausted": true,
+  "cycle": 1
+}

@@ -8,7 +8,7 @@ from . import common
 def lightsout(args):
     type = args.type
     size = args.size
-    num_examples = args.num
+    num_examples = args.num_examples
 
     import importlib
     generator = 'latplan.puzzles.lightsout_{}'.format(type)

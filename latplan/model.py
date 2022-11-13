@@ -110,11 +110,10 @@ The latter two are used for verifying the performance of the AE.
         print("PEEEEERRRRRRRRRRFFFFOOOOOOOOORRRRRRRRRRMMMMMMMMMMMMMAAAAAAAAAAAANNNNNNNNNNCCCCCCCEEEEEEEE")
         print(performance)
         with open(self.local("variance.txt"), "w") as f:
-            f.write("#")
-            f.write(str(performance["sae"]["variance"]["gaussian"]["test"]["mean"])) # State Variance
-            f.write(str(performance["metrics"]["test"]["elbo"])) # Elbo
-            f.write(str(performance["metrics"]["test"]["pdiff_z1z2"])) # Next State Prediction Acc
-            f.write(str(performance["action"]["true_num_actions"]["test"])) # Number of actions used
+            f.write(str(performance["sae"]["variance"]["gaussian"]["test"]["mean"])+"\n") # State Variance
+            f.write(str(performance["metrics"]["test"]["elbo"])+"\n") # Elbo
+            f.write(str(performance["metrics"]["test"]["pdiff_z1z2"])+"\n") # Next State Prediction Acc
+            f.write(str(performance["action"]["true_num_actions"]["test"])+"\n") # Number of actions used
 
         with open(self.local("performance.json"), "w") as f:
             json.dump(performance, f, cls=NpEncoder, indent=2)
@@ -1546,12 +1545,15 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
                     expr.append(1. - z_pre[:, int(var[0])])
                 else:
                     expr.append(z_pre[:, int(var[0])])
-            return 1. -  tf.math.reduce_mean( tf.math.multiply(expr[0], expr[1]) )
+            return 1. / ( 1. -  tf.math.reduce_mean( tf.math.multiply(expr[0], expr[1]) ) )
 
         print("in _build_primary_1")
 
+        has_invariant = False
+
         if("invariant" in self.parameters):
             if(self.parameters["invariant"]):
+                has_invariant = True
                 total_add_loss += invariant_loss(self.parameters["invariant"])
 
         print("in _build_primary_2")
@@ -1571,8 +1573,13 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         ama3_forward_loss2  = self.parameters["beta_z"] * kl_z0 + x0y0 + kl_a_z0 + x1y2
         ama3_backward_loss1 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + self.parameters["beta_d"] * kl_z0z3 + x0y0
         ama3_backward_loss2 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + x0y3
-        total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
-        #total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2 + total_add_loss)/5
+        
+        if has_invariant:
+            total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
+            total_loss = total_loss + total_loss*total_add_loss
+        else:
+            total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
+        
         ama3_forward_elbo1  = kl_z0 + x0y0 + kl_a_z0 + kl_z1z2 + x1y1
         ama3_forward_elbo2  = kl_z0 + x0y0 + kl_a_z0 + x1y2
         ama3_backward_elbo1 = kl_z1 + x1y1 + kl_a_z1 + kl_z0z3 + x0y0
@@ -1593,11 +1600,11 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         self.add_metric("x0y3",x0y3)
         self.add_metric("x1y2",x1y2)
         self.add_metric("elbo",elbo)
-        #self.add_metric("total_add_loss",elbo)
+        if has_invariant:
+            self.add_metric("total_add_loss",total_add_loss)
         
         print("in _build_primary_3")
 
-        #self.add_metric("theparam", str(self.parameters["newparam"]))
         
 
         def loss(*args):

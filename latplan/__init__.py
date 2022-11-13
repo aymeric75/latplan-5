@@ -47,4 +47,3 @@ from . import puzzles
 from . import model
 from . import ama2model
 from . import main
-

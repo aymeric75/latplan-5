@@ -285,9 +285,9 @@ def run(path,transitions,extra=None):
 
     if 'learn' in args.mode:
 
-        parameters["noweights"] = False
+        parameters["noweights"] = True
 
-        parameters["epoch"] = 2
+        parameters["epoch"] = 2000
 
         invariant = []
 
@@ -300,6 +300,8 @@ def run(path,transitions,extra=None):
                             tmp.append(ele.strip())
                         invariant.append(tmp)
 
+        print("invariant to be tested")
+        print(invariant)
         parameters["invariant"] = invariant
 
         task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters, True) 

@@ -1,0 +1,146 @@
+{
+  "network": "samples/sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-09T16:42:26.372",
+  "problem": "007-000",
+  "domain": "sokoban-2-False",
+  "noise": null,
+  "times": [
+    {
+      "message": "init",
+      "wall": 0,
+      "elapsed": 0
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 0.38209009170532227,
+      "elapsed": 0.38209009170532227
+    },
+    {
+      "message": "loaded sae",
+      "wall": 4.9145002365112305,
+      "elapsed": 4.532410144805908
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 5.680271625518799,
+      "elapsed": 0.7657713890075684
+    },
+    {
+      "message": "loading init/goal",
+      "wall": 5.680281162261963,
+      "elapsed": 9.5367431640625e-06
+    },
+    {
+      "message": "loaded init/goal",
+      "wall": 9.474635362625122,
+      "elapsed": 3.794354200363159
+    },
+    {
+      "message": "start planning",
+      "wall": 9.47464919090271,
+      "elapsed": 1.3828277587890625e-05
+    },
+    {
+      "message": "start generating problem",
+      "wall": 9.47478175163269,
+      "elapsed": 0.00013256072998046875
+    },
+    {
+      "message": "finished generating problem",
+      "wall": 9.541743755340576,
+      "elapsed": 0.06696200370788574
+    },
+    {
+      "message": "start planning",
+      "wall": 9.541778326034546,
+      "elapsed": 3.457069396972656e-05
+    },
+    {
+      "message": "finished planning",
+      "wall": 156.778067111969,
+      "elapsed": 147.23628878593445
+    }
+  ],
+  "heuristics": "blind",
+  "domainfile": "samples/sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-09T16:42:26.372/domain.pddl",
+  "problemfile": "problem-generators/backup-propositional/vanilla/sokoban-2-False/007-000/ama3_samples_sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-09T16:42:26.372_domain_blind_problem.pddl",
+  "planfile": "problem-generators/backup-propositional/vanilla/sokoban-2-False/007-000/ama3_samples_sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-09T16:42:26.372_domain_blind_problem.plan",
+  "tracefile": "problem-generators/backup-propositional/vanilla/sokoban-2-False/007-000/ama3_samples_sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-09T16:42:26.372_domain_blind_problem.trace",
+  "csvfile": "problem-generators/backup-propositional/vanilla/sokoban-2-False/007-000/ama3_samples_sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-09T16:42:26.372_domain_blind_problem.csv",
+  "pngfile": "problem-generators/backup-propositional/vanilla/sokoban-2-False/007-000/ama3_samples_sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-09T16:42:26.372_domain_blind_problem.png",
+  "jsonfile": "problem-generators/backup-propositional/vanilla/sokoban-2-False/007-000/ama3_samples_sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-09T16:42:26.372_domain_blind_problem.json",
+  "statistics": {
+    "translator_variables": null,
+    "translator_derived_variables": null,
+    "translator_facts": null,
+    "translator_goal_facts": null,
+    "translator_mutex_groups": null,
+    "translator_total_mutex_group_size": null,
+    "translator_operators": null,
+    "translator_axioms": null,
+    "translator_task": null,
+    "translator_peak_memory": null,
+    "translate": null,
+    "plan_length": null,
+    "plan_cost": null,
+    "expanded": null,
+    "evaluated": null,
+    "generated": null,
+    "search": null,
+    "initialization": null,
+    "total": 0
+  },
+  "parameters": {
+    "test_noise": false,
+    "test_hard": true,
+    "train_noise": true,
+    "train_hard": false,
+    "dropout_z": false,
+    "noise": 0.2,
+    "dropout": 0.2,
+    "optimizer": "radam",
+    "min_temperature": 0.5,
+    "epoch": 2000,
+    "gs_annealing_start": 0,
+    "gs_annealing_end": 1000,
+    "kl_cycle_start": 2000,
+    "clipnorm": 0.1,
+    "batch_size": 400,
+    "lr": 0.001,
+    "N": 300,
+    "zerosuppress": 0.1,
+    "densify": false,
+    "max_temperature": 5.0,
+    "conv_channel": 32,
+    "conv_channel_increment": 1,
+    "conv_kernel": 5,
+    "conv_pooling": 1,
+    "conv_per_pooling": 1,
+    "conv_depth": 3,
+    "A": 6000,
+    "aae_activation": "relu",
+    "aae_width": 1000,
+    "aae_depth": 2,
+    "eff_regularizer": null,
+    "beta_d": 10,
+    "beta_z": 10,
+    "output": "GaussianOutput(sigma=0.1)",
+    "track": "sokoban_image-20000-global-global-2-train",
+    "num_examples": 20000,
+    "aeclass": "CubeSpaceAE_AMA4Conv",
+    "comment": "kltune2",
+    "picsize": [
+      28,
+      28,
+      3
+    ],
+    "generator": "latplan.puzzles.sokoban",
+    "HOSTNAME": "cccxc428.pok.ibm.com",
+    "LSB_JOBID": "2164475",
+    "gpu": "Tesla V100-SXM2-32GB",
+    "time_start": "05-09T16:42:26.372"
+  },
+  "valid": false,
+  "found": false,
+  "exhausted": false,
+  "cycle": 1
+}

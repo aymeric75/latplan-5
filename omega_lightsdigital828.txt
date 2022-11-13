@@ -1,0 +1,5 @@
+no invariants found, even after training
+state_var: 
+elbo: 
+next_state_pred: 
+num_actions: 

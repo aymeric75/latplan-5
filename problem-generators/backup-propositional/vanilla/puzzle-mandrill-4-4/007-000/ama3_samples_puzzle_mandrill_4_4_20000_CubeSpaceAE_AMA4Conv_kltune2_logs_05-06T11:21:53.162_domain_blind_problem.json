@@ -1,0 +1,147 @@
+{
+  "network": "samples/puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T11:21:53.162",
+  "problem": "007-000",
+  "domain": "puzzle-mandrill-4-4",
+  "noise": null,
+  "times": [
+    {
+      "message": "init",
+      "wall": 0,
+      "elapsed": 0
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 0.38854265213012695,
+      "elapsed": 0.38854265213012695
+    },
+    {
+      "message": "loaded sae",
+      "wall": 4.844534635543823,
+      "elapsed": 4.455991983413696
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 4.844609498977661,
+      "elapsed": 7.486343383789062e-05
+    },
+    {
+      "message": "loading init/goal",
+      "wall": 4.844614744186401,
+      "elapsed": 5.245208740234375e-06
+    },
+    {
+      "message": "loaded init/goal",
+      "wall": 12.379797220230103,
+      "elapsed": 7.535182476043701
+    },
+    {
+      "message": "start planning",
+      "wall": 12.379812479019165,
+      "elapsed": 1.52587890625e-05
+    },
+    {
+      "message": "start generating problem",
+      "wall": 12.379938125610352,
+      "elapsed": 0.00012564659118652344
+    },
+    {
+      "message": "finished generating problem",
+      "wall": 12.457436084747314,
+      "elapsed": 0.07749795913696289
+    },
+    {
+      "message": "start planning",
+      "wall": 12.457469463348389,
+      "elapsed": 3.337860107421875e-05
+    },
+    {
+      "message": "finished planning",
+      "wall": 17.952426195144653,
+      "elapsed": 5.494956731796265
+    }
+  ],
+  "heuristics": "blind",
+  "domainfile": "samples/puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T11:21:53.162/domain.pddl",
+  "problemfile": "problem-generators/backup-propositional/vanilla/puzzle-mandrill-4-4/007-000/ama3_samples_puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:53.162_domain_blind_problem.pddl",
+  "planfile": "problem-generators/backup-propositional/vanilla/puzzle-mandrill-4-4/007-000/ama3_samples_puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:53.162_domain_blind_problem.plan",
+  "tracefile": "problem-generators/backup-propositional/vanilla/puzzle-mandrill-4-4/007-000/ama3_samples_puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:53.162_domain_blind_problem.trace",
+  "csvfile": "problem-generators/backup-propositional/vanilla/puzzle-mandrill-4-4/007-000/ama3_samples_puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:53.162_domain_blind_problem.csv",
+  "pngfile": "problem-generators/backup-propositional/vanilla/puzzle-mandrill-4-4/007-000/ama3_samples_puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:53.162_domain_blind_problem.png",
+  "jsonfile": "problem-generators/backup-propositional/vanilla/puzzle-mandrill-4-4/007-000/ama3_samples_puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:53.162_domain_blind_problem.json",
+  "statistics": {
+    "translator_variables": 1,
+    "translator_derived_variables": 0,
+    "translator_facts": 2,
+    "translator_goal_facts": 1,
+    "translator_mutex_groups": 0,
+    "translator_total_mutex_group_size": null,
+    "translator_operators": 0,
+    "translator_axioms": 0,
+    "translator_task": 4,
+    "translator_peak_memory": 175940,
+    "translate": 4.784,
+    "plan_length": null,
+    "plan_cost": null,
+    "expanded": 0,
+    "evaluated": 1,
+    "generated": 0,
+    "search": 0.00012802,
+    "initialization": 0.00222238,
+    "total": 4.78635
+  },
+  "parameters": {
+    "test_noise": false,
+    "test_hard": true,
+    "train_noise": true,
+    "train_hard": false,
+    "dropout_z": false,
+    "noise": 0.2,
+    "dropout": 0.2,
+    "optimizer": "radam",
+    "min_temperature": 0.5,
+    "epoch": 2000,
+    "gs_annealing_start": 0,
+    "gs_annealing_end": 1000,
+    "kl_cycle_start": 2000,
+    "clipnorm": 0.1,
+    "batch_size": 400,
+    "lr": 0.001,
+    "N": 300,
+    "zerosuppress": 0.1,
+    "densify": false,
+    "max_temperature": 5.0,
+    "conv_channel": 32,
+    "conv_channel_increment": 1,
+    "conv_kernel": 5,
+    "conv_pooling": 1,
+    "conv_per_pooling": 1,
+    "conv_depth": 3,
+    "A": 6000,
+    "aae_activation": "relu",
+    "aae_width": 1000,
+    "aae_depth": 2,
+    "eff_regularizer": null,
+    "beta_d": 10,
+    "beta_z": 10,
+    "output": "GaussianOutput(sigma=0.1)",
+    "type": "mandrill",
+    "width": 4,
+    "height": 4,
+    "num_examples": 20000,
+    "aeclass": "CubeSpaceAE_AMA4Conv",
+    "comment": "kltune2",
+    "generator": "latplan.puzzles.puzzle_mandrill",
+    "picsize": [
+      56,
+      56
+    ],
+    "HOSTNAME": "cccxc451.pok.ibm.com",
+    "LSB_JOBID": "2105027",
+    "gpu": "Tesla V100-SXM2-32GB",
+    "time_start": "05-06T11:21:53.162"
+  },
+  "valid": false,
+  "found": false,
+  "exhausted": true,
+  "cycle": 1
+}

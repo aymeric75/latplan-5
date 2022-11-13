@@ -1,0 +1,364 @@
+Default float: float32
+{'mode': 'report', 'track': 'cylinders-4-flat', 'num_examples': 20000, 'aeclass': 'CubeSpaceAE_AMA4Conv', 'comment': 'kltune2', 'hash': '05-15T22:11:42.808'}
+loaded. picsize: [100 150   3]
+(20000, 2, 30, 45, 3)
+normalized shape: (30, 45, 3) (30, 45, 3)
+class precedence list:
+  <class 'latplan.model.ConvolutionalConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus'>
+  <class 'latplan.mixins.encoder_decoder.StridedConvolutionalMixin'>
+  <class 'latplan.mixins.encoder_decoder.ConvolutionalMixin'>
+  <class 'latplan.model.ConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus'>
+  <class 'latplan.model.DetActionMixin'>
+  <class 'latplan.model.NormalizedLogitAddBidirectionalMixin'>
+  <class 'latplan.model.NormalizedLogitAddPreconditionMixin'>
+  <class 'latplan.model.NormalizedLogitAddEffectMixin'>
+  <class 'latplan.model.LogitEffectMixin'>
+  <class 'latplan.model.BaseActionMixinAMA4Plus'>
+  <class 'latplan.model.BidirectionalMixin'>
+  <class 'latplan.model.PreconditionMixin'>
+  <class 'latplan.model.EffectMixin'>
+  <class 'latplan.model.BaseActionMixin'>
+  <class 'latplan.model.TransitionWrapper'>
+  <class 'latplan.model.StateAE'>
+  <class 'latplan.mixins.latent.ConcreteLatentMixin'>
+  <class 'latplan.model.EarlyStopMixin'>
+  <class 'latplan.mixins.encoder_decoder.FullConnectedMixin'>
+  <class 'latplan.mixins.encoder_decoder.EncoderDecoderMixin'>
+  <class 'latplan.model.AE'>
+  <class 'latplan.network.Network'>
+  <class 'object'>
+clearning tf session
+cleared tf session
+Loading networks from samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/ (with failure not allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 30 W: 45 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x149838480760>
+[0, 30, 45, 3] -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2D object at 0x149838480760>
+<keras.layers.normalization.BatchNormalization object at 0x14983822a8e0>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x14983822a8e0>
+<keras.layers.core.Dropout object at 0x14983822a9a0>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x14983822a9a0>
+<keras.layers.convolutional.Conv2D object at 0x14983822aa00>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2D object at 0x14983822aa00>
+<keras.layers.normalization.BatchNormalization object at 0x14983822ab20>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x14983822ab20>
+<keras.layers.core.Dropout object at 0x14983822abe0>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x14983822abe0>
+latent space shape is (30, 45, 32) : 300 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 30 W: 45 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x149838231190>
+[0, 30, 45, 32] -> (0, 30, 45, 32) : <keras.layers.core.Reshape object at 0x149838231190>
+<keras.layers.convolutional.Conv2DTranspose object at 0x1498382311c0>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x1498382311c0>
+<keras.layers.normalization.BatchNormalization object at 0x149838231400>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x149838231400>
+<keras.layers.core.Dropout object at 0x149838231940>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x149838231940>
+<keras.layers.convolutional.Conv2DTranspose object at 0x149838231340>
+(0, 30, 45, 32) -> (0, 30, 45, 3) : <keras.layers.convolutional.Conv2DTranspose object at 0x149838231340>
+in _build_primary_0
+in _build_primary_1
+in _build_primary_2
+in _build_primary_3
+Network built
+Building auxiliary networks
+Auxiliary network built
+LOADING WEIGHTS
+loading additional networks
+Network loaded
+Compiling networks
+there are 1 networks.
+there are 1 optimizers.
+there are 1 losses.
+compiling <keras.engine.training.Model object at 0x1497d80d3460> with <keras_radam.optimizers.RAdam object at 0x1497cac3fe80>, <function BaseActionMixinAMA4Plus._build_primary.<locals>.loss at 0x1497d8148d30>.
+Network compiled
+metrics train {'loss': 7115.565147569445, 'tau': 5.0, 'pdiff_z1z2': 0.024763955962326792, 'pdiff_z0z3': 0.032844144933753545, 'pdiff_z0z1': 0.24499409629238977, 'pdiff_z0z2': 0.24297850827376047, 'kl_z0': 316.35459391276044, 'kl_z1': 323.07943250868055, 'kl_a_z0': 3188.1324110243054, 'kl_a_z1': 3188.055837673611, 'kl_z1z2': 45.66827689276801, 'kl_z0z3': 23.901365322536893, 'x0y0': 1228.589808485243, 'x1y1': 1488.0717366536458, 'x0y3': 2493.7377658420137, 'x1y2': 3091.5975043402777, 'elbo': 6959.033528645833}
+metrics test {'loss': 7787.2048828125, 'tau': 5.0, 'pdiff_z1z2': 0.035959021747112276, 'pdiff_z0z3': 0.04486927390098572, 'pdiff_z0z1': 0.24518382251262666, 'pdiff_z0z2': 0.24295166730880738, 'kl_z0': 315.9271728515625, 'kl_z1': 322.5258056640625, 'kl_a_z0': 2864.5677001953127, 'kl_a_z1': 2863.7663818359374, 'kl_z1z2': 70.10066833496094, 'kl_z0z3': 46.810778045654295, 'x0y0': 1248.1500732421875, 'x1y1': 1532.60986328125, 'x0y3': 4337.356591796875, 'x1y2': 4566.49423828125, 'elbo': 7524.15419921875}
+sae mse vanilla train 0.006707800552248955
+sae mse vanilla test 0.006866073235869408
+sae mse gaussian train 0.006595315877348185
+sae mse gaussian test 0.006747694220393896
+sae activation train 0.4371623992919922
+sae activation test 0.43642833828926086
+sae ever_1 train 300.0
+sae ever_1 test 300.0
+sae ever_0 train 300.0
+sae ever_0 test 300.0
+sae effective train 300.0
+sae effective test 300.0
+sae variance gaussian train {'max': 0.25, 'min': 0.0, 'mean': 9.459077409701422e-05, 'median': 0.0}
+sae variance gaussian test {'max': 0.25, 'min': 0.0, 'mean': 0.00010221666161669418, 'median': 0.0}
+cycle_consistency train {'xs01': [0.0, 0.006707800552248955, 0.0067623876966536045, 0.0067803203128278255, 0.006782109849154949, 0.006787593010812998, 0.006785787176340818, 0.006788074038922787, 0.006785966921597719, 0.006788074038922787], 'xs12': [0.006707800552248955, 3.922259566024877e-05, 7.830833055777475e-06, 2.109535444105859e-06, 1.5727085838079802e-06, 1.0271205610479228e-06, 9.360736612507026e-07, 8.689545438755886e-07, 8.689545438755886e-07, 8.689546575624263e-07], 'xs13': [0.09679736521192003, 0.00015945003542583436, 1.6585538105573505e-05, 7.656866728211753e-06, 6.75761384627549e-06, 5.22640493727522e-06, 5.794076514575863e-06, 4.9693321670929436e-06, 5.726957169827074e-06, 4.9693321670929436e-06], 'xs34': [0.09660488797327002, 0.00013992554158903658, 8.01336227596039e-06, 2.169169647459057e-06, 1.5727083564343047e-06, 1.0271203336742474e-06, 9.360737749375403e-07, 8.689546007190074e-07, 8.689544870321697e-07, 8.68954373345332e-07], 'zs01': [0.0, 0.00016092591977212578, 0.0001741666637826711, 0.00017990740889217705, 0.00017787037359084934, 0.0001812963018892333, 0.0001784259220585227, 0.00018148147501051426, 0.0001784259220585227, 0.00018148147501051426], 'zs12': [0.00016092591977212578, 1.9351851733517833e-05, 5.7407405620324425e-06, 4.074074240634218e-06, 3.4259260246471968e-06, 3.24074085256143e-06, 3.055555453101988e-06, 3.055555453101988e-06, 3.055555453101988e-06, 3.055555453101988e-06], 'zs13': [0.0006741666584275663, 4.814814747078344e-05, 3.333333370392211e-05, 2.7314814360579476e-05, 2.8981481591472402e-05, 2.592592682049144e-05, 2.8425925847841427e-05, 2.5740740966284648e-05, 2.8425925847841427e-05, 2.5740740966284648e-05], 'zs34': [0.0006284259143285453, 2.1111110982019454e-05, 6.574074177478906e-06, 4.074074240634218e-06, 3.4259260246471968e-06, 3.24074085256143e-06, 3.055555453101988e-06, 3.055555453101988e-06, 3.055555453101988e-06, 3.055555453101988e-06]}
+cycle_consistency test {'xs01': [0.0, 0.006866073235869408, 0.006972795818001032, 0.0069878073409199715, 0.006995166651904583, 0.007013259455561638, 0.007012599613517523, 0.007013258989900351, 0.007012599613517523, 0.007013258989900351], 'xs12': [0.006866073235869408, 6.653247692156583e-05, 7.425851890729973e-06, 1.669728248998581e-06, 3.302266804894316e-06, 4.581300174777425e-07, 4.581300174777425e-07, 4.581303016948368e-07, 4.581302732731274e-07, 4.5813015958628966e-07], 'xs13': [0.0969733829358011, 0.00021046465553808957, 2.650371243362315e-05, 1.3249567018647213e-05, 9.961301657313015e-06, 6.659036444034427e-06, 7.117166205716785e-06, 6.659036898781778e-06, 7.117166205716785e-06, 6.659036444034427e-06], 'xs34': [0.09670762032838583, 0.00017404588288627565, 1.2705413610092364e-05, 2.234562998637557e-06, 3.3022654406522634e-06, 4.5813024485141796e-07, 4.581302164297085e-07, 4.5813015958628966e-07, 4.5813007432116137e-07, 4.5813015958628966e-07], 'zs01': [0.0, 0.00022833333059679717, 0.00024833332281559706, 0.00025166667182929814, 0.00025166667182929814, 0.00025333333178423345, 0.00025166667182929814, 0.00025333333178423345, 0.00025166667182929814, 0.00025333333178423345], 'zs12': [0.00022833333059679717, 2.3333333956543356e-05, 3.3333333249174757e-06, 3.3333333249174757e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06], 'zs13': [0.0008016666397452354, 6.166666571516544e-05, 3.666666816570796e-05, 3.166666647302918e-05, 3.166666647302918e-05, 2.9999999242136255e-05, 3.166666647302918e-05, 2.9999999242136255e-05, 3.166666647302918e-05, 2.9999999242136255e-05], 'zs34': [0.0007433333084918559, 3.166666647302918e-05, 4.999999873689376e-06, 3.3333333249174757e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06]}
+x1y2 mse vanilla train 0.01526713278144598
+x1y2 mse vanilla test 0.022550588473677635
+x1y2 mse gaussian train 0.015271376818418503
+x1y2 mse gaussian test 0.022565335035324097
+z1z2 mae vanilla train 0.023450370877981186
+z1z2 mae vanilla test 0.03498666733503342
+z1z2 mae gaussian train 0.023254258558154106
+z1z2 mae gaussian test 0.034753333777189255
+z1z2 match_prob vanilla train 0.0007787688
+z1z2 match_prob vanilla test 2.1032974e-05
+z1z2 match_prob gaussian train 0.00082835753
+z1z2 match_prob gaussian test 2.2420654e-05
+z1z2 allmatch_prob vanilla train 0.12538889
+z1z2 allmatch_prob vanilla test 0.057
+z1z2 allmatch_prob gaussian train 0.13827778
+z1z2 allmatch_prob gaussian test 0.068
+[ 0 17  7 ...  4  8  0]
+2866
+z1z2 xor train 0.07711095
+[0 2 0 ... 0 0 0]
+796
+z1z2 xor test 0.08040201
+[ 0 17  7 ...  4  8  0]
+2866
+z1z2 compiled_action train 3088.0
+[0 2 0 ... 0 0 0]
+796
+z1z2 compiled_action test 860.0
+kl_a_z0 train 3188.1324110243054
+kl_a_z0 test 2864.5677001953127
+x0y3 mse vanilla train 0.01231476105749607
+x0y3 mse vanilla test 0.021419072523713112
+x0y3 mse gaussian train 0.012317854911088943
+x0y3 mse gaussian test 0.021412961184978485
+z0z3 mae vanilla train 0.03153814747929573
+z0z3 mae vanilla test 0.044039998203516006
+z0z3 mae gaussian train 0.031085556373000145
+z0z3 mae gaussian test 0.0435333326458931
+z0z3 match_prob vanilla train 2.8673063e-05
+z0z3 match_prob vanilla test 4.628785e-07
+z0z3 match_prob gaussian train 4.074985e-05
+z0z3 match_prob gaussian test 7.190831e-07
+z0z3 allmatch_prob vanilla train 0.00044444445
+z0z3 allmatch_prob vanilla test 0.0
+z0z3 allmatch_prob gaussian train 0.0006111111
+z0z3 allmatch_prob gaussian test 0.0
+[ 0 17  7 ...  4  8  0]
+2866
+z0z3 xor train 0.0073272856
+[0 2 0 ... 0 0 0]
+796
+z0z3 xor test 0.006281407
+[ 0 17  7 ...  4  8  0]
+2866
+z0z3 compiled_action train 3111.0
+[0 2 0 ... 0 0 0]
+796
+z0z3 compiled_action test 865.0
+action true_num_actions train 2866
+action true_num_actions test 796
+PEEEEERRRRRRRRRRFFFFOOOOOOOOORRRRRRRRRRMMMMMMMMMMMMMAAAAAAAAAAAANNNNNNNNNNCCCCCCCEEEEEEEE
+{'metrics': {'train': {'loss': 7115.565147569445, 'tau': 5.0, 'pdiff_z1z2': 0.024763955962326792, 'pdiff_z0z3': 0.032844144933753545, 'pdiff_z0z1': 0.24499409629238977, 'pdiff_z0z2': 0.24297850827376047, 'kl_z0': 316.35459391276044, 'kl_z1': 323.07943250868055, 'kl_a_z0': 3188.1324110243054, 'kl_a_z1': 3188.055837673611, 'kl_z1z2': 45.66827689276801, 'kl_z0z3': 23.901365322536893, 'x0y0': 1228.589808485243, 'x1y1': 1488.0717366536458, 'x0y3': 2493.7377658420137, 'x1y2': 3091.5975043402777, 'elbo': 6959.033528645833}, 'test': {'loss': 7787.2048828125, 'tau': 5.0, 'pdiff_z1z2': 0.035959021747112276, 'pdiff_z0z3': 0.04486927390098572, 'pdiff_z0z1': 0.24518382251262666, 'pdiff_z0z2': 0.24295166730880738, 'kl_z0': 315.9271728515625, 'kl_z1': 322.5258056640625, 'kl_a_z0': 2864.5677001953127, 'kl_a_z1': 2863.7663818359374, 'kl_z1z2': 70.10066833496094, 'kl_z0z3': 46.810778045654295, 'x0y0': 1248.1500732421875, 'x1y1': 1532.60986328125, 'x0y3': 4337.356591796875, 'x1y2': 4566.49423828125, 'elbo': 7524.15419921875}}, 'sae': {'mse': {'vanilla': {'train': 0.006707800552248955, 'test': 0.006866073235869408}, 'gaussian': {'train': 0.006595315877348185, 'test': 0.006747694220393896}}, 'activation': {'train': 0.4371623992919922, 'test': 0.43642833828926086}, 'ever_1': {'train': 300.0, 'test': 300.0}, 'ever_0': {'train': 300.0, 'test': 300.0}, 'effective': {'train': 300.0, 'test': 300.0}, 'variance': {'gaussian': {'train': {'max': 0.25, 'min': 0.0, 'mean': 9.459077409701422e-05, 'median': 0.0}, 'test': {'max': 0.25, 'min': 0.0, 'mean': 0.00010221666161669418, 'median': 0.0}}}}, 'cycle_consistency': {'train': {'xs01': [0.0, 0.006707800552248955, 0.0067623876966536045, 0.0067803203128278255, 0.006782109849154949, 0.006787593010812998, 0.006785787176340818, 0.006788074038922787, 0.006785966921597719, 0.006788074038922787], 'xs12': [0.006707800552248955, 3.922259566024877e-05, 7.830833055777475e-06, 2.109535444105859e-06, 1.5727085838079802e-06, 1.0271205610479228e-06, 9.360736612507026e-07, 8.689545438755886e-07, 8.689545438755886e-07, 8.689546575624263e-07], 'xs13': [0.09679736521192003, 0.00015945003542583436, 1.6585538105573505e-05, 7.656866728211753e-06, 6.75761384627549e-06, 5.22640493727522e-06, 5.794076514575863e-06, 4.9693321670929436e-06, 5.726957169827074e-06, 4.9693321670929436e-06], 'xs34': [0.09660488797327002, 0.00013992554158903658, 8.01336227596039e-06, 2.169169647459057e-06, 1.5727083564343047e-06, 1.0271203336742474e-06, 9.360737749375403e-07, 8.689546007190074e-07, 8.689544870321697e-07, 8.68954373345332e-07], 'zs01': [0.0, 0.00016092591977212578, 0.0001741666637826711, 0.00017990740889217705, 0.00017787037359084934, 0.0001812963018892333, 0.0001784259220585227, 0.00018148147501051426, 0.0001784259220585227, 0.00018148147501051426], 'zs12': [0.00016092591977212578, 1.9351851733517833e-05, 5.7407405620324425e-06, 4.074074240634218e-06, 3.4259260246471968e-06, 3.24074085256143e-06, 3.055555453101988e-06, 3.055555453101988e-06, 3.055555453101988e-06, 3.055555453101988e-06], 'zs13': [0.0006741666584275663, 4.814814747078344e-05, 3.333333370392211e-05, 2.7314814360579476e-05, 2.8981481591472402e-05, 2.592592682049144e-05, 2.8425925847841427e-05, 2.5740740966284648e-05, 2.8425925847841427e-05, 2.5740740966284648e-05], 'zs34': [0.0006284259143285453, 2.1111110982019454e-05, 6.574074177478906e-06, 4.074074240634218e-06, 3.4259260246471968e-06, 3.24074085256143e-06, 3.055555453101988e-06, 3.055555453101988e-06, 3.055555453101988e-06, 3.055555453101988e-06]}, 'test': {'xs01': [0.0, 0.006866073235869408, 0.006972795818001032, 0.0069878073409199715, 0.006995166651904583, 0.007013259455561638, 0.007012599613517523, 0.007013258989900351, 0.007012599613517523, 0.007013258989900351], 'xs12': [0.006866073235869408, 6.653247692156583e-05, 7.425851890729973e-06, 1.669728248998581e-06, 3.302266804894316e-06, 4.581300174777425e-07, 4.581300174777425e-07, 4.581303016948368e-07, 4.581302732731274e-07, 4.5813015958628966e-07], 'xs13': [0.0969733829358011, 0.00021046465553808957, 2.650371243362315e-05, 1.3249567018647213e-05, 9.961301657313015e-06, 6.659036444034427e-06, 7.117166205716785e-06, 6.659036898781778e-06, 7.117166205716785e-06, 6.659036444034427e-06], 'xs34': [0.09670762032838583, 0.00017404588288627565, 1.2705413610092364e-05, 2.234562998637557e-06, 3.3022654406522634e-06, 4.5813024485141796e-07, 4.581302164297085e-07, 4.5813015958628966e-07, 4.5813007432116137e-07, 4.5813015958628966e-07], 'zs01': [0.0, 0.00022833333059679717, 0.00024833332281559706, 0.00025166667182929814, 0.00025166667182929814, 0.00025333333178423345, 0.00025166667182929814, 0.00025333333178423345, 0.00025166667182929814, 0.00025333333178423345], 'zs12': [0.00022833333059679717, 2.3333333956543356e-05, 3.3333333249174757e-06, 3.3333333249174757e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06], 'zs13': [0.0008016666397452354, 6.166666571516544e-05, 3.666666816570796e-05, 3.166666647302918e-05, 3.166666647302918e-05, 2.9999999242136255e-05, 3.166666647302918e-05, 2.9999999242136255e-05, 3.166666647302918e-05, 2.9999999242136255e-05], 'zs34': [0.0007433333084918559, 3.166666647302918e-05, 4.999999873689376e-06, 3.3333333249174757e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06, 1.6666666624587378e-06]}}, 'x1y2': {'mse': {'vanilla': {'train': 0.01526713278144598, 'test': 0.022550588473677635}, 'gaussian': {'train': 0.015271376818418503, 'test': 0.022565335035324097}}}, 'z1z2': {'mae': {'vanilla': {'train': 0.023450370877981186, 'test': 0.03498666733503342}, 'gaussian': {'train': 0.023254258558154106, 'test': 0.034753333777189255}}, 'match_prob': {'vanilla': {'train': 0.0007787688, 'test': 2.1032974e-05}, 'gaussian': {'train': 0.00082835753, 'test': 2.2420654e-05}}, 'allmatch_prob': {'vanilla': {'train': 0.12538889, 'test': 0.057}, 'gaussian': {'train': 0.13827778, 'test': 0.068}}, 'xor': {'train': 0.07711095, 'test': 0.08040201}, 'compiled_action': {'train': 3088.0, 'test': 860.0}}, 'kl_a_z0': {'train': 3188.1324110243054, 'test': 2864.5677001953127}, 'x0y3': {'mse': {'vanilla': {'train': 0.01231476105749607, 'test': 0.021419072523713112}, 'gaussian': {'train': 0.012317854911088943, 'test': 0.021412961184978485}}}, 'z0z3': {'mae': {'vanilla': {'train': 0.03153814747929573, 'test': 0.044039998203516006}, 'gaussian': {'train': 0.031085556373000145, 'test': 0.0435333326458931}}, 'match_prob': {'vanilla': {'train': 2.8673063e-05, 'test': 4.628785e-07}, 'gaussian': {'train': 4.074985e-05, 'test': 7.190831e-07}}, 'allmatch_prob': {'vanilla': {'train': 0.00044444445, 'test': 0.0}, 'gaussian': {'train': 0.0006111111, 'test': 0.0}}, 'xor': {'train': 0.0073272856, 'test': 0.006281407}, 'compiled_action': {'train': 3111.0, 'test': 865.0}}, 'action': {'true_num_actions': {'train': 2866, 'test': 796}}}
+Default float: float32
+{'mode': 'dump', 'track': 'cylinders-4-flat', 'num_examples': 20000, 'aeclass': 'CubeSpaceAE_AMA4Conv', 'comment': 'kltune2', 'hash': '05-15T22:11:42.808'}
+loaded. picsize: [100 150   3]
+(20000, 2, 30, 45, 3)
+normalized shape: (30, 45, 3) (30, 45, 3)
+class precedence list:
+  <class 'latplan.model.ConvolutionalConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus'>
+  <class 'latplan.mixins.encoder_decoder.StridedConvolutionalMixin'>
+  <class 'latplan.mixins.encoder_decoder.ConvolutionalMixin'>
+  <class 'latplan.model.ConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus'>
+  <class 'latplan.model.DetActionMixin'>
+  <class 'latplan.model.NormalizedLogitAddBidirectionalMixin'>
+  <class 'latplan.model.NormalizedLogitAddPreconditionMixin'>
+  <class 'latplan.model.NormalizedLogitAddEffectMixin'>
+  <class 'latplan.model.LogitEffectMixin'>
+  <class 'latplan.model.BaseActionMixinAMA4Plus'>
+  <class 'latplan.model.BidirectionalMixin'>
+  <class 'latplan.model.PreconditionMixin'>
+  <class 'latplan.model.EffectMixin'>
+  <class 'latplan.model.BaseActionMixin'>
+  <class 'latplan.model.TransitionWrapper'>
+  <class 'latplan.model.StateAE'>
+  <class 'latplan.mixins.latent.ConcreteLatentMixin'>
+  <class 'latplan.model.EarlyStopMixin'>
+  <class 'latplan.mixins.encoder_decoder.FullConnectedMixin'>
+  <class 'latplan.mixins.encoder_decoder.EncoderDecoderMixin'>
+  <class 'latplan.model.AE'>
+  <class 'latplan.network.Network'>
+  <class 'object'>
+clearning tf session
+cleared tf session
+Loading networks from samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/ (with failure not allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 30 W: 45 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x14f8b8198790>
+[0, 30, 45, 3] -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2D object at 0x14f8b8198790>
+<keras.layers.normalization.BatchNormalization object at 0x14f8b3052910>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x14f8b3052910>
+<keras.layers.core.Dropout object at 0x14f8b30529d0>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x14f8b30529d0>
+<keras.layers.convolutional.Conv2D object at 0x14f8b3052a30>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2D object at 0x14f8b3052a30>
+<keras.layers.normalization.BatchNormalization object at 0x14f8b3052b50>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x14f8b3052b50>
+<keras.layers.core.Dropout object at 0x14f8b3052c10>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x14f8b3052c10>
+latent space shape is (30, 45, 32) : 300 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 30 W: 45 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x14f8b81471c0>
+[0, 30, 45, 32] -> (0, 30, 45, 32) : <keras.layers.core.Reshape object at 0x14f8b81471c0>
+<keras.layers.convolutional.Conv2DTranspose object at 0x14f8b81471f0>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x14f8b81471f0>
+<keras.layers.normalization.BatchNormalization object at 0x14f8b8147430>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x14f8b8147430>
+<keras.layers.core.Dropout object at 0x14f8b8147970>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x14f8b8147970>
+<keras.layers.convolutional.Conv2DTranspose object at 0x14f8b8147370>
+(0, 30, 45, 32) -> (0, 30, 45, 3) : <keras.layers.convolutional.Conv2DTranspose object at 0x14f8b8147370>
+in _build_primary_0
+in _build_primary_1
+in _build_primary_2
+in _build_primary_3
+Network built
+Building auxiliary networks
+Auxiliary network built
+LOADING WEIGHTS
+loading additional networks
+Network loaded
+samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/actions.csv
+[ 0 19  7 ...  4  8  0]
+2866
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/available_actions.csv
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/action_add4.csv
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/action_del4.csv
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/action_add4+ids.csv
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/action_del4+ids.csv
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/action_pos4.csv
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/action_neg4.csv
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/action_pos4+ids.csv
+Saving to samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/action_neg4+ids.csv
+IN DUMP 1
+make: Entering directory '/g100_work/uBS21_InfGer_0/latplan-5.0.0/lisp'
+make: Nothing to be done for 'all'.
+make: Leaving directory '/g100_work/uBS21_InfGer_0/latplan-5.0.0/lisp'
+Default float: float32
+@[     0.375 +     0.375] loaded puzzle
+Loading networks from samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/ (with failure allowed)
+Building networks
+building a convolutional encoder
+pool per layer: 1 depth: 2 total pool: 1 H: 30 W: 45 dH: 0 dW: 0
+<keras.layers.convolutional.Conv2D object at 0x149b14007250>
+[0, 30, 45, 3] -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2D object at 0x149b14007250>
+<keras.layers.normalization.BatchNormalization object at 0x149b14007a60>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x149b14007a60>
+<keras.layers.core.Dropout object at 0x149b140076d0>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x149b140076d0>
+<keras.layers.convolutional.Conv2D object at 0x149b14007b50>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2D object at 0x149b14007b50>
+<keras.layers.normalization.BatchNormalization object at 0x149b01fa3280>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x149b01fa3280>
+<keras.layers.core.Dropout object at 0x149b01fa3340>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x149b01fa3340>
+latent space shape is (30, 45, 32) : 300 propositions in total
+building a convolutional decoder
+pool per layer: 1 depth: 2 total pool: 1 H: 30 W: 45 dH: 0 dW: 0
+<keras.layers.core.Reshape object at 0x149b01fa3910>
+[0, 30, 45, 32] -> (0, 30, 45, 32) : <keras.layers.core.Reshape object at 0x149b01fa3910>
+<keras.layers.convolutional.Conv2DTranspose object at 0x149b01fa3940>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.convolutional.Conv2DTranspose object at 0x149b01fa3940>
+<keras.layers.normalization.BatchNormalization object at 0x149b01fa3b20>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.normalization.BatchNormalization object at 0x149b01fa3b20>
+<keras.layers.core.Dropout object at 0x149b01fa3eb0>
+(0, 30, 45, 32) -> (0, 30, 45, 32) : <keras.layers.core.Dropout object at 0x149b01fa3eb0>
+<keras.layers.convolutional.Conv2DTranspose object at 0x149b01fa3a60>
+(0, 30, 45, 32) -> (0, 30, 45, 3) : <keras.layers.convolutional.Conv2DTranspose object at 0x149b01fa3a60>
+in _build_primary_0
+in _build_primary_1
+in _build_primary_2
+in _build_primary_3
+Network built
+Building auxiliary networks
+Auxiliary network built
+loading additional networks
+Network loaded
+@[     4.839 +     4.464] loaded sae
+@[     4.840 +     0.001] loaded puzzle
+@[     4.840 +     0.000] loading init/goal
+init (input) min: -3.6593682332786046 max: 3.866742162725241
+init (recon) min: -0.36886162 max: 0.47232732
+init MSE: 0.6609541665321477
+goal (input) min: -3.2243576240263963 max: 4.598648803255706
+goal (recon) min: -0.36695707 max: 0.34227908
+goal MSE: 0.6589879549545827
+problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_init_goal_reconstruction.1.png
+@[     8.604 +     3.764] loaded init/goal
+@[     8.604 +     0.000] start planning
+@[     8.605 +     0.000] start generating problem
+['helper/ama3-problem.sh', 'problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.ig', 'problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.pddl']
+helper/ama3-problem.sh problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.ig problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.pddl
+@[     8.660 +     0.056] finished generating problem
+@[     8.660 +     0.000] start planning
+['helper/fd-latest.sh', '--search astar(blind())', 'problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.pddl', 'samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/domain.pddl']
+Running limit.sh(502026): -t 600 -m 8000000 -- planner-scripts/fd-latest-clean -o '--search astar(blind())' -- problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.pddl samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/domain.pddl
+limit.sh(502026): mem: 8000000 kB, time: 600 sec
+limit.sh(502026): pwd: /g100_work/uBS21_InfGer_0/latplan-5.0.0
+limit.sh(502026): command to execute: planner-scripts/fd-latest-clean -o '--search astar(blind())' -- problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.pddl samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/domain.pddl
+limit.sh(502026): note: time precision is 0.5 sec
+finding FD installation from /g100_work/uBS21_InfGer_0/latplan-5.0.0/planner-scripts ...
+finding FD installation from /g100_work/uBS21_InfGer_0/latplan-5.0.0 ...
+found!: /g100_work/uBS21_InfGer_0/latplan-5.0.0/downward
+common.sh(502039): exiting...
+[32;1m--------------------------------------------------------
+Result:
+--------------------------------------------------------[0m
+limit.sh(502026): Error occured. status: 2
+@[    49.167 +    40.506] finished planning
+['helper/fd-parser.awk', 'problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.log']
+['main.py', 'remove_duplicates', '../samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/domain.pddl', '../problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.pddl']
+SELF REQUIREMENTS
+['main.py', 'remove_not_from_prob', '../samples/blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-15T22:11:42.808/domain.pddl', '../problem-generators/backup-propositional/vanilla/prob-cylinders-4/007-001/ama3_samples_blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-15T22:11:42.808_domain_blind_problem.pddl']
+Parsing...
+Parsing: [12.180s CPU, 12.205s wall-clock]
+Normalizing task... [1.800s CPU, 1.810s wall-clock]
+Instantiating...
+Generating Datalog program... [0.960s CPU, 0.962s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [1.490s CPU, 1.495s wall-clock]
+Preparing model... [2.250s CPU, 2.257s wall-clock]
+Generated 120452 rules.
+Computing model... [0.090s CPU, 0.093s wall-clock]
+146 relevant atoms
+0 auxiliary atoms
+146 final queue length
+146 total queue pushes
+Completing instantiation... [0.030s CPU, 0.030s wall-clock]
+Instantiating: [4.970s CPU, 4.988s wall-clock]
+No relaxed solution! Generating unsolvable task...
+Translator variables: 1
+Translator derived variables: 0
+Translator facts: 2
+Translator goal facts: 1
+Translator mutex groups: 0
+Translator total mutex groups size: 0
+Translator operators: 0
+Translator axioms: 0
+Translator task size: 4
+Translator peak memory: 509880 KB
+Writing output... [0.000s CPU, 0.016s wall-clock]
+Done! [18.950s CPU, 19.020s wall-clock]
+Building causal graph...
+The causal graph is acyclic.
+1 variables of 1 necessary
+0 of 0 mutex groups necessary.
+0 of 0 operators necessary.
+0 of 0 axiom rules necessary.
+Initializing mutex computation...
+Mutex computation initialized with 2 fluents.
+iteration for mutex detection and operator pruning
+Initialize m_index fw
+Initialized mvalues forward: reached=1, notReached=1, spurious=2
+Initialize m_ops fw
+Computing mutexes...
+Mutex computation finished with reached=1, notReached=1, spurious=2
+0 operators are spurious because were not triggered
+Unsolvable task in preprocessor
+done

@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 import sys
 
+
+# expect a file like
+# #
+# 92 0
+# 91 1
+# ETC.
 def return_invariant_list(file):
     retour = []
     with open(file) as f:

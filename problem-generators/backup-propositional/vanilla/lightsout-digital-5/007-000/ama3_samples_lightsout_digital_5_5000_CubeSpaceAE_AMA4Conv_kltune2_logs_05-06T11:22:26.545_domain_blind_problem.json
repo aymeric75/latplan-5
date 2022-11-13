@@ -1,0 +1,142 @@
+{
+  "network": "samples/lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T11:22:26.545",
+  "problem": "007-000",
+  "domain": "lightsout-digital-5",
+  "noise": null,
+  "times": [
+    {
+      "message": "init",
+      "wall": 0,
+      "elapsed": 0
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 0.4043004512786865,
+      "elapsed": 0.4043004512786865
+    },
+    {
+      "message": "loaded sae",
+      "wall": 4.9263083934783936,
+      "elapsed": 4.522007942199707
+    },
+    {
+      "message": "loaded puzzle",
+      "wall": 4.926375150680542,
+      "elapsed": 6.67572021484375e-05
+    },
+    {
+      "message": "loading init/goal",
+      "wall": 4.926379680633545,
+      "elapsed": 4.5299530029296875e-06
+    },
+    {
+      "message": "loaded init/goal",
+      "wall": 9.303423643112183,
+      "elapsed": 4.377043962478638
+    },
+    {
+      "message": "start planning",
+      "wall": 9.303439855575562,
+      "elapsed": 1.621246337890625e-05
+    },
+    {
+      "message": "start generating problem",
+      "wall": 9.303555250167847,
+      "elapsed": 0.00011539459228515625
+    },
+    {
+      "message": "finished generating problem",
+      "wall": 9.363893985748291,
+      "elapsed": 0.060338735580444336
+    },
+    {
+      "message": "start planning",
+      "wall": 9.363924503326416,
+      "elapsed": 3.0517578125e-05
+    },
+    {
+      "message": "finished planning",
+      "wall": 32.13400149345398,
+      "elapsed": 22.770076990127563
+    }
+  ],
+  "heuristics": "blind",
+  "domainfile": "samples/lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T11:22:26.545/domain.pddl",
+  "problemfile": "problem-generators/backup-propositional/vanilla/lightsout-digital-5/007-000/ama3_samples_lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:26.545_domain_blind_problem.pddl",
+  "planfile": "problem-generators/backup-propositional/vanilla/lightsout-digital-5/007-000/ama3_samples_lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:26.545_domain_blind_problem.plan",
+  "tracefile": "problem-generators/backup-propositional/vanilla/lightsout-digital-5/007-000/ama3_samples_lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:26.545_domain_blind_problem.trace",
+  "csvfile": "problem-generators/backup-propositional/vanilla/lightsout-digital-5/007-000/ama3_samples_lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:26.545_domain_blind_problem.csv",
+  "pngfile": "problem-generators/backup-propositional/vanilla/lightsout-digital-5/007-000/ama3_samples_lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:26.545_domain_blind_problem.png",
+  "jsonfile": "problem-generators/backup-propositional/vanilla/lightsout-digital-5/007-000/ama3_samples_lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:22:26.545_domain_blind_problem.json",
+  "statistics": {
+    "translator_variables": 1,
+    "translator_derived_variables": 0,
+    "translator_facts": 2,
+    "translator_goal_facts": 1,
+    "translator_mutex_groups": 0,
+    "translator_total_mutex_group_size": null,
+    "translator_operators": 0,
+    "translator_axioms": 0,
+    "translator_task": 4,
+    "translator_peak_memory": 364612,
+    "translate": 22.176,
+    "plan_length": null,
+    "plan_cost": null,
+    "expanded": 0,
+    "evaluated": 1,
+    "generated": 0,
+    "search": 0.000120261,
+    "initialization": 0.00179094,
+    "total": 22.1779
+  },
+  "parameters": {
+    "test_noise": false,
+    "test_hard": true,
+    "train_noise": true,
+    "train_hard": false,
+    "dropout_z": false,
+    "noise": 0.2,
+    "dropout": 0.2,
+    "optimizer": "radam",
+    "min_temperature": 0.5,
+    "epoch": 2000,
+    "gs_annealing_start": 0,
+    "gs_annealing_end": 1000,
+    "kl_cycle_start": 2000,
+    "clipnorm": 0.1,
+    "batch_size": 400,
+    "lr": 0.001,
+    "N": 300,
+    "zerosuppress": 0.1,
+    "densify": false,
+    "max_temperature": 5.0,
+    "conv_channel": 32,
+    "conv_channel_increment": 1,
+    "conv_kernel": 5,
+    "conv_pooling": 1,
+    "conv_per_pooling": 1,
+    "conv_depth": 3,
+    "A": 6000,
+    "aae_activation": "relu",
+    "aae_width": 1000,
+    "aae_depth": 2,
+    "eff_regularizer": null,
+    "beta_d": 1000,
+    "beta_z": 10,
+    "output": "GaussianOutput(sigma=0.1)",
+    "type": "digital",
+    "size": 5,
+    "num_examples": 5000,
+    "aeclass": "CubeSpaceAE_AMA4Conv",
+    "comment": "kltune2",
+    "generator": "latplan.puzzles.lightsout_digital",
+    "HOSTNAME": "cccxc414.pok.ibm.com",
+    "LSB_JOBID": "2105079",
+    "gpu": "Tesla V100-SXM2-32GB",
+    "time_start": "05-06T11:22:26.545"
+  },
+  "valid": false,
+  "found": false,
+  "exhausted": true,
+  "cycle": 1
+}
