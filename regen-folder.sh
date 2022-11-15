@@ -3,45 +3,69 @@
 ## go find the sample data in samplesBAK/ and update it in samples/
 
 
-
 # blocks
-#name="samples-blocks_cylinders-4-flat_20000_None_None_CubeSpaceAE_AMA4Conv_kltune2-top5"
+#name="blocks_cylinders-4-flat_20000_None_None_CubeSpaceAE_AMA4Conv_kltune2"
 
 # lightsout digital
-#name="samples-lightsout_digital_5_5000_None_None_CubeSpaceAE_AMA4Conv_kltune2-top5"
+#name="lightsout_digital_5_5000_None_None_CubeSpaceAE_AMA4Conv_kltune2"
 
 # lightsout twisted
-name="samples-lightsout_twisted_5_5000_None_None_CubeSpaceAE_AMA4Conv_kltune2-top5"
+#name="lightsout_twisted_5_5000_None_None_CubeSpaceAE_AMA4Conv_kltune2"
 
 # puzzle mandrill
-#name="samples-puzzle_mandrill_4_4_20000_None_None_CubeSpaceAE_AMA4Conv_kltune2-top5"
+#name="puzzle_mandrill_4_4_20000_None_None_CubeSpaceAE_AMA4Conv_kltune2"
 
 # puzzle mnist
-#name="samples-puzzle_mnist_3_3_5000_None_None_CubeSpaceAE_AMA4Conv_kltune2-top5"
+name="puzzle_mnist_3_3_5000_None_None_CubeSpaceAE_AMA4Conv_kltune2"
 
 # sokoban
-#name="samples-sokoban_sokoban_image-20000-global-global-2-train_20000_None_None_CubeSpaceAE_AMA4Conv_kltune2-top5"
+#name="sokoban_sokoban_image-20000-global-global-2-train_20000_None_None_CubeSpaceAE_AMA4Conv_kltune2"
 
 cd samplesBAK
 
-tar -xf $name.tar.bz2
+tar -xf "samples-$name-top5.tar.bz2"
 
-new_name=$(echo $name | sed 's/samples-//' | sed 's/-top5//')
+new_name=$(echo $name | sed 's/_None_None//')
 
-new_name_bis=$(echo $name | sed 's/_None_None//' | sed 's/samples-//' | sed 's/-top5//')
+
+echo $new_name
 
 cd samples
 
-mv $new_name $new_name_bis
+mv $name $new_name
 
-cp -r $new_name_bis ../../samples/
+cd $new_name
 
-cd ../
+shopt -s extglob
+
+for dir in logs/*/
+do
+
+    current_problems_dir=${dir%*/}
+
+    cd $current_problems_dir
+    # echo "pWD"
+    # pwd
+
+    rm !(net0.h5|aux.json)
+
+    cd ../../
+
+done
+
+shopt -u extglob
+
+cd ..
+
+
+cp -r $new_name ../../samples/
+
+cd ..
 
 rm -rdf samples
 
 
+echo "lastPWDD"
+pwd
 
-#mv samples/$name $new_name
-
-# mv $new_name samples/
+exit 1

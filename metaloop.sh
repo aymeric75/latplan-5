@@ -7,29 +7,27 @@
 #SBATCH --time=08:00:00
 #SBATCH --mem=32G
 
-# ## PUZZLE MNIST
-# #SBATCH --error=myJobMeta_mnist660.err
-# #SBATCH --output=myJobMeta_mnist660.out
-# task="puzzle"
-# type="mnist"
-# width_height="3 3"
-# nb_examples="5000"
-# export label="mnist660"
-# export repertoire="05-06T11:21:57.660"
-# export after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
-# export pb_subdir="puzzle-mnist-3-3/"
-
-## PUZZLE MANDRILL
-#SBATCH --error=myJobMeta_mandrill807.err
-#SBATCH --output=myJobMeta_mandrill807.out
+## PUZZLE MNIST
+#SBATCH --error=myJobMeta_mnist660.err
+#SBATCH --output=myJobMeta_mnist660.out
 task="puzzle"
-type="mandrill"
-width_height="4 4"
-nb_examples="20000"
-export label="mandrill807"
-export repertoire="05-06T16:38:03.807"
-export after_sample="puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2"
-export pb_subdir="puzzle-mandrill-4-4"
+type="mnist"
+width_height="3 3"
+nb_examples="5000"
+export label="mnist660"
+export after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
+export pb_subdir="puzzle-mnist-3-3/"
+
+# ## PUZZLE MANDRILL
+# #SBATCH --error=myJobMeta_mandrill807.err
+# #SBATCH --output=myJobMeta_mandrill807.out
+# task="puzzle"
+# type="mandrill"
+# width_height="4 4"
+# nb_examples="20000"
+# export label="mandrill807"
+# export after_sample="puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2"
+# export pb_subdir="puzzle-mandrill-4-4"
 
 # # BLOCKS
 # #SBATCH --error=myJobMeta_blocks809.err
@@ -39,7 +37,6 @@ export pb_subdir="puzzle-mandrill-4-4"
 # width_height=""
 # nb_examples="20000"
 # export label="blocks809"
-# export repertoire="05-15T23:44:52.809"
 # export after_sample="blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2"
 # export pb_subdir="prob-cylinders-4"
 
@@ -52,7 +49,6 @@ export pb_subdir="puzzle-mandrill-4-4"
 # width_height="5"
 # nb_examples="5000"
 # export label="lightsdigital335"
-# export repertoire="05-15T14:52:05.335"
 # export after_sample="lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
 # export pb_subdir="lightsout-digital-5"
 
@@ -64,7 +60,6 @@ export pb_subdir="puzzle-mandrill-4-4"
 # width_height="5"
 # nb_examples="5000"
 # export label="lightstwisted348"
-# export repertoire="05-15T14:32:16.348"
 # export after_sample="lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
 # export pb_subdir="lightsout-twisted-5"
 
@@ -84,9 +79,7 @@ export pb_subdir="puzzle-mandrill-4-4"
 pwdd=$(pwd)
 
 
-
 export best_state_var=99
-
 
 
 ######################
@@ -172,7 +165,6 @@ write_to_omega() {
 
 for dir0 in samples/$after_sample/logs/*/
 do   
-
 
     export rep_model=$(basename $dir0)
     export domain=samples/$after_sample/logs/$rep_model/domain.pddl
