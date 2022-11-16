@@ -4,19 +4,21 @@
 #SBATCH --gres=gpu:1
 #SBATCH --partition=g100_usr_interactive
 #SBATCH --account=uBS21_InfGer_0
-#SBATCH --time=08:00:00
+#SBATCH --time=00:30:00
 #SBATCH --mem=32G
 
 ## PUZZLE MNIST
-#SBATCH --error=myJobMeta_mnist660.err
-#SBATCH --output=myJobMeta_mnist660.out
+#SBATCH --error=myJobMeta_mnist.err
+#SBATCH --output=myJobMeta_mnist.out
 task="puzzle"
 type="mnist"
 width_height="3 3"
 nb_examples="5000"
-export label="mnist660"
+export label="mnist"
 export after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
-export pb_subdir="puzzle-mnist-3-3/"
+export pb_subdir="puzzle-mnist-3-3"
+
+echo "ICI "
 
 # ## PUZZLE MANDRILL
 # #SBATCH --error=myJobMeta_mandrill807.err
@@ -75,12 +77,20 @@ export pb_subdir="puzzle-mnist-3-3/"
 # export after_sample="sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2"
 # export pb_subdir="sokoban-2-False"
 
+# write in:
+#    
+#     extracted_mutexes_ 
+#     variance.txt
+#     omega_$label
+#     total_invariants_$label
+
 
 pwdd=$(pwd)
 
 
 export best_state_var=99
 
+nb_pbs_test='9'
 
 ######################
 ##     Functions    ##
@@ -166,17 +176,36 @@ write_to_omega() {
 for dir0 in samples/$after_sample/logs/*/
 do   
 
+    echo "current dir"
+    echo $dir0
+
     export rep_model=$(basename $dir0)
     export domain=samples/$after_sample/logs/$rep_model/domain.pddl
     export path_to_repertoire=samples/$after_sample/logs/$rep_model
     export problem_file="ama3_samples_${after_sample}_logs_${rep_model}_domain_blind_problem.pddl"
     export problems_dir=problem-generators/backup-propositional/vanilla/$pb_subdir
 
+    counter=0
 
     for dir in $problems_dir/*/     #
     do
+        echo "counter = "
+        echo $counter
+
+        echo "dir"
+
+        echo $dir
+
+        ((counter++))
+        if [[ "$counter" == $nb_pbs_test ]]
+        then
+            break
+        fi
 
         current_problems_dir=${dir%*/}
+
+        echo "current problem dir"
+        echo $current_problems_dir
 
         # #############################################################################################
         ## Compute metrics and store them in vars and files                                           #
@@ -193,7 +222,7 @@ do
         nb_invariants=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
 
         # sentence if no invariants found directly
-        sentence_if_invariants="invariants found without training for prob: ${dir##*/}"
+        sentence_if_invariants="invariants found without training for prob: $dir0, subprob: $current_problems_dir"
 
         # if no invariants, retrain
         if [ $nb_invariants -eq 0 ]
@@ -206,19 +235,16 @@ do
             # re count
             nb_invariants=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
 
-
             # if nb invariants is still 0
             if [ $nb_invariants -eq 0 ]
             then
-                sentence_no_invariants="no invariants found, even after training for prob: ${dir##*/}"
+                sentence_no_invariants="no invariants found, even after training prob: $dir0, subprob: $current_problems_dir"
                 echo $sentence_no_invariants >> omega_$label.txt
                 write_to_omega
-                exit 1
+                continue
             else
-                sentence_if_invariants="invariants found after a first training for prob: ${dir##*/}"
+                sentence_if_invariants="invariants found after a first training prob: $dir0, subprob: $current_problems_dir"
             fi
-
-
         fi
 
 

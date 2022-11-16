@@ -287,7 +287,7 @@ def run(path,transitions,extra=None):
 
         parameters["noweights"] = True
 
-        parameters["epoch"] = 2000
+        parameters["epoch"] = 2
 
         invariant = []
 

@@ -1,11 +1,17 @@
 #!/bin/bash
 
 
-if grep -Fxq "adadededed" total_invariants.txt
-then
-    echo "str found"
-    # code if found
-else
-    echo "not found"
-    # code if not found
-fi
+nb_pbs_test='9'
+
+counter=0
+for i in {1..50}
+do
+
+    ((counter++))
+    echo $counter
+    if [[ "$counter" == $nb_pbs_test ]]
+    then
+        break
+    fi
+
+done

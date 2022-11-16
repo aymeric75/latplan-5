@@ -11,63 +11,63 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.37917113304138184,
-      "elapsed": 0.37917113304138184
+      "wall": 0.42078423500061035,
+      "elapsed": 0.42078423500061035
     },
     {
       "message": "loaded sae",
-      "wall": 4.9362242221832275,
-      "elapsed": 4.557053089141846
+      "wall": 4.927199840545654,
+      "elapsed": 4.506415605545044
     },
     {
       "message": "loaded puzzle",
-      "wall": 4.936293840408325,
-      "elapsed": 6.961822509765625e-05
+      "wall": 4.9272730350494385,
+      "elapsed": 7.319450378417969e-05
     },
     {
       "message": "loading init/goal",
-      "wall": 4.936298131942749,
-      "elapsed": 4.291534423828125e-06
+      "wall": 4.927277565002441,
+      "elapsed": 4.5299530029296875e-06
     },
     {
       "message": "loaded init/goal",
-      "wall": 14.066223621368408,
-      "elapsed": 9.12992548942566
+      "wall": 15.656144142150879,
+      "elapsed": 10.728866577148438
     },
     {
       "message": "start planning",
-      "wall": 14.06623911857605,
-      "elapsed": 1.5497207641601562e-05
+      "wall": 15.6561598777771,
+      "elapsed": 1.5735626220703125e-05
     },
     {
       "message": "start generating problem",
-      "wall": 14.066353797912598,
-      "elapsed": 0.00011467933654785156
+      "wall": 15.65627670288086,
+      "elapsed": 0.00011682510375976562
     },
     {
       "message": "finished generating problem",
-      "wall": 14.12934136390686,
-      "elapsed": 0.0629875659942627
+      "wall": 15.808295965194702,
+      "elapsed": 0.15201926231384277
     },
     {
       "message": "start planning",
-      "wall": 14.129369974136353,
-      "elapsed": 2.86102294921875e-05
+      "wall": 15.808326959609985,
+      "elapsed": 3.0994415283203125e-05
     },
     {
       "message": "finished planning",
-      "wall": 20.83542227745056,
-      "elapsed": 6.706052303314209
+      "wall": 21.367767095565796,
+      "elapsed": 5.5594401359558105
     }
   ],
   "heuristics": "blind",
   "domainfile": "samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T11:21:57.660/domain.pddl",
-  "problemfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.pddl",
-  "planfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.plan",
-  "tracefile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.trace",
-  "csvfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.csv",
-  "pngfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.png",
-  "jsonfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.json",
+  "problemfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.pddl",
+  "planfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.plan",
+  "tracefile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.trace",
+  "csvfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.csv",
+  "pngfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.png",
+  "jsonfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T11:21:57.660_domain_blind_problem.json",
   "statistics": {
     "translator_variables": 1,
     "translator_derived_variables": 0,
@@ -78,16 +78,16 @@
     "translator_operators": 0,
     "translator_axioms": 0,
     "translator_task": 4,
-    "translator_peak_memory": 207172,
-    "translate": 5.121,
+    "translator_peak_memory": 158788,
+    "translate": 3.193,
     "plan_length": null,
     "plan_cost": null,
     "expanded": 0,
     "evaluated": 1,
     "generated": 0,
-    "search": 0.000128579,
-    "initialization": 0.00230671,
-    "total": 5.12344
+    "search": 0.000126259,
+    "initialization": 0.00228618,
+    "total": 3.19541
   },
   "parameters": {
     "test_noise": false,
@@ -138,7 +138,11 @@
     "HOSTNAME": "cccxc411.pok.ibm.com",
     "LSB_JOBID": "2105035",
     "gpu": "Tesla V100-SXM2-32GB",
-    "time_start": "05-06T11:21:57.660"
+    "time_start": "05-06T11:21:57.660",
+    "noweights": true,
+    "hash": "05-06T11:21:57.660",
+    "resume_from": "05-06T11:21:57.660",
+    "invariant": []
   },
   "valid": false,
   "found": false,
