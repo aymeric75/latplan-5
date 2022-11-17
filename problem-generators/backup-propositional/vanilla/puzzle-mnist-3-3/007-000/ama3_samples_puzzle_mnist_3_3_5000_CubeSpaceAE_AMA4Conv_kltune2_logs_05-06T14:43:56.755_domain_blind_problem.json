@@ -11,83 +11,83 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.41428613662719727,
-      "elapsed": 0.41428613662719727
+      "wall": 0.38968968391418457,
+      "elapsed": 0.38968968391418457
     },
     {
       "message": "loaded sae",
-      "wall": 4.811903238296509,
-      "elapsed": 4.3976171016693115
+      "wall": 3.142512321472168,
+      "elapsed": 2.7528226375579834
     },
     {
       "message": "loaded puzzle",
-      "wall": 4.811976671218872,
-      "elapsed": 7.343292236328125e-05
+      "wall": 3.1425650119781494,
+      "elapsed": 5.269050598144531e-05
     },
     {
       "message": "loading init/goal",
-      "wall": 4.811981439590454,
-      "elapsed": 4.76837158203125e-06
+      "wall": 3.1425695419311523,
+      "elapsed": 4.5299530029296875e-06
     },
     {
       "message": "loaded init/goal",
-      "wall": 14.650028228759766,
-      "elapsed": 9.838046789169312
+      "wall": 14.051277160644531,
+      "elapsed": 10.908707618713379
     },
     {
       "message": "start planning",
-      "wall": 14.650044202804565,
-      "elapsed": 1.5974044799804688e-05
+      "wall": 14.051291942596436,
+      "elapsed": 1.4781951904296875e-05
     },
     {
       "message": "start generating problem",
-      "wall": 14.650169849395752,
-      "elapsed": 0.00012564659118652344
+      "wall": 14.051424264907837,
+      "elapsed": 0.0001323223114013672
     },
     {
       "message": "finished generating problem",
-      "wall": 14.71994686126709,
-      "elapsed": 0.06977701187133789
+      "wall": 14.129517316818237,
+      "elapsed": 0.07809305191040039
     },
     {
       "message": "start planning",
-      "wall": 14.719979763031006,
-      "elapsed": 3.2901763916015625e-05
+      "wall": 14.129549026489258,
+      "elapsed": 3.170967102050781e-05
     },
     {
       "message": "finished planning",
-      "wall": 15.300503730773926,
-      "elapsed": 0.5805239677429199
+      "wall": 33.15683078765869,
+      "elapsed": 19.027281761169434
     }
   ],
   "heuristics": "blind",
   "domainfile": "samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T14:43:56.755/domain.pddl",
-  "problemfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.pddl",
-  "planfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.plan",
-  "tracefile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.trace",
-  "csvfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.csv",
-  "pngfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.png",
-  "jsonfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.json",
+  "problemfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.pddl",
+  "planfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.plan",
+  "tracefile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.trace",
+  "csvfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.csv",
+  "pngfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.png",
+  "jsonfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T14:43:56.755_domain_blind_problem.json",
   "statistics": {
-    "translator_variables": 1,
+    "translator_variables": 99,
     "translator_derived_variables": 0,
-    "translator_facts": 2,
-    "translator_goal_facts": 1,
+    "translator_facts": 198,
+    "translator_goal_facts": 99,
     "translator_mutex_groups": 0,
     "translator_total_mutex_group_size": null,
-    "translator_operators": 0,
+    "translator_operators": 1463,
     "translator_axioms": 0,
-    "translator_task": 4,
-    "translator_peak_memory": 53572,
-    "translate": 0.028,
+    "translator_task": 31210,
+    "translator_peak_memory": 265028,
+    "translate": 18.522,
     "plan_length": null,
     "plan_cost": null,
-    "expanded": 0,
+    "expanded": 1,
     "evaluated": 1,
     "generated": 0,
-    "search": 0.000117544,
-    "initialization": 0.0017239,
-    "total": 0.0298414
+    "search": 0.000220409,
+    "initialization": 0.0167762,
+    "total": 18.539
   },
   "parameters": {
     "test_noise": false,
@@ -99,7 +99,7 @@
     "dropout": 0.2,
     "optimizer": "radam",
     "min_temperature": 0.5,
-    "epoch": 2,
+    "epoch": 2000,
     "gs_annealing_start": 0,
     "gs_annealing_end": 1000,
     "kl_cycle_start": 2000,
@@ -138,11 +138,7 @@
     "HOSTNAME": "cccxc445.pok.ibm.com",
     "LSB_JOBID": "2106916",
     "gpu": "Tesla V100-SXM2-32GB",
-    "time_start": "05-06T14:43:56.755",
-    "noweights": true,
-    "hash": "05-06T14:43:56.755",
-    "resume_from": "05-06T14:43:56.755",
-    "invariant": []
+    "time_start": "05-06T14:43:56.755"
   },
   "valid": false,
   "found": false,

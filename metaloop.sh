@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --partition=g100_usr_interactive
 #SBATCH --account=uBS21_InfGer_0
-#SBATCH --time=00:30:00
+#SBATCH --time=08:00:00
 #SBATCH --mem=32G
 
 ## PUZZLE MNIST
@@ -90,7 +90,6 @@ pwdd=$(pwd)
 
 export best_state_var=99
 
-nb_pbs_test='9'
 
 ######################
 ##     Functions    ##
@@ -99,7 +98,6 @@ nb_pbs_test='9'
 
 # generate extracted_mutexes_* and put it in root
 generate_invariants () {
-
 
     ### generate the actions
     ./train_kltune.py dump $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
@@ -142,6 +140,8 @@ generate_invariants () {
     cd $pwdd/
 }
 
+
+
 # from extracted_mutexes_*.txt to current_invariant.txt (in root)
 extract_current_invariant() {
     sed -n '2p' extracted_mutexes_$label.txt > current_invariant.txt
@@ -150,9 +150,8 @@ extract_current_invariant() {
 
 # remove current invariant from total_invariants_*.txt (in root)
 remove_current_invariant() {
-    sed -i '1,3d' $pwdd/total_invariants_$label.txt
+    sed -i '1,3d' $pwdd/extracted_mutexes_$label.txt
 }
-
 
 #  store metrics in bash variables
 produce_report() {
@@ -173,144 +172,106 @@ write_to_omega() {
 
 
 
-for dir0 in samples/$after_sample/logs/*/
-do   
+loop_over_invariants() {
+    nb_invariants_curr=$nb_invariants_prob
+    counter=1
+    until [ $counter -gt $nb_invariants_curr ] 
+    do
+        extract_current_invariant
+        remove_current_invariant
+        # retrain fresh (par défaut, c'est bon) with the invariant (current_invariant.txt must be filled)
+        ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
+        produce_report
+        echo "the invariant tested:"
+        cat current_invariant.txt >> omega_$label.txt
+        write_to_omega
+        ((counter++))
+    done
+}
 
-    echo "current dir"
-    echo $dir0
 
-    export rep_model=$(basename $dir0)
+# loop over the configs
+for dir_conf in samples/$after_sample/logs/*/
+do
+
+    export rep_model=$(basename $dir_conf)
     export domain=samples/$after_sample/logs/$rep_model/domain.pddl
     export path_to_repertoire=samples/$after_sample/logs/$rep_model
     export problem_file="ama3_samples_${after_sample}_logs_${rep_model}_domain_blind_problem.pddl"
     export problems_dir=problem-generators/backup-propositional/vanilla/$pb_subdir
 
-    counter=0
 
-    for dir in $problems_dir/*/     #
+    # write the name of the config dir
+    echo "Dir_conf: $rep_model" >> omega_$label.txt
+
+
+    # make a fresh copy of net0.h5 (we use it after)
+    cp $path_to_repertoire/net0.h5 $path_to_repertoire/net0-real.h5
+
+    count_pb=0
+
+    # loop over the problems
+    for dir_prob in $problems_dir/*/
     do
-        echo "counter = "
-        echo $counter
 
-        echo "dir"
+        current_problems_dir=${dir_prob%*/}
 
-        echo $dir
+        # write the name of the prob dir
+        echo "Dir_Prob: $(basename $dir_prob)" >> omega_$label.txt
 
-        ((counter++))
-        if [[ "$counter" == $nb_pbs_test ]]
-        then
-            break
-        fi
+        # retrieve a fresh copy of net0.h5
+        cp $path_to_repertoire/net0-real.h5 $path_to_repertoire/net0.h5
 
-        current_problems_dir=${dir%*/}
+        ####################################
+        # PHASE ONLY WITH EXISTING WEIGHTS #
+        ####################################
 
-        echo "current problem dir"
-        echo $current_problems_dir
-
-        # #############################################################################################
-        ## Compute metrics and store them in vars and files                                           #
-        # #############################################################################################
-        produce_report
-        best_state_var=$current_state_var
-
-
-        # generate the invariants
+        ## generate invariants from the fresh copy
         generate_invariants
+        nb_invariants_prob=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
 
-
-        # count invariants
-        nb_invariants=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
-
-        # sentence if no invariants found directly
-        sentence_if_invariants="invariants found without training for prob: $dir0, subprob: $current_problems_dir"
-
-        # if no invariants, retrain
-        if [ $nb_invariants -eq 0 ]
+        ## if invariants found
+        if [ $nb_invariants_prob -gt 0 ]
         then
-            ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
-
-            # try to generate the invariants again
-            generate_invariants
-
-            # re count
-            nb_invariants=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
-
-            # if nb invariants is still 0
-            if [ $nb_invariants -eq 0 ]
-            then
-                sentence_no_invariants="no invariants found, even after training prob: $dir0, subprob: $current_problems_dir"
-                echo $sentence_no_invariants >> omega_$label.txt
-                write_to_omega
-                continue
-            else
-                sentence_if_invariants="invariants found after a first training prob: $dir0, subprob: $current_problems_dir"
-            fi
+            echo "Invariants found (taking the author's released weights) !"
+            cat $pwdd/extracted_mutexes_$label.txt >> omega_$label.txt
+            ## loop over invariants (i.e. train for each invariant, and write to omega)
+            loop_over_invariants
+        else
+            echo "No training, no invariants found" >> omega_$label.txt
         fi
 
+        ##############################
+        # PHASE RETRAINING THE MODEL #
+        ##############################
+        
+        # we train only for the first prob_dir (the other trainings would have been the exact same)
+        if [[ $count_pb -eq 0 ]]
 
-        echo $sentence_if_invariants >> omega_$label.txt
+        then
+            # we rm it to be sure no invariant is taken into account during training
+            rm current_invariant.txt
 
-        # Copy the invariants to omega
-        cat extracted_mutexes_$label.txt >> omega_$label.txt
-
-        # writing the metrics
-        write_to_omega
-
-        # storing the invariants in total_invariants + updating the nb_invariant variable
-        cp $pwdd/extracted_mutexes_$label.txt $pwdd/total_invariants_$label.txt
-        nb_invariants=$(./count_invariants.py $pwdd/total_invariants_$label.txt)
-
-
-        # while there are still invariants in total_invariants_$label.txt
-        while [ $nb_invariants -gt 0 ]
-        do
-            echo "IN WHILE !"
-
-            # Update current_invariant.txt (there are only 2 lines in this file)
-            extract_current_invariant
-
-            # Remove from total_invariants_$label.txt
-            remove_current_invariant
-
-            # Each training is COMPLETLY NEW (even the loss function), we use the invariant from current_invariant.txt
+            ## train
             ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
+            generate_invariants
+            nb_invariants_prob=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
 
-            ## Once trained, update the metrics variables
-            cd $pwdd
-            produce_report
-            
-
-            # Update Omega
-            echo "#" >> omega_$label.txt
-            echo "current invariant:" >> omega_$label.txt
-            cat current_invariant.txt >> omega_$label.txt
-            write_to_omega
-
-
-            # If current_state_var <= best_so_far, we try to generate new invariants from this training !
-
-            comparison=$(./a_inf_b.py $current_state_var $best_state_var) # nb1 <= nb2
-
-            if [ $comparison -eq 1 ]
+            ## if invariants found
+            if [ $nb_invariants_prob -gt 0 ]
             then
-                echo "found better or equal variance"
-                # Generate new invariants
-                generate_invariants
-
-                # Add the extracted invariants to the total list
-                cat extracted_mutexes_$label.txt >> total_invariants_$label.txt
-
-                # Remove duplicates
-                ./remove_duplicate_invariants.py total_invariants_$label.txt
-
-                # update best score
-                best_state_var=$current_state_var
+                echo "Invariants found (after training) !"
+                cat $pwdd/extracted_mutexes_$label.txt >> omega_$label.txt
+                ## loop over invariants and write to omega
+                loop_over_invariants
+            else
+                echo "ONE training, no invariants FOUND" >> omega_$label.txt
             fi
+        
+        fi
 
-            # Maj number of invariants
-            echo "FIN WHILE"
-            nb_invariants=$(./count_invariants.py $pwdd/total_invariants_$label.txt)
-        done
+        ((count_pb++))
+
     done
 
 done

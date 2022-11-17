@@ -44,8 +44,9 @@ do
     current_problems_dir=${dir%*/}
 
     cd $current_problems_dir
-    # echo "pWD"
-    # pwd
+
+    echo "pWD"
+    pwd
 
     rm !(net0.h5|aux.json)
 
@@ -57,6 +58,7 @@ shopt -u extglob
 
 cd ..
 
+rm -r ../../samples/$new_name
 
 cp -r $new_name ../../samples/
 

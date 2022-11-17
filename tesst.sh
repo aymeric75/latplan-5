@@ -1,17 +1,9 @@
 #!/bin/bash
 
 
-nb_pbs_test='9'
+nb_invariants_prob='1'
 
-counter=0
-for i in {1..50}
-do
-
-    ((counter++))
-    echo $counter
-    if [[ "$counter" == $nb_pbs_test ]]
-    then
-        break
-    fi
-
-done
+if [ $nb_invariants_prob -gt 0 ]
+then
+    echo "lol"
+fi

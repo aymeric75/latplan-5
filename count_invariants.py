@@ -46,7 +46,8 @@ def construct_inv_file(liste, file):
             f.write(ele[0]+"\n")
             f.write(ele[1]+"\n")
 
-    
+
+
 def main():
     # 
     base_liste = return_invariant_list(sys.argv[1])

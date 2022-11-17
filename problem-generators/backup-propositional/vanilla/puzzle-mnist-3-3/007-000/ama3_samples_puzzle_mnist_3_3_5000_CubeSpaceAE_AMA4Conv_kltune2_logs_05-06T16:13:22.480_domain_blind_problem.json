@@ -11,63 +11,63 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.3999903202056885,
-      "elapsed": 0.3999903202056885
+      "wall": 0.3927953243255615,
+      "elapsed": 0.3927953243255615
     },
     {
       "message": "loaded sae",
-      "wall": 3.1891162395477295,
-      "elapsed": 2.789125919342041
+      "wall": 3.1579477787017822,
+      "elapsed": 2.7651524543762207
     },
     {
       "message": "loaded puzzle",
-      "wall": 3.1891722679138184,
-      "elapsed": 5.602836608886719e-05
+      "wall": 3.1580007076263428,
+      "elapsed": 5.2928924560546875e-05
     },
     {
       "message": "loading init/goal",
-      "wall": 3.1891770362854004,
-      "elapsed": 4.76837158203125e-06
+      "wall": 3.1580052375793457,
+      "elapsed": 4.5299530029296875e-06
     },
     {
       "message": "loaded init/goal",
-      "wall": 14.347691774368286,
-      "elapsed": 11.158514738082886
+      "wall": 13.968770503997803,
+      "elapsed": 10.810765266418457
     },
     {
       "message": "start planning",
-      "wall": 14.347706317901611,
-      "elapsed": 1.4543533325195312e-05
+      "wall": 13.968785762786865,
+      "elapsed": 1.52587890625e-05
     },
     {
       "message": "start generating problem",
-      "wall": 14.347822904586792,
-      "elapsed": 0.00011658668518066406
+      "wall": 13.968918085098267,
+      "elapsed": 0.0001323223114013672
     },
     {
       "message": "finished generating problem",
-      "wall": 14.421096324920654,
-      "elapsed": 0.0732734203338623
+      "wall": 14.045512437820435,
+      "elapsed": 0.07659435272216797
     },
     {
       "message": "start planning",
-      "wall": 14.421128034591675,
-      "elapsed": 3.170967102050781e-05
+      "wall": 14.045546531677246,
+      "elapsed": 3.409385681152344e-05
     },
     {
       "message": "finished planning",
-      "wall": 35.2197744846344,
-      "elapsed": 20.798646450042725
+      "wall": 38.309985876083374,
+      "elapsed": 24.264439344406128
     }
   ],
   "heuristics": "blind",
   "domainfile": "samples/puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2/logs/05-06T16:13:22.480/domain.pddl",
-  "problemfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.pddl",
-  "planfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.plan",
-  "tracefile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.trace",
-  "csvfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.csv",
-  "pngfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.png",
-  "jsonfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3//007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.json",
+  "problemfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.pddl",
+  "planfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.plan",
+  "tracefile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.trace",
+  "csvfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.csv",
+  "pngfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.png",
+  "jsonfile": "problem-generators/backup-propositional/vanilla/puzzle-mnist-3-3/007-000/ama3_samples_puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2_logs_05-06T16:13:22.480_domain_blind_problem.json",
   "statistics": {
     "translator_variables": 99,
     "translator_derived_variables": 0,
@@ -78,16 +78,16 @@
     "translator_operators": 1430,
     "translator_axioms": 0,
     "translator_task": 36591,
-    "translator_peak_memory": 245060,
-    "translate": 20.203,
+    "translator_peak_memory": 253764,
+    "translate": 23.784,
     "plan_length": null,
     "plan_cost": null,
     "expanded": 1,
     "evaluated": 1,
     "generated": 0,
-    "search": 0.000219165,
-    "initialization": 0.0191466,
-    "total": 20.2224
+    "search": 0.000221581,
+    "initialization": 0.0190825,
+    "total": 23.8033
   },
   "parameters": {
     "test_noise": false,
