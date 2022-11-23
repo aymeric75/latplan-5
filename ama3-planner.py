@@ -75,7 +75,8 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma):
         return "{}_{}{}".format(heuristics, root, ext)
     
     log("loaded puzzle")
-    sae = latplan.model.load(network_dir,allow_failure=True)
+    print("inside LOAD UUUUUUUUUUUUUUUUUU")
+    sae = latplan.model.load(network_dir, allow_failure=True, noweight=False)
     log("loaded sae")
     setup_planner_utils(sae, problem_dir, network_dir, "ama3")
 
@@ -116,7 +117,8 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma):
         log(f"start planning")
         echodo(["helper/fd-latest.sh", options[heuristics], problemfile, domainfile])
         log(f"finished planning")
-
+        print("planfileplanfileplanfile")
+        print(planfile)
         if not os.path.exists(planfile):
             return valid
         found = True
@@ -157,7 +159,7 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma):
         print(p.validate_states(plan_images))
         log(f"finished visually validating the plan image : states")
         return valid
-        return 1
+        #return 1
 
     finally:
         with open(jsonfile,"w") as f:

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-### REGEN THE params files given in the release
 ## go find the sample data in samplesBAK/ and update it in samples/
 
 
@@ -29,7 +27,6 @@ tar -xf "samples-$name-top5.tar.bz2"
 
 new_name=$(echo $name | sed 's/_None_None//')
 
-
 echo $new_name
 
 cd samples
@@ -50,7 +47,7 @@ do
     echo "pWD"
     pwd
 
-    rm !(net0.h5|aux.json)
+    #rm !(net0.h5|aux.json)
 
     mkdir -p tmp/checkpoint
 

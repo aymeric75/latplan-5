@@ -11,53 +11,43 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.3917720317840576,
-      "elapsed": 0.3917720317840576
+      "wall": 0.40057897567749023,
+      "elapsed": 0.40057897567749023
     },
     {
       "message": "loaded sae",
-      "wall": 4.980483055114746,
-      "elapsed": 4.5887110233306885
+      "wall": 4.942764043807983,
+      "elapsed": 4.542185068130493
     },
     {
       "message": "loaded puzzle",
-      "wall": 4.980554580688477,
-      "elapsed": 7.152557373046875e-05
+      "wall": 4.942837238311768,
+      "elapsed": 7.319450378417969e-05
     },
     {
       "message": "loading init/goal",
-      "wall": 4.980558633804321,
-      "elapsed": 4.0531158447265625e-06
+      "wall": 4.94284200668335,
+      "elapsed": 4.76837158203125e-06
     },
     {
       "message": "loaded init/goal",
-      "wall": 9.377264499664307,
-      "elapsed": 4.396705865859985
+      "wall": 11.22913408279419,
+      "elapsed": 6.28629207611084
     },
     {
       "message": "start planning",
-      "wall": 9.377281188964844,
-      "elapsed": 1.6689300537109375e-05
+      "wall": 11.22914981842041,
+      "elapsed": 1.5735626220703125e-05
     },
     {
       "message": "start generating problem",
-      "wall": 9.377399206161499,
-      "elapsed": 0.00011801719665527344
+      "wall": 11.229269027709961,
+      "elapsed": 0.00011920928955078125
     },
     {
       "message": "finished generating problem",
-      "wall": 9.438131093978882,
-      "elapsed": 0.06073188781738281
-    },
-    {
-      "message": "start planning",
-      "wall": 9.438164234161377,
-      "elapsed": 3.314018249511719e-05
-    },
-    {
-      "message": "finished planning",
-      "wall": 17.991414785385132,
-      "elapsed": 8.553250551223755
+      "wall": 11.320382356643677,
+      "elapsed": 0.09111332893371582
     }
   ],
   "heuristics": "blind",

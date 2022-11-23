@@ -41,7 +41,8 @@ def get_ae_type(directory):
     with open(os.path.join(directory,"aux.json"),"r") as f:
         return json.load(f)["class"]
 
-def load(directory,allow_failure=False):
+def load(directory, allow_failure=False, noweight=None):
+    
     if allow_failure:
         try:
             classobj = get(get_ae_type(directory))
@@ -50,7 +51,7 @@ def load(directory,allow_failure=False):
             return None
     else:
         classobj = get(get_ae_type(directory))
-    return classobj(directory).load(allow_failure=allow_failure)
+    return classobj(directory).load(allow_failure=allow_failure, noweight=noweight)
 
 
 

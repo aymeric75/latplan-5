@@ -14,68 +14,70 @@ task="puzzle"
 type="mnist"
 width_height="3 3"
 nb_examples="5000"
-export label="mnist"
-export after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
-export pb_subdir="puzzle-mnist-3-3"
+label="mnist"
+after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
+pb_subdir="puzzle-mnist-3-3"
 
-echo "ICI "
+
 
 # ## PUZZLE MANDRILL
-# #SBATCH --error=myJobMeta_mandrill807.err
-# #SBATCH --output=myJobMeta_mandrill807.out
+# #SBATCH --error=myJobMeta_mandrill.err
+# #SBATCH --output=myJobMeta_mandrill.out
 # task="puzzle"
 # type="mandrill"
 # width_height="4 4"
 # nb_examples="20000"
-# export label="mandrill807"
-# export after_sample="puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2"
-# export pb_subdir="puzzle-mandrill-4-4"
+# label="mandrill"
+# after_sample="puzzle_mandrill_4_4_20000_CubeSpaceAE_AMA4Conv_kltune2"
+# pb_subdir="puzzle-mandrill-4-4"
+
+
 
 # # BLOCKS
-# #SBATCH --error=myJobMeta_blocks809.err
-# #SBATCH --output=myJobMeta_blocks809.out
+# #SBATCH --error=myJobMeta_blocks.err
+# #SBATCH --output=myJobMeta_blocks.out
 # task="blocks"
 # type="cylinders-4-flat"
 # width_height=""
 # nb_examples="20000"
-# export label="blocks809"
-# export after_sample="blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2"
-# export pb_subdir="prob-cylinders-4"
+# label="blocks"
+# after_sample="blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2"
+# pb_subdir="prob-cylinders-4"
 
 
 # # LIGHTSOUT DIGITAL
-# #SBATCH --error=myJobMeta_lightsdigital335.err
-# #SBATCH --output=myJobMeta_lightsdigital335.out
+# #SBATCH --error=myJobMeta_lightsdigital.err
+# #SBATCH --output=myJobMeta_lightsdigital.out
 # task="lightsout"
 # type="digital"
 # width_height="5"
 # nb_examples="5000"
-# export label="lightsdigital335"
-# export after_sample="lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
-# export pb_subdir="lightsout-digital-5"
+# label="lightsdigital"
+# after_sample="lightsout_digital_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
+# pb_subdir="lightsout-digital-5"
 
 # # LIGHTSOUT TWISTED
-# #SBATCH --error=myJobMeta_lightstwisted348.err
-# #SBATCH --output=myJobMeta_lightstwisted348.out
+# #SBATCH --error=myJobMeta_lightstwisted.err
+# #SBATCH --output=myJobMeta_lightstwisted.out
 # task="lightsout"
 # type="twisted"
 # width_height="5"
 # nb_examples="5000"
-# export label="lightstwisted348"
-# export after_sample="lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
-# export pb_subdir="lightsout-twisted-5"
+# label="lightstwisted"
+# after_sample="lightsout_twisted_5_5000_CubeSpaceAE_AMA4Conv_kltune2"
+# pb_subdir="lightsout-twisted-5"
 
 
 # # SOKOBAN
-# #SBATCH --error=myJobMeta_sokoban372.err
-# #SBATCH --output=myJobMeta_sokoban372.out
+# #SBATCH --error=myJobMeta_sokoban.err
+# #SBATCH --output=myJobMeta_sokoban.out
 # task="sokoban"
 # type="sokoban_image-20000-global-global-2-train"
 # width_height=""
 # nb_examples="20000"
-# export label="sokoban372"
-# export after_sample="sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2"
-# export pb_subdir="sokoban-2-False"
+# label="sokoban"
+# after_sample="sokoban_sokoban_image-20000-global-global-2-train_20000_CubeSpaceAE_AMA4Conv_kltune2"
+# pb_subdir="sokoban-2-False"
 
 # write in:
 #    
@@ -87,8 +89,6 @@ echo "ICI "
 
 pwdd=$(pwd)
 
-
-export best_state_var=99
 
 
 ######################
@@ -190,15 +190,17 @@ loop_over_invariants() {
 }
 
 
+echo "Start" > omega_$label.txt
+
 # loop over the configs
 for dir_conf in samples/$after_sample/logs/*/
 do
 
-    export rep_model=$(basename $dir_conf)
-    export domain=samples/$after_sample/logs/$rep_model/domain.pddl
-    export path_to_repertoire=samples/$after_sample/logs/$rep_model
-    export problem_file="ama3_samples_${after_sample}_logs_${rep_model}_domain_blind_problem.pddl"
-    export problems_dir=problem-generators/backup-propositional/vanilla/$pb_subdir
+    rep_model=$(basename $dir_conf)
+    domain=samples/$after_sample/logs/$rep_model/domain.pddl
+    path_to_repertoire=samples/$after_sample/logs/$rep_model
+    problem_file="ama3_samples_${after_sample}_logs_${rep_model}_domain_blind_problem.pddl"
+    problems_dir=problem-generators/backup-propositional/vanilla/$pb_subdir
 
 
     # write the name of the config dir

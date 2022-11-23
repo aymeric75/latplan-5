@@ -23,6 +23,7 @@ problem-instances-ama2/
 problem-instances-16/
 problem-instances-16-korf/
 problem-instances-cube-aae/
+problem-generators/
 /build/
 /dist/
 /latplan.egg-info/

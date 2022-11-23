@@ -38,6 +38,9 @@ def init_goal_misc(p, cycle=1, noise=None):
         return image
 
     def autoencode_image(name,image):
+        
+
+        print("in autoencode_image")
         state = sae.encode(np.array([image]))[0].round().astype(int)
         image_rec = sae.decode(np.array([state]))[0]
         print(f"{name} (input) min:",image.min(),"max:",image.max(),)
@@ -69,6 +72,10 @@ def init_goal_misc(p, cycle=1, noise=None):
 
     sae.plot(np.concatenate([init_images,goal_images]),
              path=problem(ama(network(f"init_goal_reconstruction.{cycle}.png"))))
+
+    print("PRINT LE PASS")
+
+    print(problem(ama(network(f"init_goal_reconstruction.{cycle}.png"))))
 
     if p and not np.all(
             p.validate_states(

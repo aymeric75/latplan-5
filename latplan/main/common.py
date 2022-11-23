@@ -58,7 +58,7 @@ parser.add_argument(
 subparsers = parser.add_subparsers(
     title="subcommand",
     metavar="subcommand",
-    required=True,
+    required=False,
     description=(
         "\nA string which matches the name of one of the dataset functions in latplan.main module."
         "\n"
@@ -150,11 +150,11 @@ def plot_autoencoding_image(ae,transitions,label):
 
     if hasattr(ae, "plot_transitions"):
         transitions = transitions[:6]
-        ae.plot_transitions(transitions, ae.local(f"transitions_{label}"),verbose=True)
+        ae.plot_transitions(transitions, ae.local(f"transitions_{label}"),verbose=False)
     else:
         transitions = transitions[:3]
         states = transitions.reshape((-1,*transitions.shape[2:]))
-        ae.plot(states, ae.local(f"states_{label}"),verbose=True)
+        ae.plot(states, ae.local(f"states_{label}"),verbose=False)
 
     return
 
@@ -183,7 +183,7 @@ def dump_actions(ae,transitions,name = "actions.csv",repeat=1):
     if 'dump' not in args.mode:
         return
     print(ae.local(name))
-    ae.dump_actions(transitions,batch_size = 1000)
+    ae.dump_actions(transitions, batch_size = 1000)
 
 
 def dump_all_states(ae,configs,states_fn,name = "all_states.csv",repeat=1):
@@ -252,7 +252,7 @@ def run(path,transitions,extra=None):
     # MAJ des params (si hash specifié + à partir du json)  #
     #########################################################
     
-    if 'dump' in args.mode or 'report' in args.mode or 'learn' in args.mode:
+    if 'dump' in args.mode or 'report' in args.mode or 'learn' in args.mode or 'resume' in args.mode or 'reproduce' in args.mode:
 
         if(args.hash != ""):
             with open(os.path.join(path+"/logs/"+args.hash,"aux.json"),"r") as f:
@@ -270,6 +270,10 @@ def run(path,transitions,extra=None):
 
     if 'dump' in args.mode:
         
+        
+
+        parameters["noweights"] = False
+        print("IN DUMP... NO WEIGHT EQUAL FALSE")
         task = curry(nn_load, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters)       
         net = task(parameters)
         
@@ -285,7 +289,7 @@ def run(path,transitions,extra=None):
 
     if 'learn' in args.mode:
 
-        parameters["noweights"] = True
+        parameters["noweights"] = False
 
         parameters["epoch"] = 2000
 
@@ -304,15 +308,21 @@ def run(path,transitions,extra=None):
         print(invariant)
         parameters["invariant"] = invariant
 
-        task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters, True) 
+        task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters, False) 
         task()
         print("FINISHED TRAINING")
 
 
     if 'resume' in args.mode:
 
+        print(path)
+
+        print(parameters["hash"])
+        print(parameters["resume_from"])
+
+        # resume=False
         simple_genetic_search(
-            lambda parameters: nn_task(latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters, resume=True),
+            lambda parameters: nn_task(latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters, False),
             parameters,
             path,
             limit              = 100,

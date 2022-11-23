@@ -22,6 +22,14 @@ class DynamicMessage(progressbar.DynamicMessage):
             return 6 * '-'
 
 
+class CustomCallback(keras.callbacks.Callback):
+
+    def on_epoch_end(self, epoch, logs=None):
+        keys = list(logs.keys())
+        print("End epoch {} of training; got log keys: {}".format(epoch, keys))
+
+
+
 class Network:
     """Base class for various neural networks including GANs, AEs and Classifiers.
 Provides an interface for saving / loading the trained weights as well as hyperparameters.
@@ -183,17 +191,24 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                        "class"     :self.__class__.__name__,
                        "input_shape":self.net.input_shape[1:]}, f , skipkeys=True, cls=NpEncoder, indent=2)
 
+
+
     def save_epoch(self, freq=10, path=""):
         def fn(epoch, logs):
             if (epoch % freq) == 0:
                 self.save(os.path.join(path,str(epoch)))
         return fn
 
-    def load(self,allow_failure=False,path=""):
+    def load(self, allow_failure=False, path="", noweight=None):
         """An interface for loading a network.
 Users should not overload this method; Define _load() for each subclass instead.
 This function calls _load bottom-up from the least specialized class.
 Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around methods."""
+        print("IN LOAD IIJUUUKKSJSHSHSH")
+
+        if noweight != None:
+            self.parameters["noweights"] = noweight
+
         if self.loaded:
             # print("Avoided loading {} twice.".format(self))
             return
@@ -214,13 +229,16 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
         return self
 
     def _load(self, path=""):
+        print("INSIDE ___LOAD")
         """An interface for loading a network.
 Users may define a method for each subclass for adding a new load-time feature.
 Each method should call the _load() method of the superclass in turn.
 Users are not expected to call this method directly. Call load() instead.
 Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around methods."""
         with open(self.local(os.path.join(path,"aux.json")), "r") as f:
+            print("AVANT LOAD ")
             data = json.load(f)
+            print("APRES LOAD ")
             _params = self.parameters
             self.parameters = data["parameters"]
             self.parameters.update(_params)
@@ -229,10 +247,13 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
 
         # if this param is 
         if "noweights" in self.parameters:
+          
             if self.parameters["noweights"] == False:
                 print("LOADING WEIGHTS")
+                # for i, net in enumerate(self.nets):
+                #     net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
                 for i, net in enumerate(self.nets):
-                    net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
+                    net.load_weights(self.local('tmp/checkpoint/weights.hdf5'))
             else:
                 print("NOT LOADING WEIGHTS")
 
@@ -283,10 +304,10 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             if k[:2] == "v_":
                 vlogs[k[2:]] = logs[k]
 
-        if (epoch % 10) == 9:
-            self.bar.update(epoch+1, status = self.style("[v] "+"  ".join(["{} {:8.3g}".format(k,v) for k,v in sorted(vlogs.items())])) + "\n")
-        else:
-            self.bar.update(epoch+1, status = "[t] "+"  ".join(["{} {:8.3g}".format(k,v) for k,v in sorted(tlogs.items())]))
+        #if (epoch % 10) == 9:
+        self.bar.update(epoch+1, status = self.style("[v] "+"  ".join(["{} {:8.3g}".format(k,v) for k,v in sorted(vlogs.items())])) + "\n")
+        #else:
+        #self.bar.update(epoch+1, status = "[t] "+"  ".join(["{} {:8.3g}".format(k,v) for k,v in sorted(tlogs.items())]))
 
     @property
     def net(self):
@@ -400,6 +421,21 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                 on_train_end = lambda _: self.file_writer.close()))
 
 
+        self.callbacks.append(CustomCallback())
+        # {epoch:02d}-{v_pdiff_z1z2:.2f}.
+        print(self.optimizers)
+        print(self.local('tmp/checkpoint'))
+        checkpoint_filepath = self.local('tmp/checkpoint/weights.hdf5')
+        model_checkpoint_callback = keras.callbacks.ModelCheckpoint(
+            filepath=checkpoint_filepath,
+            save_weights_only=True,
+            monitor='v_elbo',
+            mode='min',
+            save_best_only=True)
+
+
+        self.callbacks.append(model_checkpoint_callback)
+
         def assert_length(data):
             l = None
             for subdata in data:
@@ -434,9 +470,11 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             "samples": len(train_data[0]),
             "verbose": 0,
             "do_validation": False,
-            "metrics": [],
+            #"metrics": ['loss'],
         })
         self.nets[0].stop_training = False
+
+            
 
         def generate_logs(data,data_to):
             losses = []
@@ -476,7 +514,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                     logs["t_"+k] = v
                 for k,v in generate_logs(val_data,  val_data_to).items():
                     logs["v_"+k] = v
-                clist.on_epoch_end(epoch,logs)
+                clist.on_epoch_end(epoch, logs)
                 if self.nets[0].stop_training:
                     break
             clist.on_train_end()

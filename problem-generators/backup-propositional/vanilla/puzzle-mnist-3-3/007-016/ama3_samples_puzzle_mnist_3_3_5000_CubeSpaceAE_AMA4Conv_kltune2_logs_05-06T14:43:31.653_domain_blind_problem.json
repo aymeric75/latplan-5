@@ -11,53 +11,43 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.39540958404541016,
-      "elapsed": 0.39540958404541016
+      "wall": 0.37801480293273926,
+      "elapsed": 0.37801480293273926
     },
     {
       "message": "loaded sae",
-      "wall": 3.1557366847991943,
-      "elapsed": 2.760327100753784
+      "wall": 4.782344341278076,
+      "elapsed": 4.404329538345337
     },
     {
       "message": "loaded puzzle",
-      "wall": 3.1557912826538086,
-      "elapsed": 5.459785461425781e-05
+      "wall": 4.782419443130493,
+      "elapsed": 7.510185241699219e-05
     },
     {
       "message": "loading init/goal",
-      "wall": 3.1557953357696533,
-      "elapsed": 4.0531158447265625e-06
+      "wall": 4.782424449920654,
+      "elapsed": 5.0067901611328125e-06
     },
     {
       "message": "loaded init/goal",
-      "wall": 14.540218353271484,
-      "elapsed": 11.384423017501831
+      "wall": 15.453886985778809,
+      "elapsed": 10.671462535858154
     },
     {
       "message": "start planning",
-      "wall": 14.540235757827759,
-      "elapsed": 1.7404556274414062e-05
+      "wall": 15.453903436660767,
+      "elapsed": 1.6450881958007812e-05
     },
     {
       "message": "start generating problem",
-      "wall": 14.540370464324951,
-      "elapsed": 0.0001347064971923828
+      "wall": 15.454018354415894,
+      "elapsed": 0.00011491775512695312
     },
     {
       "message": "finished generating problem",
-      "wall": 14.717105388641357,
-      "elapsed": 0.17673492431640625
-    },
-    {
-      "message": "start planning",
-      "wall": 14.717139482498169,
-      "elapsed": 3.409385681152344e-05
-    },
-    {
-      "message": "finished planning",
-      "wall": 16.568148374557495,
-      "elapsed": 1.8510088920593262
+      "wall": 15.529056787490845,
+      "elapsed": 0.07503843307495117
     }
   ],
   "heuristics": "blind",
@@ -138,7 +128,11 @@
     "HOSTNAME": "cccxc433.pok.ibm.com",
     "LSB_JOBID": "2106902",
     "gpu": "Tesla V100-SXM2-32GB",
-    "time_start": "05-06T14:43:31.653"
+    "time_start": "05-06T14:43:31.653",
+    "noweights": true,
+    "hash": "05-06T14:43:31.653",
+    "resume_from": "05-06T14:43:31.653",
+    "invariant": []
   },
   "valid": false,
   "found": false,

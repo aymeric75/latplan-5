@@ -11,53 +11,53 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.391054630279541,
-      "elapsed": 0.391054630279541
+      "wall": 0.39463376998901367,
+      "elapsed": 0.39463376998901367
     },
     {
       "message": "loaded sae",
-      "wall": 4.856562376022339,
-      "elapsed": 4.465507745742798
+      "wall": 4.8897950649261475,
+      "elapsed": 4.495161294937134
     },
     {
       "message": "loaded puzzle",
-      "wall": 4.8566389083862305,
-      "elapsed": 7.653236389160156e-05
+      "wall": 4.889871835708618,
+      "elapsed": 7.677078247070312e-05
     },
     {
       "message": "loading init/goal",
-      "wall": 4.8566436767578125,
+      "wall": 4.8898766040802,
       "elapsed": 4.76837158203125e-06
     },
     {
       "message": "loaded init/goal",
-      "wall": 13.631548166275024,
-      "elapsed": 8.774904489517212
+      "wall": 13.82977557182312,
+      "elapsed": 8.93989896774292
     },
     {
       "message": "start planning",
-      "wall": 13.63156008720398,
-      "elapsed": 1.1920928955078125e-05
+      "wall": 13.829791069030762,
+      "elapsed": 1.5497207641601562e-05
     },
     {
       "message": "start generating problem",
-      "wall": 13.631677627563477,
-      "elapsed": 0.00011754035949707031
+      "wall": 13.829917669296265,
+      "elapsed": 0.0001266002655029297
     },
     {
       "message": "finished generating problem",
-      "wall": 13.70368504524231,
-      "elapsed": 0.07200741767883301
+      "wall": 13.903870344161987,
+      "elapsed": 0.07395267486572266
     },
     {
       "message": "start planning",
-      "wall": 13.70371699333191,
-      "elapsed": 3.1948089599609375e-05
+      "wall": 13.903901815414429,
+      "elapsed": 3.147125244140625e-05
     },
     {
       "message": "finished planning",
-      "wall": 19.00853943824768,
-      "elapsed": 5.3048224449157715
+      "wall": 19.25200629234314,
+      "elapsed": 5.348104476928711
     }
   ],
   "heuristics": "blind",
@@ -85,9 +85,9 @@
     "expanded": 0,
     "evaluated": 1,
     "generated": 0,
-    "search": 0.000118455,
-    "initialization": 0.00177458,
-    "total": 4.82689
+    "search": 0.000119797,
+    "initialization": 0.00179173,
+    "total": 4.82691
   },
   "parameters": {
     "test_noise": false,
