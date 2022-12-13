@@ -41,7 +41,7 @@ def get_ae_type(directory):
     with open(os.path.join(directory,"aux.json"),"r") as f:
         return json.load(f)["class"]
 
-def load(directory, allow_failure=False, noweight=None):
+def load(directory, allow_failure=False, noweights=None):
     
     if allow_failure:
         try:
@@ -51,7 +51,7 @@ def load(directory, allow_failure=False, noweight=None):
             return None
     else:
         classobj = get(get_ae_type(directory))
-    return classobj(directory).load(allow_failure=allow_failure, noweight=noweight)
+    return classobj(directory).load(allow_failure=allow_failure, noweights=noweights)
 
 
 
@@ -636,7 +636,7 @@ class DetActionMixin:
         super()._build_around(input_shape)
 
     def adim(self):
-        return (1,self.parameters["A"])
+        return (1, self.parameters["A"])
 
     def _action(self,p_pre,p_suc):
         return Sequential(self.action_encoder_net)(concatenate([p_pre,p_suc],axis=-1))
@@ -1412,7 +1412,7 @@ class BaseActionMixinAMA3Plus(UnidirectionalMixin, BaseActionMixin):
 # AMA4+ Space AE : Bidirectional model with correct ELBO #######################
 
 class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
-    def _save(self,path=""):
+    def _save(self, path=""):
         # saved separately so that we can switch between loading or not loading it.
         # since the weights are fixed size, loading it with a different input shape causes an error.
         super()._save(path)
@@ -1421,20 +1421,25 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         np.savez_compressed(self.local(os.path.join(path,f"p_a_z0_net.npz")),*self.p_a_z0_net[0].get_weights())
         np.savez_compressed(self.local(os.path.join(path,f"p_a_z1_net.npz")),*self.p_a_z1_net[0].get_weights())
 
-    def _load(self,path=""):
+    def _load(self, path=""):
         # loaded separately so that we can switch between loading or not loading it.
         # since the weights are fixed size, loading it with a different input shape causes an error.
         # reload_with_shape does not call _load.
         super()._load(path)
         print("loading additional networks")
         import os.path
-        try:
-            with np.load(self.local(os.path.join(path,f"p_a_z0_net.npz"))) as data:
-                self.p_a_z0_net[0].set_weights([ data[key] for key in data.files ])
-            with np.load(self.local(os.path.join(path,f"p_a_z1_net.npz"))) as data:
-                self.p_a_z1_net[0].set_weights([ data[key] for key in data.files ])
-        except FileNotFoundError:
-            print("failed to find weights for additional networks")
+        
+        if "noweights" in self.parameters:
+              
+            if self.parameters["noweights"] == False:
+
+                try:
+                    with np.load(self.local(os.path.join(path,f"p_a_z0_net.npz"))) as data:
+                        self.p_a_z0_net[0].set_weights([ data[key] for key in data.files ])
+                    with np.load(self.local(os.path.join(path,f"p_a_z1_net.npz"))) as data:
+                        self.p_a_z1_net[0].set_weights([ data[key] for key in data.files ])
+                except FileNotFoundError:
+                    print("failed to find weights for additional networks")
 
     def _build_around(self,input_shape):
         A  = self.parameters["A"]
@@ -1550,12 +1555,13 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
 
         print("in _build_primary_1")
 
-        has_invariant = False
+        has_invariants = False
 
-        if("invariant" in self.parameters):
-            if(self.parameters["invariant"]):
-                has_invariant = True
-                total_add_loss += invariant_loss(self.parameters["invariant"])
+        if("invariants" in self.parameters):
+            if(self.parameters["invariants"]):
+                has_invariants = True
+                for inva in self.parameters["invariants"]:
+                    total_add_loss += invariant_loss(inva)
 
         print("in _build_primary_2")
 
@@ -1575,7 +1581,7 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         ama3_backward_loss1 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + self.parameters["beta_d"] * kl_z0z3 + x0y0
         ama3_backward_loss2 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + x0y3
         
-        if has_invariant:
+        if has_invariants:
             total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
             total_loss = total_loss + total_loss*total_add_loss
         else:
@@ -1601,7 +1607,7 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         self.add_metric("x0y3",x0y3)
         self.add_metric("x1y2",x1y2)
         self.add_metric("elbo",elbo)
-        if has_invariant:
+        if has_invariants:
             self.add_metric("total_add_loss",total_add_loss)
         
         print("in _build_primary_3")

@@ -11,43 +11,53 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.4189283847808838,
-      "elapsed": 0.4189283847808838
+      "wall": 8.83433485031128,
+      "elapsed": 8.83433485031128
     },
     {
       "message": "loaded sae",
-      "wall": 3.175199031829834,
-      "elapsed": 2.75627064704895
+      "wall": 14.267083883285522,
+      "elapsed": 5.432749032974243
     },
     {
       "message": "loaded puzzle",
-      "wall": 10.809232234954834,
-      "elapsed": 7.634033203125
+      "wall": 19.67767906188965,
+      "elapsed": 5.410595178604126
     },
     {
       "message": "loading init/goal",
-      "wall": 10.809242963790894,
-      "elapsed": 1.0728836059570312e-05
+      "wall": 19.678547859191895,
+      "elapsed": 0.0008687973022460938
     },
     {
       "message": "loaded init/goal",
-      "wall": 18.36133599281311,
-      "elapsed": 7.552093029022217
+      "wall": 37.55213737487793,
+      "elapsed": 17.873589515686035
     },
     {
       "message": "start planning",
-      "wall": 18.361350774765015,
-      "elapsed": 1.4781951904296875e-05
+      "wall": 37.55216145515442,
+      "elapsed": 2.4080276489257812e-05
     },
     {
       "message": "start generating problem",
-      "wall": 18.361472368240356,
-      "elapsed": 0.00012159347534179688
+      "wall": 37.55228877067566,
+      "elapsed": 0.00012731552124023438
     },
     {
       "message": "finished generating problem",
-      "wall": 18.804532051086426,
-      "elapsed": 0.44305968284606934
+      "wall": 37.62213087081909,
+      "elapsed": 0.06984210014343262
+    },
+    {
+      "message": "start planning",
+      "wall": 37.622167110443115,
+      "elapsed": 3.62396240234375e-05
+    },
+    {
+      "message": "finished planning",
+      "wall": 184.68808388710022,
+      "elapsed": 147.0659167766571
     }
   ],
   "heuristics": "blind",
@@ -127,7 +137,8 @@
     "HOSTNAME": "cccxc428.pok.ibm.com",
     "LSB_JOBID": "2164475",
     "gpu": "Tesla V100-SXM2-32GB",
-    "time_start": "05-09T16:42:26.372"
+    "time_start": "05-09T16:42:26.372",
+    "noweights": false
   },
   "valid": false,
   "found": false,

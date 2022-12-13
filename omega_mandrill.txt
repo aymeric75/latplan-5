@@ -1,0 +1,91 @@
+Start
+Dir_conf: 05-06T11:21:53.162
+state_var: 2.616666733956663e-06
+elbo: 2634.4047119140623
+next_state_pred: 0.000224895600695163
+num_actions: 849
+Dir_Prob: 007-000
+No training, no invariants found
+Dir_Prob: 007-001
+No training, no invariants found
+Dir_Prob: 007-002
+No training, no invariants found
+Dir_Prob: 007-003
+No training, no invariants found
+Dir_Prob: 007-004
+No training, no invariants found
+Dir_Prob: 007-005
+No training, no invariants found
+Dir_Prob: 007-006
+No training, no invariants found
+Dir_Prob: 007-007
+No training, no invariants found
+Dir_Prob: 007-008
+No training, no invariants found
+Dir_Prob: 007-009
+No training, no invariants found
+Dir_Prob: 007-010
+No training, no invariants found
+Dir_Prob: 007-011
+No training, no invariants found
+Dir_Prob: 007-012
+No training, no invariants found
+Dir_Prob: 007-013
+No training, no invariants found
+Dir_Prob: 007-014
+No training, no invariants found
+Dir_Prob: 007-015
+No training, no invariants found
+Dir_Prob: 007-016
+No training, no invariants found
+Dir_Prob: 007-017
+Invariants found (taking the author's released weights) !
+#
+60 0
+61 1
+#
+60 1
+61 0
+#
+262 0
+270 0
+#
+262 0
+271 0
+#
+262 0
+272 0
+#
+262 0
+274 0
+#
+262 0
+275 0
+#
+262 0
+277 0
+#
+262 0
+278 1
+#
+270 0
+278 0
+#
+271 0
+278 0
+#
+272 0
+273 0
+#
+272 0
+275 0
+#
+272 0
+277 0
+#
+273 0
+274 0
+#
+273 0
+277 0
+#Re-training LatPlan with these invariants

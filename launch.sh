@@ -83,45 +83,47 @@ generate_invariants () {
 
 
 # # train
-# ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
+./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
 # #./train_kltune.py reproduce $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
 
-### generate the actions
-./train_kltune.py dump $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
-
-### generate PDDL domain
-./pddl-ama3.sh $path_to_repertoire
-
-### generate PDDL problem (with preconditions)
-./ama3-planner.py $domain $current_problems_dir blind
 
 
-### reformat PDDLs
-sed -i 's/+/plus/' $domain
-sed -i 's/-/moins/' $domain
-sed -i 's/negativemoinspreconditions/negative-preconditions/' $domain
+# ### generate the actions
+# ./train_kltune.py dump $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
 
-cd ./downward
+# ### generate PDDL domain
+# ./pddl-ama3.sh $path_to_repertoire
 
-### remove duplicates between preconditions and effects (in domain file)
-python main.py 'remove_duplicates' ../$domain ../$current_problems_dir/$problem_file
-### remove NOT preconditions from the initial state (in problem file)
-python main.py 'remove_not_from_prob' ../$domain ../$current_problems_dir/$problem_file
+# ### generate PDDL problem (with preconditions)
+# ./ama3-planner.py $domain $current_problems_dir blind
 
-cd $pwdd/downward/src/translate/
 
-### Generate SAS file
-python translate.py $pwdd/$domain $pwdd/$current_problems_dir/$problem_file --sas-file output_$label.sas
+# ### reformat PDDLs
+# sed -i 's/+/plus/' $domain
+# sed -i 's/-/moins/' $domain
+# sed -i 's/negativemoinspreconditions/negative-preconditions/' $domain
 
-cd $pwdd/../h2-preprocessor/builds/release32/bin
+# cd ./downward
 
-### Generate a new SAS file FROM h2 preprocessor
-./preprocess < $pwdd/downward/src/translate/output_$label.sas --no_bw_h2
+# ### remove duplicates between preconditions and effects (in domain file)
+# python main.py 'remove_duplicates' ../$domain ../$current_problems_dir/$problem_file
+# ### remove NOT preconditions from the initial state (in problem file)
+# python main.py 'remove_not_from_prob' ../$domain ../$current_problems_dir/$problem_file
 
-mv output.sas output_$label.sas
+# cd $pwdd/downward/src/translate/
 
-### Generate a files of mutex
-python ./retrieve_mutex.py output_$label.sas $label
+# ### Generate SAS file
+# python translate.py $pwdd/$domain $pwdd/$current_problems_dir/$problem_file --sas-file output_$label.sas
 
-### Copy the mutex file to the root dir
-cp extracted_mutexes_$label.txt $pwdd/
+# cd $pwdd/../h2-preprocessor/builds/release32/bin
+
+# ### Generate a new SAS file FROM h2 preprocessor
+# ./preprocess < $pwdd/downward/src/translate/output_$label.sas --no_bw_h2
+
+# mv output.sas output_$label.sas
+
+# ### Generate a files of mutex
+# python ./retrieve_mutex.py output_$label.sas $label
+
+# ### Copy the mutex file to the root dir
+# cp extracted_mutexes_$label.txt $pwdd/

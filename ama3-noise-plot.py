@@ -42,6 +42,7 @@ def main(domainfile, problem_dir):
         return "{}_{}{}".format(os.path.splitext(dom_prefix)[0], root, ext)
     
     log("loaded puzzle")
+    print(network_dir)
     sae = latplan.model.load(network_dir,allow_failure=True)
     log("loaded sae")
     setup_planner_utils(sae, problem_dir, network_dir, "ama3")
@@ -50,19 +51,19 @@ def main(domainfile, problem_dir):
     log("loaded puzzle")
 
     def load_image(name):
-        image = imageio.imread(problem(f"{name}.png")) / 255
+        image = imageio.imread(problem(f"{name}.png")) / 255 # values are now between 0 and 1
         if len(image.shape) == 2:
             image = image.reshape(*image.shape, 1)
-        image = sae.output.normalize(image)
+        image = sae.output.normalize(image) 
         return image
 
     for name in ("init", "goal"):
         image0 = load_image(name)
         for sigma in (100.0, 30.0, 10.0, 3.0, 1.0, 0.3, 0.1, 0.03):
-            im = gaussian(image0, sigma)
-            im = sae.output.unnormalize(im)
-            im = np.clip(im, 0, 1)
-            im = im*255
+            im = gaussian(image0, sigma) #
+            im = sae.output.unnormalize(im) # render the image (from the encoding ?)
+            im = np.clip(im, 0, 1) # clip between 0 and 1
+            im = im*255 # the real unnormalize ?
             im = im.astype(np.uint8)
             imageio.imsave(problem(f"{name}-{sigma}.png"), im)
 

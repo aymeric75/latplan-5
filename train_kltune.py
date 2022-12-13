@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-from numpy.random import seed
-seed(1)
-from tensorflow import set_random_seed
-set_random_seed(2)
+# from numpy.random import seed
+# seed(1)
+# from tensorflow import set_random_seed
+# set_random_seed(2)
 
 import latplan.main
 from train_common import parameters

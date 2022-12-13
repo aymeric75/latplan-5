@@ -58,7 +58,7 @@ float_formatter = lambda x: "%.3f" % x
 np.set_printoptions(threshold=sys.maxsize,formatter={'float_kind':float_formatter})
 
 
-def main(domainfile, problem_dir, heuristics, cycle, sigma):
+def main(domainfile, problem_dir, heuristics, cycle, sigma, image_name_suffix=""):
 
     #print(cycle) # 1
     #print(sigma) # None
@@ -76,7 +76,7 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma):
     
     log("loaded puzzle")
     print("inside LOAD UUUUUUUUUUUUUUUUUU")
-    sae = latplan.model.load(network_dir, allow_failure=True, noweight=False)
+    sae = latplan.model.load(network_dir, allow_failure=True, noweights=False)
     log("loaded sae")
     setup_planner_utils(sae, problem_dir, network_dir, "ama3")
 
@@ -84,7 +84,7 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma):
     log("loaded puzzle")
 
     log(f"loading init/goal")
-    init, goal = init_goal_misc(p,cycle,noise=sigma)
+    init, goal = init_goal_misc(p,cycle,noise=sigma, image_name_suffix=image_name_suffix)
     log(f"loaded init/goal")
 
     log(f"start planning")

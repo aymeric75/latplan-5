@@ -7,17 +7,16 @@
 #SBATCH --time=08:00:00
 #SBATCH --mem=32G
 
-## PUZZLE MNIST
-#SBATCH --error=myJobMeta_mnist.err
-#SBATCH --output=myJobMeta_mnist.out
-task="puzzle"
-type="mnist"
-width_height="3 3"
-nb_examples="5000"
-label="mnist"
-after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
-pb_subdir="puzzle-mnist-3-3"
-
+# ## PUZZLE MNIST
+# #SBATCH --error=myJobMeta_mnist.err
+# #SBATCH --output=myJobMeta_mnist.out
+# task="puzzle"
+# type="mnist"
+# width_height="3 3"
+# nb_examples="5000"
+# label="mnist"
+# after_sample="puzzle_mnist_3_3_5000_CubeSpaceAE_AMA4Conv_kltune2"
+# pb_subdir="puzzle-mnist-3-3"
 
 
 # ## PUZZLE MANDRILL
@@ -33,16 +32,16 @@ pb_subdir="puzzle-mnist-3-3"
 
 
 
-# # BLOCKS
-# #SBATCH --error=myJobMeta_blocks.err
-# #SBATCH --output=myJobMeta_blocks.out
-# task="blocks"
-# type="cylinders-4-flat"
-# width_height=""
-# nb_examples="20000"
-# label="blocks"
-# after_sample="blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2"
-# pb_subdir="prob-cylinders-4"
+# BLOCKS
+#SBATCH --error=myJobMeta_blocks.err
+#SBATCH --output=myJobMeta_blocks.out
+task="blocks"
+type="cylinders-4-flat"
+width_height=""
+nb_examples="20000"
+label="blocks"
+after_sample="blocks_cylinders-4-flat_20000_CubeSpaceAE_AMA4Conv_kltune2"
+pb_subdir="prob-cylinders-4"
 
 
 # # LIGHTSOUT DIGITAL
@@ -99,14 +98,8 @@ pwdd=$(pwd)
 # generate extracted_mutexes_* and put it in root
 generate_invariants () {
 
-    ### generate the actions
-    ./train_kltune.py dump $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
-
-    ### generate PDDL domain
-    ./pddl-ama3.sh $path_to_repertoire
-
     ### generate PDDL problem (with preconditions)
-    ./ama3-planner.py $domain $current_problems_dir blind
+    ./ama3-planner.py $domain $current_problems_dir blind "" # replace "-1.0" with 
 
     ### reformat PDDLs
     sed -i 's/+/plus/' $domain
@@ -117,6 +110,7 @@ generate_invariants () {
 
     ### remove duplicates between preconditions and effects (in domain file)
     python main.py 'remove_duplicates' ../$domain ../$current_problems_dir/$problem_file
+    
     ### remove NOT preconditions from the initial state (in problem file)
     python main.py 'remove_not_from_prob' ../$domain ../$current_problems_dir/$problem_file
 
@@ -144,7 +138,8 @@ generate_invariants () {
 
 # from extracted_mutexes_*.txt to current_invariant.txt (in root)
 extract_current_invariant() {
-    sed -n '2p' extracted_mutexes_$label.txt > current_invariant.txt
+    echo "#" > current_invariant.txt
+    sed -n '2p' extracted_mutexes_$label.txt >> current_invariant.txt
     sed -n '3p' extracted_mutexes_$label.txt >> current_invariant.txt
 }
 
@@ -152,6 +147,10 @@ extract_current_invariant() {
 remove_current_invariant() {
     sed -i '1,3d' $pwdd/extracted_mutexes_$label.txt
 }
+
+
+
+
 
 #  store metrics in bash variables
 produce_report() {
@@ -180,7 +179,7 @@ loop_over_invariants() {
         extract_current_invariant
         remove_current_invariant
         # retrain fresh (par défaut, c'est bon) with the invariant (current_invariant.txt must be filled)
-        ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
+        ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model $label
         produce_report
         echo "the invariant tested:"
         cat current_invariant.txt >> omega_$label.txt
@@ -188,6 +187,20 @@ loop_over_invariants() {
         ((counter++))
     done
 }
+
+
+
+test_all_invariants_at_once() {
+
+    # retrain fresh (par défaut, c'est bon) with the invariant (current_invariant.txt must be filled)
+    ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model $label
+    produce_report
+    echo "the invariant(s) tested:" >> omega_$label.txt
+    cat invariants_to_test_$label.txt >> omega_$label.txt
+    write_to_omega
+
+}
+
 
 
 echo "Start" > omega_$label.txt
@@ -207,72 +220,126 @@ do
     echo "Dir_conf: $rep_model" >> omega_$label.txt
 
 
-    # make a fresh copy of net0.h5 (we use it after)
-    cp $path_to_repertoire/net0.h5 $path_to_repertoire/net0-real.h5
+    ####################################
+    # PHASE ONLY WITH EXISTING WEIGHTS #
+    ####################################
+    # Loop over the problems, once it found invs, test them, then break and go to PHASE 2
 
-    count_pb=0
+    echo "BEFORE DUMP"
+    ### generate the actions
+    ./train_kltune.py dump $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
+    echo "AFTER DUMP"
 
-    # loop over the problems
+    ### generate PDDL domain
+    ./pddl-ama3.sh $path_to_repertoire
+    echo "AFTER GENERATE PDDL"
+
+
+    produce_report
+    write_to_omega
+
+    found_invs=0
+
     for dir_prob in $problems_dir/*/
     do
+        if [ $found_invs -eq 1 ]
+        then
+            break 2
+        fi
 
-        current_problems_dir=${dir_prob%*/}
+        current_problems_dir=${dir_prob%*/} # Used in generate_invariants !
 
         # write the name of the prob dir
         echo "Dir_Prob: $(basename $dir_prob)" >> omega_$label.txt
 
-        # retrieve a fresh copy of net0.h5
-        cp $path_to_repertoire/net0-real.h5 $path_to_repertoire/net0.h5
-
-        ####################################
-        # PHASE ONLY WITH EXISTING WEIGHTS #
-        ####################################
-
         ## generate invariants from the fresh copy
         generate_invariants
+
         nb_invariants_prob=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
 
-        ## if invariants found
+        ## if invariants found # TEST all invariants at ONCE
         if [ $nb_invariants_prob -gt 0 ]
         then
-            echo "Invariants found (taking the author's released weights) !"
+            found_invs=1
+            echo "Invariants found (taking the author's released weights) !" >> omega_$label.txt
             cat $pwdd/extracted_mutexes_$label.txt >> omega_$label.txt
-            ## loop over invariants (i.e. train for each invariant, and write to omega)
-            loop_over_invariants
+            cat $pwdd/extracted_mutexes_$label.txt > invariants_to_test_$label.txt
+            echo "Re-training LatPlan with these invariants" >> omega_$label.txt
+            # Test the effect of all the invariant at once (one training + produce report)
+            test_all_invariants_at_once
+
+            ### TEST without the invariants: in order to compare
+            echo "now retraining without the invariants, for comparison" >> omega_$label.txt
+            rm invariants_to_test_$label.txt
+            ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model $label
+            produce_report
+            write_to_omega
+
         else
             echo "No training, no invariants found" >> omega_$label.txt
         fi
 
-        ##############################
-        # PHASE RETRAINING THE MODEL #
-        ##############################
-        
-        # we train only for the first prob_dir (the other trainings would have been the exact same)
-        if [[ $count_pb -eq 0 ]]
+    done
 
+    
+
+    # ################################################################ #
+    # # PHASE RETRAINING THE MODEL (without calling author's weights # #
+    # ################################################################ #
+   
+    # No need to do anything with the weight files... we will not load them and then
+    # we override them...
+    # retrain the network ONCE
+    # THEN go over the prob dirs (same as before, if find invs, test them THEN break)
+
+
+    rm invariants_to_test_$label.txt
+
+    ## train
+    ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
+
+    ### generate the actions
+    ./train_kltune.py dump $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
+
+    ### generate PDDL domain
+    ./pddl-ama3.sh $path_to_repertoire
+
+    produce_report
+    write_to_omega
+
+
+    found_invs=0
+
+    for dir_prob in $problems_dir/*/
+    do
+        if [ $found_invs -eq 1 ]
         then
-            # we rm it to be sure no invariant is taken into account during training
-            rm current_invariant.txt
-
-            ## train
-            ./train_kltune.py learn $task $type $width_height $nb_examples CubeSpaceAE_AMA4Conv kltune2 $rep_model
-            generate_invariants
-            nb_invariants_prob=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
-
-            ## if invariants found
-            if [ $nb_invariants_prob -gt 0 ]
-            then
-                echo "Invariants found (after training) !"
-                cat $pwdd/extracted_mutexes_$label.txt >> omega_$label.txt
-                ## loop over invariants and write to omega
-                loop_over_invariants
-            else
-                echo "ONE training, no invariants FOUND" >> omega_$label.txt
-            fi
-        
+            break 2
         fi
 
-        ((count_pb++))
+        current_problems_dir=${dir_prob%*/} # Used in generate_invariants !
+
+        # write the name of the prob dir
+        echo "Dir_Prob: $(basename $dir_prob)" >> omega_$label.txt
+
+        ## generate invariants from the re-trained LatPlan
+        generate_invariants
+
+        nb_invariants_prob=$(./count_invariants.py $pwdd/extracted_mutexes_$label.txt)
+
+        ## if invariants found # TEST all invariants at ONCE
+        if [ $nb_invariants_prob -gt 0 ]
+        then
+            found_invs=1
+            echo "Invariants found (NOT taking the author's released weights) !"
+            cat $pwdd/extracted_mutexes_$label.txt >> omega_$label.txt
+            cat $pwdd/extracted_mutexes_$label.txt > invariants_to_test_$label.txt
+            echo "Re-training LatPlan with these invariants"
+            # Test the effect of all the invariant at once (one training + produce report)
+            test_all_invariants_at_once
+        else
+            echo "No training, no invariants found" >> omega_$label.txt
+        fi
 
     done
 

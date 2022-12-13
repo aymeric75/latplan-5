@@ -172,7 +172,7 @@ Users should not overload this method; Define _save() for each subclass instead.
 This function calls _save bottom-up from the least specialized class.
 Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around methods."""
         print("Saving the network to {}".format(self.local(path)))
-        os.makedirs(self.local(path),exist_ok=True)
+        os.makedirs(self.local(path), exist_ok=True)
         self._save(path)
         print("Network saved")
         return self
@@ -183,8 +183,8 @@ Users may define a method for each subclass for adding a new save-time feature.
 Each method should call the _save() method of the superclass in turn.
 Users are not expected to call this method directly. Call save() instead.
 Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around methods."""
-        for i, net in enumerate(self.nets):
-            net.save_weights(self.local(os.path.join(path,f"net{i}.h5")))
+        # for i, net in enumerate(self.nets):
+        #     net.save_weights(self.local(os.path.join(path,f"net{i}.h5")))
 
         with open(self.local(os.path.join(path,"aux.json")), "w") as f:
             json.dump({"parameters":self.parameters,
@@ -199,15 +199,15 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                 self.save(os.path.join(path,str(epoch)))
         return fn
 
-    def load(self, allow_failure=False, path="", noweight=None):
+    def load(self, allow_failure=False, path="", noweights=None):
         """An interface for loading a network.
 Users should not overload this method; Define _load() for each subclass instead.
 This function calls _load bottom-up from the least specialized class.
 Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around methods."""
         print("IN LOAD IIJUUUKKSJSHSHSH")
 
-        if noweight != None:
-            self.parameters["noweights"] = noweight
+        if noweights != None:
+            self.parameters["noweights"] = noweights
 
         if self.loaded:
             # print("Avoided loading {} twice.".format(self))
@@ -253,7 +253,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                 # for i, net in enumerate(self.nets):
                 #     net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
                 for i, net in enumerate(self.nets):
-                    net.load_weights(self.local('tmp/checkpoint/weights.hdf5'))
+                    net.load_weights(self.local('tmp/checkpoint/weights.h5'))
             else:
                 print("NOT LOADING WEIGHTS")
 
@@ -340,7 +340,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
               val_data_to   = None,
               resume        = False,
               **kwargs):
-        self.load(allow_failure=False, path="")
+        self.load(allow_failure=False, path="", noweights=False)
 
         return self
 
@@ -425,7 +425,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
         # {epoch:02d}-{v_pdiff_z1z2:.2f}.
         print(self.optimizers)
         print(self.local('tmp/checkpoint'))
-        checkpoint_filepath = self.local('tmp/checkpoint/weights.hdf5')
+        checkpoint_filepath = self.local('tmp/checkpoint/weights.h5')
         model_checkpoint_callback = keras.callbacks.ModelCheckpoint(
             filepath=checkpoint_filepath,
             save_weights_only=True,
@@ -494,6 +494,8 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             return logs
 
 
+        bestelbo = 99999999
+
         try:
             clist.on_train_begin()
             logs = {}
@@ -505,7 +507,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                 train_data_to_cache = [[ train_subdata_to[indices] for train_subdata_to in train_data_to ] for indices in indices_cache ]
                 clist.on_epoch_begin(epoch,logs)
                 for train_subdata_cache,train_subdata_to_cache in zip(train_data_cache,train_data_to_cache):
-                    for net,train_subdata_batch_cache,train_subdata_to_batch_cache in zip(self.nets, train_subdata_cache,train_subdata_to_cache):
+                    for net, train_subdata_batch_cache,train_subdata_to_batch_cache in zip(self.nets, train_subdata_cache,train_subdata_to_cache):
                         
                         net.train_on_batch(train_subdata_batch_cache, train_subdata_to_batch_cache)
 
@@ -514,6 +516,16 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                     logs["t_"+k] = v
                 for k,v in generate_logs(val_data,  val_data_to).items():
                     logs["v_"+k] = v
+                print("EPOCH NUM "+str(epoch))
+                print(logs["v_elbo"])
+                print(type(logs["v_elbo"]))
+
+                if logs["v_elbo"] < bestelbo:
+                    np.savez_compressed(self.local("p_a_z0_net.npz"),*self.p_a_z0_net[0].get_weights())
+                    np.savez_compressed(self.local("p_a_z1_net.npz"),*self.p_a_z1_net[0].get_weights())
+                    bestelbo = logs["v_elbo"]
+
+
                 clist.on_epoch_end(epoch, logs)
                 if self.nets[0].stop_training:
                     break
@@ -522,7 +534,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
         except KeyboardInterrupt:
             print("learning stopped\n")
         finally:
-            self.save()
+            #self.save()
             self.loaded = True
         return self
 

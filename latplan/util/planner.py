@@ -22,7 +22,7 @@ def ama(path):
     root, ext = os.path.splitext(path)
     return "{}_{}{}".format(ama_version, root, ext)
 
-def init_goal_misc(p, cycle=1, noise=None):
+def init_goal_misc(p, cycle=1, noise=None, image_name_suffix=""):
     # import sys
     import imageio
     import numpy as np
@@ -67,15 +67,15 @@ def init_goal_misc(p, cycle=1, noise=None):
             images.append(image)
         return image0, state, image, images
 
-    init_image, init, init_rec, init_images = load_and_encode_image("init")
-    goal_image, goal, goal_rec, goal_images = load_and_encode_image("goal")
+    init_image, init, init_rec, init_images = load_and_encode_image("init"+image_name_suffix)
+    goal_image, goal, goal_rec, goal_images = load_and_encode_image("goal"+image_name_suffix)
 
     sae.plot(np.concatenate([init_images,goal_images]),
-             path=problem(ama(network(f"init_goal_reconstruction.{cycle}.png"))))
+             path=problem(ama(network(f"init_goal_reconstruction{image_name_suffix}.{cycle}.png"))))
 
     print("PRINT LE PASS")
 
-    print(problem(ama(network(f"init_goal_reconstruction.{cycle}.png"))))
+    print(problem(ama(network(f"init_goal_reconstruction{image_name_suffix}.{cycle}.png"))))
 
     if p and not np.all(
             p.validate_states(

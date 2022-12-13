@@ -50,9 +50,13 @@ do
     echo "pWD"
     pwd
 
-    rm !(net0.h5|aux.json)
+    rm !(net0.h5|aux.json|p_a_z0_net.npz|p_a_z1_net.npz)
 
     mkdir -p tmp/checkpoint
+
+    mv net0.h5 tmp/checkpoint/
+
+    mv tmp/checkpoint/net0.h5 tmp/checkpoint/weights.h5
 
     cd ../../
 

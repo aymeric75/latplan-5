@@ -108,7 +108,14 @@ def add_common_arguments(subparser,task,objs=False):
     subparser.add_argument("hash",
                            nargs='?',
                            default="",
-                           help="A string which replace (forces) the last part of the directory name")
+                           help="A string which replaces (forces) the last part of the directory name")
+
+
+    subparser.add_argument("label",
+                           nargs='?',
+                           default="",
+                           help="A string which denote the label of the extraceted_mutex file")
+
 
 
     return
@@ -127,9 +134,11 @@ def main(parameters={}):
     print(vars(args))
     latplan.util.tuning.parameters.update(vars(args))
 
-
-    if(args.hash != ""):
+    
+    if(args.hash != "" and args.label == ""):
         sae_path = "_".join(sys.argv[2:-1])
+    elif(args.hash != "" and args.label != ""):
+        sae_path = "_".join(sys.argv[2:-2])
     else:
         sae_path = "_".join(sys.argv[2:])
 
@@ -287,26 +296,40 @@ def run(path,transitions,extra=None):
         net.report(train, test_data = test, train_data_to=train, test_data_to=test)
 
 
-    if 'learn' in args.mode:
+    if 'learn' in args.mode and args.hash != "" and args.label != "":
 
-        parameters["noweights"] = False
+        parameters["noweights"] = True
 
         parameters["epoch"] = 2000
 
-        invariant = []
 
-        if(os.path.exists("current_invariant.txt")):
-            with open("current_invariant.txt") as myfile:
+        # Parcours de curr_invar: c'est des h2 mutex, donc
+        # tu as un # PUIS les deux invariants
+
+        invariants = []
+
+        if(os.path.exists("invariants_to_test_"+args.label+".txt")):
+            with open("invariants_to_test_"+args.label+".txt") as myfile:
+                invariants = []
+                tmp = []
+                sub_counter = 0
                 for i, line in enumerate(myfile):
-                    if(i < 2):
+                    if("#" in line):
+                        if(i > 0):
+                            invariants.append(tmp)
                         tmp = []
-                        for ele in line.split(" "):
-                            tmp.append(ele.strip())
-                        invariant.append(tmp)
+                        sub_counter=0
+                    else:
+                        tmp.append(line.strip().split(" "))
+                        sub_counter+=1
+
+            myfile.close()
 
         print("invariant to be tested")
-        print(invariant)
-        parameters["invariant"] = invariant
+        print(invariants)
+
+
+        parameters["invariants"] = invariants
 
         task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters, False) 
         task()
