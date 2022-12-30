@@ -130,6 +130,7 @@ def print_dot():
 # single iteration of NN training
 def nn_task(network, path, train_in, train_out, val_in, val_out, parameters, resume=False):
     print("VAL OF RESUME ")
+
     
     if resume:
         print("RESUME TRUE in nn_task")
@@ -144,12 +145,14 @@ def nn_task(network, path, train_in, train_out, val_in, val_out, parameters, res
     keras.backend.clear_session()
     print("cleared tf session")
     net = network(path,parameters=parameters)
+    
     net.train(train_in,
               val_data=val_in,
               train_data_to=train_out,
               val_data_to=val_out,
               resume=resume,
               **parameters,)
+
     import numpy as np
     error = np.array(net.evaluate(val_in,val_out,batch_size=100,verbose=0))
     error = np.nan_to_num(error,nan=float("inf"))

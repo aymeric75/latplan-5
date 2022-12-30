@@ -11,43 +11,53 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.38909220695495605,
-      "elapsed": 0.38909220695495605
+      "wall": 0.7454473972320557,
+      "elapsed": 0.7454473972320557
     },
     {
       "message": "loaded sae",
-      "wall": 4.834465742111206,
-      "elapsed": 4.44537353515625
+      "wall": 6.308265924453735,
+      "elapsed": 5.56281852722168
     },
     {
       "message": "loaded puzzle",
-      "wall": 4.834541320800781,
-      "elapsed": 7.557868957519531e-05
+      "wall": 6.30926513671875,
+      "elapsed": 0.0009992122650146484
     },
     {
       "message": "loading init/goal",
-      "wall": 4.834545850753784,
-      "elapsed": 4.5299530029296875e-06
+      "wall": 6.309378147125244,
+      "elapsed": 0.00011301040649414062
     },
     {
       "message": "loaded init/goal",
-      "wall": 15.490031003952026,
-      "elapsed": 10.655485153198242
+      "wall": 15.44190526008606,
+      "elapsed": 9.132527112960815
     },
     {
       "message": "start planning",
-      "wall": 15.490046501159668,
-      "elapsed": 1.5497207641601562e-05
+      "wall": 15.442563772201538,
+      "elapsed": 0.0006585121154785156
     },
     {
       "message": "start generating problem",
-      "wall": 15.490163564682007,
-      "elapsed": 0.00011706352233886719
+      "wall": 15.448578357696533,
+      "elapsed": 0.006014585494995117
     },
     {
       "message": "finished generating problem",
-      "wall": 15.566218376159668,
-      "elapsed": 0.07605481147766113
+      "wall": 15.524288177490234,
+      "elapsed": 0.07570981979370117
+    },
+    {
+      "message": "start planning",
+      "wall": 15.524317979812622,
+      "elapsed": 2.9802322387695312e-05
+    },
+    {
+      "message": "finished planning",
+      "wall": 40.68229007720947,
+      "elapsed": 25.15797209739685
     }
   ],
   "heuristics": "blind",
@@ -68,16 +78,16 @@
     "translator_operators": 1463,
     "translator_axioms": 0,
     "translator_task": 31210,
-    "translator_peak_memory": 264260,
-    "translate": 17.971,
+    "translator_peak_memory": 269632,
+    "translate": 24.13,
     "plan_length": null,
     "plan_cost": null,
     "expanded": 2,
     "evaluated": 2,
     "generated": 1,
-    "search": 0.00025522,
-    "initialization": 0.0168005,
-    "total": 17.9881
+    "search": 0.000242917,
+    "initialization": 0.0168495,
+    "total": 24.1471
   },
   "parameters": {
     "test_noise": false,
@@ -129,10 +139,7 @@
     "LSB_JOBID": "2106916",
     "gpu": "Tesla V100-SXM2-32GB",
     "time_start": "05-06T14:43:56.755",
-    "noweights": true,
-    "hash": "05-06T14:43:56.755",
-    "resume_from": "05-06T14:43:56.755",
-    "invariant": []
+    "noweights": false
   },
   "valid": false,
   "found": false,

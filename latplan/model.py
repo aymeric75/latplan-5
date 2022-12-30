@@ -26,6 +26,7 @@ from .mixins.encoder_decoder import *
 from .mixins.locality        import *
 from .mixins.output          import *
 from .network                import Network
+import sys
 
 # Style guide
 # * Each section is divided by 3 newlines
@@ -108,9 +109,9 @@ The latter two are used for verifying the performance of the AE.
 
         self._report(test_both,**opts)
 
-        print("PEEEEERRRRRRRRRRFFFFOOOOOOOOORRRRRRRRRRMMMMMMMMMMMMMAAAAAAAAAAAANNNNNNNNNNCCCCCCCEEEEEEEE")
+        print("perfos")
         print(performance)
-        with open(self.local("variance.txt"), "w") as f:
+        with open(self.local("variance_"+self.parameters['label']+".txt"), "w") as f:
             f.write(str(performance["sae"]["variance"]["gaussian"]["test"]["mean"])+"\n") # State Variance
             f.write(str(performance["metrics"]["test"]["elbo"])+"\n") # Elbo
             f.write(str(performance["metrics"]["test"]["pdiff_z1z2"])+"\n") # Next State Prediction Acc
@@ -1429,17 +1430,18 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         print("loading additional networks")
         import os.path
         
-        if "noweights" in self.parameters:
-              
-            if self.parameters["noweights"] == False:
-
-                try:
-                    with np.load(self.local(os.path.join(path,f"p_a_z0_net.npz"))) as data:
-                        self.p_a_z0_net[0].set_weights([ data[key] for key in data.files ])
-                    with np.load(self.local(os.path.join(path,f"p_a_z1_net.npz"))) as data:
-                        self.p_a_z1_net[0].set_weights([ data[key] for key in data.files ])
-                except FileNotFoundError:
-                    print("failed to find weights for additional networks")
+        if "noweights" in self.parameters and self.parameters["noweights"] == False:
+        
+            print("LOADING WEIGHTS (in model.py)")
+            try:
+                with np.load(self.local(os.path.join(path,f"p_a_z0_net.npz"))) as data:
+                    self.p_a_z0_net[0].set_weights([ data[key] for key in data.files ])
+                with np.load(self.local(os.path.join(path,f"p_a_z1_net.npz"))) as data:
+                    self.p_a_z1_net[0].set_weights([ data[key] for key in data.files ])
+            except FileNotFoundError:
+                print("failed to find weights for additional networks")
+        else:
+            print("NO LOADING WEIGHTS (in model.py)")
 
     def _build_around(self,input_shape):
         A  = self.parameters["A"]
@@ -1475,7 +1477,9 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
 
     def _build_primary(self,input_shape):
 
-        x = Input(shape=(2,*input_shape))
+        # name='output_name_one'
+        x = Input(shape=(2,*input_shape), name='THEINPUT')
+
         _, x_pre, x_suc = dapply(x)
         z, z_pre, z_suc = dapply(x, self._encode)
         y, y_pre, y_suc = dapply(z, self._decode)
@@ -1507,9 +1511,20 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         pdiff_z0z1 = K.mean(K.abs(p_pre - p_suc),axis=-1)
         pdiff_z0z2 = K.mean(K.abs(p_pre - p_suc_aae),axis=-1)
 
+    
+        # graph = tf.compat.v1.get_default_graph()
+        # with tf.Session(graph=graph) as sess:
+        #     #print(z_pre.eval())
+        #     tensor = z_pre
+        #     print_op = tf.print(tensor)
+        #     #sess.run(print_op)
+        #     with tf.control_dependencies([print_op]):
+        #         out = tf.add(tensor, tensor)
+        #     sess.run(out)
 
 
-        ##########################################
+
+        ##########################################t
         #            ADDITIONAL LOSS             #
         ##########################################
 
@@ -1541,29 +1556,49 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         ### ADDING THE MUTEX 
         ############################
 
-        print("in _build_primary_0")
+
+        theloss = 0.
 
         def invariant_loss(invariant):
+            
+            # invariant = [['92', '0'], ['93', '0']]
 
             expr = []
-            for var in invariant:
-                if(int(var[1]) == 0):
-                    expr.append(1. - z_pre[:, int(var[0])])
+            for var in invariant: # var[0] = index du z, var[1] = value du z
+                if(int(var[1]) == 0): # e.g. int(var[1]) == 0 && int(var[0]) == 92
+                    expr.append(1. - z_pre[:, int(var[0])]) # ~z1 === 1. -  z1
                 else:
-                    expr.append(z_pre[:, int(var[0])])
-            return 1. / ( 1. -  tf.math.reduce_mean( tf.math.multiply(expr[0], expr[1]) ) )
+                    expr.append(z_pre[:, int(var[0])]) # z1 === z1
+                                                        # ~(z1 ^ z2)   ==== 1. - ( z1 . z2  )
 
-        print("in _build_primary_1")
+            truth_value_for_each_ele = 1. - tf.math.multiply(expr[0], expr[1])
+
+            nb_violations = self.parameters["batch_size"] - tf.math.reduce_sum(truth_value_for_each_ele)
+
+            # % de violations
+            perc_violations = nb_violations / self.parameters["batch_size"]
+
+            #theloss = tf.math.tanh(tf.math.log(1. / (1. - tf.math.reduce_max(truth_value_for_each_ele))))
+
+            return perc_violations
+
+        # affiche theloss et affiche la valeur des variables
+        # PUIS... à voir après, quoi faire
+
+
 
         has_invariants = False
 
         if("invariants" in self.parameters):
+            
             if(self.parameters["invariants"]):
+
                 has_invariants = True
+
+                # [[['92', '0'], ['93', '0']], [['92', '0'], ['94', '0']], [['92', '0'], ['95', '0']], [['92', '0'], ['96', '0']], [['92', '0'], ['97', '0']], [['92', '0'], ['98', '0']], [['93', '0'], ['95', '0']]]
                 for inva in self.parameters["invariants"]:
                     total_add_loss += invariant_loss(inva)
-
-        print("in _build_primary_2")
+                    
 
         kl_z0 = z_pre.loss(l_pre, p=self.parameters["zerosuppress"])
         kl_z1 = z_suc.loss(l_suc, p=self.parameters["zerosuppress"])
@@ -1581,9 +1616,18 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         ama3_backward_loss1 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + self.parameters["beta_d"] * kl_z0z3 + x0y0
         ama3_backward_loss2 = self.parameters["beta_z"] * kl_z1 + x1y1 + kl_a_z1 + x0y3
         
+        total_add_loss_norm = 0.
+
+
         if has_invariants:
+
             total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
-            total_loss = total_loss + total_loss*total_add_loss
+            alpha = total_loss / 1000.
+            #alpha = 1.
+            total_add_loss_norm = alpha*total_add_loss # define alpha also with # of violated constraints 
+                                             # + define in term of size of total_loss , Matteo, Mattia
+                                             # Francesco Gianini
+            total_loss = total_loss + total_add_loss_norm
         else:
             total_loss = (ama3_forward_loss1 + ama3_forward_loss2 + ama3_backward_loss1 + ama3_backward_loss2)/4 
         
@@ -1607,9 +1651,15 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         self.add_metric("x0y3",x0y3)
         self.add_metric("x1y2",x1y2)
         self.add_metric("elbo",elbo)
+
         if has_invariants:
-            self.add_metric("total_add_loss",total_add_loss)
-        
+            
+            self.add_metric("total_add_loss", total_add_loss)
+            self.add_metric("total_add_loss_norm", total_add_loss_norm)
+            self.add_metric("total_loss", total_loss)
+
+            
+
         print("in _build_primary_3")
 
         
@@ -1619,7 +1669,13 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         self.loss = loss
 
         # note: original z does not work because Model.save only saves the weights that are included in the computation graph between input and output.
+        #self.net = Model(x, [y_aae, z_pre])
         self.net = Model(x, y_aae)
+
+        self.intermediate_net = Model(inputs=self.net.input,
+                                 outputs=z_pre)
+        #intermediate_output = intermediate_layer_model.predict(data)
+
         self.encoder     = Model(x, z) # note : directly through the encoder, not AAE
         self.autoencoder = Model(x, y) # note : directly through the decoder, not AAE
 
@@ -1634,8 +1690,13 @@ class BaseActionMixinAMA4Plus(BidirectionalMixin, BaseActionMixin):
         return
 
     def evaluate(self,*args,**kwargs):
-        metrics = { k:v for k,v in zip(self.net.metrics_names,
-                                       ensure_list(self.net.evaluate(*args,**kwargs)))}
+       
+        #args[0]
+        #args[1][0]
+        metrics = { k:v for k,v in zip(self.net.metrics_names, ensure_list(self.net.evaluate(*args,**kwargs)))}
+
+        #metrics = { k:v for k,v in zip(self.net.metrics_names, ensure_list(self.net.evaluate(args[0],args[1],**kwargs)))}
+
         return [metrics["elbo"],metrics["loss"],metrics["x0y0"]+metrics["x1y1"]/2+metrics["x1y2"]/2, metrics["kl_z1z2"], metrics["kl_z0"]]
 
     pass
@@ -1728,7 +1789,14 @@ class ConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus(DetActionMixin,
     """Bidirectional Cube-Space AE implementation in JAIR"""
     pass
 
-class ConvolutionalConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus(StridedConvolutionalMixin,ConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus):
+class ConvolutionalConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus(StridedConvolutionalMixin, ConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus):
+
+    # def __init__(self):
+    #     super().__init__(self) 
+
+    # def __call__(self):
+    #     return self.nets[0].output[0]
+        
     pass
 
 CubeSpaceAE_AMA4Plus = ConcreteDetNormalizedLogitAddBidirectionalTransitionAEPlus

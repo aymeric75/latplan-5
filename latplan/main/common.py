@@ -125,16 +125,15 @@ def add_common_arguments(subparser,task,objs=False):
 def main(parameters={}):
     import latplan.util.tuning
     latplan.util.tuning.parameters.update(parameters)
-
+    print("IN common.py : main")
     import sys
     global args, sae_path
     args = parser.parse_args()
     task = args.task
     delattr(args,"task")
-    print(vars(args))
+
     latplan.util.tuning.parameters.update(vars(args))
 
-    
     if(args.hash != "" and args.label == ""):
         sae_path = "_".join(sys.argv[2:-1])
     elif(args.hash != "" and args.label != ""):
@@ -282,25 +281,30 @@ def run(path,transitions,extra=None):
         
 
         parameters["noweights"] = False
-        print("IN DUMP... NO WEIGHT EQUAL FALSE")
         task = curry(nn_load, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters)       
         net = task(parameters)
         
         dump_actions(net, transitions, name = "actions.csv", repeat=1)
 
-        print("IN DUMP 1")
     
     if 'report' in args.mode:
+        parameters["label"] = args.label
         task = curry(nn_load, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters)       
         net = task(parameters)
         net.report(train, test_data = test, train_data_to=train, test_data_to=test)
 
 
-    if 'learn' in args.mode and args.hash != "" and args.label != "":
+    #if 'learn' in args.mode and args.hash != "" and args.label != "":
+    if 'learn' in args.mode :
 
+        print("In common.py: 'learn'")
+        
         parameters["noweights"] = True
 
-        parameters["epoch"] = 2000
+        parameters["epoch"] = 3
+
+        parameters['batch_size'] = 400
+
 
 
         # Parcours de curr_invar: c'est des h2 mutex, donc
@@ -308,28 +312,34 @@ def run(path,transitions,extra=None):
 
         invariants = []
 
+
         if(os.path.exists("invariants_to_test_"+args.label+".txt")):
             with open("invariants_to_test_"+args.label+".txt") as myfile:
                 invariants = []
                 tmp = []
-                sub_counter = 0
                 for i, line in enumerate(myfile):
                     if("#" in line):
                         if(i > 0):
                             invariants.append(tmp)
                         tmp = []
-                        sub_counter=0
                     else:
                         tmp.append(line.strip().split(" "))
-                        sub_counter+=1
-
             myfile.close()
 
-        print("invariant to be tested")
+        print("INVARIANTS !!")
         print(invariants)
 
-
         parameters["invariants"] = invariants
+
+        
+        if("invariants" in parameters):
+            print("there are some invariants")
+            print(parameters["invariants"])
+        else:
+            print("there are no invariants")
+        print("batch_sizebatch_size")
+        print(parameters["batch_size"])
+        
 
         task = curry(nn_task, latplan.model.get(parameters["aeclass"]), path, train, train, val, val, parameters, False) 
         task()

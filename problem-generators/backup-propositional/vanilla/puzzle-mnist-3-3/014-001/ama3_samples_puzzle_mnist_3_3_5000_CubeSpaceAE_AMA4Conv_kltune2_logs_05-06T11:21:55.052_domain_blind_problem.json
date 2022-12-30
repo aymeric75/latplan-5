@@ -11,53 +11,53 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.7957632541656494,
-      "elapsed": 0.7957632541656494
+      "wall": 0.8358840942382812,
+      "elapsed": 0.8358840942382812
     },
     {
       "message": "loaded sae",
-      "wall": 6.380993604660034,
-      "elapsed": 5.585230350494385
+      "wall": 6.400743722915649,
+      "elapsed": 5.564859628677368
     },
     {
       "message": "loaded puzzle",
-      "wall": 6.382099628448486,
-      "elapsed": 0.0011060237884521484
+      "wall": 6.401761770248413,
+      "elapsed": 0.0010180473327636719
     },
     {
       "message": "loading init/goal",
-      "wall": 6.382103443145752,
-      "elapsed": 3.814697265625e-06
+      "wall": 6.401765823364258,
+      "elapsed": 4.0531158447265625e-06
     },
     {
       "message": "loaded init/goal",
-      "wall": 16.67154860496521,
-      "elapsed": 10.289445161819458
+      "wall": 17.345630645751953,
+      "elapsed": 10.943864822387695
     },
     {
       "message": "start planning",
-      "wall": 16.67241406440735,
-      "elapsed": 0.0008654594421386719
+      "wall": 17.346492528915405,
+      "elapsed": 0.0008618831634521484
     },
     {
       "message": "start generating problem",
-      "wall": 16.67910075187683,
-      "elapsed": 0.006686687469482422
+      "wall": 17.347924947738647,
+      "elapsed": 0.0014324188232421875
     },
     {
       "message": "finished generating problem",
-      "wall": 16.767316341400146,
-      "elapsed": 0.08821558952331543
+      "wall": 17.44517230987549,
+      "elapsed": 0.09724736213684082
     },
     {
       "message": "start planning",
-      "wall": 16.76734685897827,
-      "elapsed": 3.0517578125e-05
+      "wall": 17.445204973220825,
+      "elapsed": 3.266334533691406e-05
     },
     {
       "message": "finished planning",
-      "wall": 18.975290775299072,
-      "elapsed": 2.207943916320801
+      "wall": 19.77283763885498,
+      "elapsed": 2.3276326656341553
     }
   ],
   "heuristics": "blind",
@@ -79,15 +79,15 @@
     "translator_axioms": 0,
     "translator_task": 4,
     "translator_peak_memory": 126784,
-    "translate": 1.674,
+    "translate": 1.676,
     "plan_length": null,
     "plan_cost": null,
     "expanded": 0,
     "evaluated": 1,
     "generated": 0,
-    "search": 0.000116587,
-    "initialization": 0.00179916,
-    "total": 1.67592
+    "search": 0.000118067,
+    "initialization": 0.00180047,
+    "total": 1.67792
   },
   "parameters": {
     "test_noise": false,

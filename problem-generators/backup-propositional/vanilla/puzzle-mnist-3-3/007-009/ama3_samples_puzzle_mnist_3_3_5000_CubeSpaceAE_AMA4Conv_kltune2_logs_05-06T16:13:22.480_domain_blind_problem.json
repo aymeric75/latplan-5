@@ -11,53 +11,53 @@
     },
     {
       "message": "loaded puzzle",
-      "wall": 0.4129037857055664,
-      "elapsed": 0.4129037857055664
+      "wall": 0.6981096267700195,
+      "elapsed": 0.6981096267700195
     },
     {
       "message": "loaded sae",
-      "wall": 3.130323886871338,
-      "elapsed": 2.7174201011657715
+      "wall": 5.754751682281494,
+      "elapsed": 5.056642055511475
     },
     {
       "message": "loaded puzzle",
-      "wall": 3.130377769470215,
-      "elapsed": 5.3882598876953125e-05
+      "wall": 5.755173683166504,
+      "elapsed": 0.0004220008850097656
     },
     {
       "message": "loading init/goal",
-      "wall": 3.130382537841797,
-      "elapsed": 4.76837158203125e-06
+      "wall": 5.755178213119507,
+      "elapsed": 4.5299530029296875e-06
     },
     {
       "message": "loaded init/goal",
-      "wall": 13.349437713623047,
-      "elapsed": 10.21905517578125
+      "wall": 14.72700810432434,
+      "elapsed": 8.971829891204834
     },
     {
       "message": "start planning",
-      "wall": 13.349453926086426,
-      "elapsed": 1.621246337890625e-05
+      "wall": 14.727852821350098,
+      "elapsed": 0.0008447170257568359
     },
     {
       "message": "start generating problem",
-      "wall": 13.349573850631714,
-      "elapsed": 0.00011992454528808594
+      "wall": 14.731285095214844,
+      "elapsed": 0.0034322738647460938
     },
     {
       "message": "finished generating problem",
-      "wall": 13.591639518737793,
-      "elapsed": 0.2420656681060791
+      "wall": 14.810096740722656,
+      "elapsed": 0.0788116455078125
     },
     {
       "message": "start planning",
-      "wall": 13.591675281524658,
-      "elapsed": 3.5762786865234375e-05
+      "wall": 14.81012749671936,
+      "elapsed": 3.075599670410156e-05
     },
     {
       "message": "finished planning",
-      "wall": 36.19636273384094,
-      "elapsed": 22.604687452316284
+      "wall": 38.94613981246948,
+      "elapsed": 24.136012315750122
     }
   ],
   "heuristics": "blind",
@@ -78,16 +78,16 @@
     "translator_operators": 1430,
     "translator_axioms": 0,
     "translator_task": 36591,
-    "translator_peak_memory": 257092,
-    "translate": 22.003,
+    "translator_peak_memory": 271424,
+    "translate": 23.567,
     "plan_length": null,
     "plan_cost": null,
     "expanded": 1,
     "evaluated": 1,
     "generated": 0,
-    "search": 0.000219398,
-    "initialization": 0.0190839,
-    "total": 22.0223
+    "search": 0.000211512,
+    "initialization": 0.0190701,
+    "total": 23.5863
   },
   "parameters": {
     "test_noise": false,
@@ -138,7 +138,8 @@
     "HOSTNAME": "cccxc449.pok.ibm.com",
     "LSB_JOBID": "2106944",
     "gpu": "Tesla V100-SXM2-32GB",
-    "time_start": "05-06T16:13:22.480"
+    "time_start": "05-06T16:13:22.480",
+    "noweights": false
   },
   "valid": false,
   "found": false,

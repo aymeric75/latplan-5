@@ -10,9 +10,13 @@ from .util           import ensure_list, NpEncoder, curry
 from .util.tuning    import InvalidHyperparameterError
 from .util.layers    import LinearSchedule
 import os.path
+from keras import backend as K
+import datetime
 
 # modified version
 import progressbar
+
+
 class DynamicMessage(progressbar.DynamicMessage):
     def __call__(self, progress, data):
         val = data['dynamic_messages'][self.name]
@@ -23,12 +27,24 @@ class DynamicMessage(progressbar.DynamicMessage):
 
 
 class CustomCallback(keras.callbacks.Callback):
+    # def on_train_begin(self, logs=None):
+    #     #keys = list(logs.keys())
+    #     print("Starting training; got log keys")
+    #     # 
+    #     #print(self.model.summary())
+    #     #print(self.model.get_layer('THEINPUT'))
 
-    def on_epoch_end(self, epoch, logs=None):
-        keys = list(logs.keys())
-        print("End epoch {} of training; got log keys: {}".format(epoch, keys))
-
-
+    def on_train_batch_end(self, batch_num, logs):
+        print(" ")
+        #print(self.model.layers)
+        #print(self.model.layers[0].input.eval())
+        get_layer_output = K.function([self.model.layers[0].input], [self.model.layers[0].output])
+        i = 0
+        #tf.print(get_layer_output.outputs[0])
+        #print('\n Training: output of the layer {} is {} ends at {}'.format(i, get_layer_output.outputs , datetime.datetime.now().time()))
+        # for i in range(len(self.model.layers)):
+        #     get_layer_output = K.function(inputs = self.model.layers[i].input, outputs = self.model.layers[i].output)
+        #     print('\n Training: output of the layer {} is {} ends at {}'.format(i, get_layer_output.outputs , datetime.datetime.now().time()))
 
 class Network:
     """Base class for various neural networks including GANs, AEs and Classifiers.
@@ -55,6 +71,7 @@ This dict can be used while building the network, making it easier to perform a 
         self.metrics = []
         self.nets    = [None]
         self.losses  = [None]
+        self.intermediate_net = None
         if parameters:
             # handle the test-time where parameters is not given
             self.path = os.path.join(path,"logs",self.parameters["time_start"])
@@ -88,10 +105,8 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
         if self.built:
             # print("Avoided building {} twice.".format(self))
             return
-        print("Building networks")
         self._build_around(*args,**kwargs)
         self.built = True
-        print("Network built")
         return self
 
     def _build_around(self,*args,**kwargs):
@@ -204,7 +219,6 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
 Users should not overload this method; Define _load() for each subclass instead.
 This function calls _load bottom-up from the least specialized class.
 Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around methods."""
-        print("IN LOAD IIJUUUKKSJSHSHSH")
 
         if noweights != None:
             self.parameters["noweights"] = noweights
@@ -246,16 +260,15 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             self.build_aux(tuple(data["input_shape"]))
 
         # if this param is 
-        if "noweights" in self.parameters:
+        if "noweights" in self.parameters and self.parameters["noweights"] == False:
           
-            if self.parameters["noweights"] == False:
-                print("LOADING WEIGHTS")
-                # for i, net in enumerate(self.nets):
-                #     net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
-                for i, net in enumerate(self.nets):
-                    net.load_weights(self.local('tmp/checkpoint/weights.h5'))
-            else:
-                print("NOT LOADING WEIGHTS")
+            print("LOADING WEIGHTS")
+            # for i, net in enumerate(self.nets):
+            #     net.load_weights(self.local(os.path.join(path,f"net{i}.h5")))
+            for i, net in enumerate(self.nets):
+                net.load_weights(self.local('tmp/checkpoint/weights.h5'))
+        else:
+            print("NOT LOADING WEIGHTS")
 
             
     def reload_with_shape(self,input_shape,path=""):
@@ -363,6 +376,9 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
             self.build(input_shape)
             self.build_aux(input_shape)
 
+
+
+
         epoch      = self.parameters["epoch"]
         batch_size = self.parameters["batch_size"]
         optimizer  = self.parameters["optimizer"]
@@ -423,8 +439,7 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
 
         self.callbacks.append(CustomCallback())
         # {epoch:02d}-{v_pdiff_z1z2:.2f}.
-        print(self.optimizers)
-        print(self.local('tmp/checkpoint'))
+
         checkpoint_filepath = self.local('tmp/checkpoint/weights.h5')
         model_checkpoint_callback = keras.callbacks.ModelCheckpoint(
             filepath=checkpoint_filepath,
@@ -476,7 +491,8 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
 
             
 
-        def generate_logs(data,data_to):
+
+        def generate_logs(data, data_to):
             losses = []
             logs   = {}
             for i, (net, subdata, subdata_to) in enumerate(zip(self.nets, data, data_to)):
@@ -496,9 +512,11 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
 
         bestelbo = 99999999
 
+
         try:
             clist.on_train_begin()
             logs = {}
+
             for epoch in range(start_epoch,start_epoch+epoch):
 
                 np.random.shuffle(index_array)
@@ -506,10 +524,36 @@ Poor python coders cannot enjoy the cleanness of CLOS :before, :after, :around m
                 train_data_cache    = [[ train_subdata   [indices] for train_subdata    in train_data    ] for indices in indices_cache ]
                 train_data_to_cache = [[ train_subdata_to[indices] for train_subdata_to in train_data_to ] for indices in indices_cache ]
                 clist.on_epoch_begin(epoch,logs)
+                batch_num=1
                 for train_subdata_cache,train_subdata_to_cache in zip(train_data_cache,train_data_to_cache):
                     for net, train_subdata_batch_cache,train_subdata_to_batch_cache in zip(self.nets, train_subdata_cache,train_subdata_to_cache):
                         
                         net.train_on_batch(train_subdata_batch_cache, train_subdata_to_batch_cache)
+                        #print(self.intermediate_net.predict(train_subdata_batch_cache).shape)
+
+                        z_pre = self.intermediate_net.predict(train_subdata_batch_cache)
+
+                        print(" ")
+                        print("BATCH n° "+str(batch_num))
+
+                        # z_pre[0] = 1st example of the batch
+                        # z_pre[:, 92] = vector of all values of the 92s variable
+                        # z_pre[:, 93] = vector of all values of the 93s variable
+                        print("z92")
+                        print(z_pre[:, 92])
+                        print("z93")
+                        print(z_pre[:, 93])
+
+                        print(np.multiply(z_pre[:, 92], z_pre[:, 93]))
+
+                        #print(z_pre[:, 92])
+
+                        clist.on_train_batch_end(batch_num, logs)
+                        batch_num+=1
+
+                    if batch_num > 5:
+                        break
+
 
                 logs = {}
                 for k,v in generate_logs(train_data, train_data_to).items():

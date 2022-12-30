@@ -32,8 +32,12 @@ parser.add_argument("heuristics", choices=options.keys(),
                     "\n".join([ " "*4+key+"\n"+" "*8+value for key,value in options.items()]))
 parser.add_argument("cycle", type=int, default=1, nargs="?",
                     help="number of autoencoding cycles to perform on the initial/goal images")
-parser.add_argument("sigma", type=float, default=None, nargs="?",
+parser.add_argument("sigma", type=str, default=None, nargs="?",
                     help="sigma of the Gaussian noise added to the normalized initial/goal images.")
+
+parser.add_argument("extension", type=str, default=None, nargs="?",
+                    help="extension for name of image files.")
+
 args = parser.parse_args()
 
 
@@ -58,10 +62,11 @@ float_formatter = lambda x: "%.3f" % x
 np.set_printoptions(threshold=sys.maxsize,formatter={'float_kind':float_formatter})
 
 
-def main(domainfile, problem_dir, heuristics, cycle, sigma, image_name_suffix=""):
+def main(domainfile, problem_dir, heuristics, cycle, sigma, extension=""):
 
     #print(cycle) # 1
     #print(sigma) # None
+    sigma = None
 
     network_dir = os.path.dirname(domainfile)
     domainfile_rel = os.path.relpath(domainfile, network_dir)
@@ -75,7 +80,7 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma, image_name_suffix=""
         return "{}_{}{}".format(heuristics, root, ext)
     
     log("loaded puzzle")
-    print("inside LOAD UUUUUUUUUUUUUUUUUU")
+    print("inside LOAD U")
     sae = latplan.model.load(network_dir, allow_failure=True, noweights=False)
     log("loaded sae")
     setup_planner_utils(sae, problem_dir, network_dir, "ama3")
@@ -84,7 +89,7 @@ def main(domainfile, problem_dir, heuristics, cycle, sigma, image_name_suffix=""
     log("loaded puzzle")
 
     log(f"loading init/goal")
-    init, goal = init_goal_misc(p,cycle,noise=sigma, image_name_suffix=image_name_suffix)
+    init, goal = init_goal_misc(p,cycle,noise=sigma, image_name_suffix=extension)
     log(f"loaded init/goal")
 
     log(f"start planning")

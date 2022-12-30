@@ -1,4 +1,5 @@
 Start
+ 
 Dir_conf: 05-06T16:13:22.480
 state_var: 1.7999997226070263e-06
 elbo: 1523.9766845703125
@@ -28,34 +29,3 @@ Invariants found (taking the author's released weights) !
 93 0
 95 0
 #Re-training LatPlan with these invariants
-the invariant(s) tested:
-#
-92 0
-93 0
-#
-92 0
-94 0
-#
-92 0
-95 0
-#
-92 0
-96 0
-#
-92 0
-97 0
-#
-92 0
-98 0
-#
-93 0
-95 0
-#state_var: 0.0
-elbo: 1525.902587890625
-next_state_pred: 0.0013791411183774471
-num_actions: 223
-now retraining without the invariants, for comparison
-state_var: 0.0
-elbo: 1508.98828125
-next_state_pred: 0.0012111294781789184
-num_actions: 217
